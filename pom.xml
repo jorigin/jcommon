@@ -7,9 +7,37 @@
   <version>1.0.8-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>A java common package that enable to deal with various functionalities</name>
+  <name>JCommon</name>
+  <description>A java common package that enable to deal with various functionalities</description>
   <url>https://github.com/jorigin/jcommon</url>
 
+  <licenses>
+    <license>
+      <name>The GNU Lesser General Public License, Version 3.0</name>
+      <url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <id>jseinturier</id>
+      <name>Julien Seinturier</name>
+      <email>seinturier@gmail.com</email>
+      <url>http://www.seinturier.fr</url>
+      <organization>COMEX SA</organization>
+      <organizationUrl>http://www.comex.fr</organizationUrl>
+      <roles>
+        <role>architect</role>
+        <role>developer</role>
+      </roles>
+      <timezone>France/Paris</timezone>
+      <properties>
+        <!-- <picUrl>http://www.example.com/jdoe/pic</picUrl> -->
+      </properties>
+    </developer>
+  </developers>
+  
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
