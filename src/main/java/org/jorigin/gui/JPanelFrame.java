@@ -291,7 +291,6 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
    * validate only once, after all the components have been added.
    * @param comp Component the component to be added
    * @return Component the component argument
-   * @see #addImpl(java.awt.Component, java.lang.Object, int)
    * @see #validate()
    * @see javax.swing.JComponent#revalidate()
    */
@@ -311,7 +310,6 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
    * @param comp Component the component to be added
    * @param index the position at which to insert the component, or -1 to append the component to the end
    * @return the added component.
-   * @see #addImpl(java.awt.Component, java.lang.Object, int)
    * @see #remove(int)
    * @see #validate()
    * @see javax.swing.JComponent#revalidate()
@@ -333,7 +331,6 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
    * validate only once, after all the components have been added.
    * @param comp Component the component to be added
    * @param constraints Object an object expressing layout contraints for this
-   * @see #addImpl(java.awt.Component, java.lang.Object, int)
    * @see #validate()
    * @see javax.swing.JComponent#revalidate()
    * @see #remove(int)
@@ -357,7 +354,6 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
    * @param constraints Object an object expressing layout constraints for this
    * @param index int the position in the container's list at which to
    * insert the component; -1 means insert at the end component
-   * @see #addImpl(java.awt.Component, java.lang.Object, int)
    * @see #validate()
    * @see javax.swing.JComponent#revalidate()
    * @see #remove(int)

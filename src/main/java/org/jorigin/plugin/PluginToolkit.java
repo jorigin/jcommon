@@ -151,7 +151,6 @@ public class PluginToolkit {
   /**
    * Add a Plugin Toolkit Listener to this plugin toolkit
    * @param l the listener to add to the toolkit
-   * @see #fireEvent(PluginToolkitEvent)
    * @see #removePluginToolkitListener(PluginToolkitListener)
    */
   public void addPluginToolkitListener(PluginToolkitListener l) {
@@ -162,7 +161,6 @@ public class PluginToolkit {
    * Remove a Plugin Toolkit Listener from this plugin toolkit
    * @param l the listener to remove
    * @see #addPluginToolkitListener(PluginToolkitListener)
-   * @see #fireEvent(PluginToolkitEvent)
    */
   public void removePluginToolkitListener(PluginToolkitListener l) {
     idListenerList.remove(PluginToolkitListener.class, l);

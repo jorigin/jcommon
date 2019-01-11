@@ -57,12 +57,12 @@ public class Common {
   /**
    * The build version.
    */
-  public static final long BUILD     = 201812141330L;
+  public static final long BUILD     = 201801141330L;
   
   /**
    * The version number
    */
-  public static final String version = "1.0.6";
+  public static final String version = "1.0.8";
   
   /**
    * Initialize the JOrigin common package.

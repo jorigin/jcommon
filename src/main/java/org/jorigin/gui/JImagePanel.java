@@ -126,7 +126,6 @@ public class JImagePanel extends JPanel {
 
       @Override
       public void mouseClicked(MouseEvent e) {
-        // TODO Auto-generated method stub
       }
 
       @Override

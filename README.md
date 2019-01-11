@@ -64,6 +64,11 @@ git push origin :refs/tags/tagName
 
 ## Changes:
 
+### 1.0.8
+  + Updated FileUtil
+  + Updated ActivityMonitor
+  + Added JThumbnail handling
+
 ### 1.0.7
   + Maven Central deploy integration
   + Java 9/10/11 compliance changes (removed calls to deprecated methods / classes)

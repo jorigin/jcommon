@@ -2,7 +2,6 @@ package org.jorigin.task;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Point;
@@ -11,13 +10,10 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
 
-import javax.swing.Icon;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.text.DefaultStyledDocument;
@@ -25,96 +21,132 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
-import org.jorigin.Common;
+import org.jorigin.gui.IconLoader;
+import org.jorigin.task.gui.JTaskProgress;
+
+import java.awt.BorderLayout;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+
+import javax.swing.JPanel;
+
 
 /**
- * A dialog dedicated to the reporting of tasks execution and activity monitoring.
- * @author Julien Seinturier - (c) 2010 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
- * @since 1.0.0
- *
+ * A class that enables to graphically monitor tasks.
+ * @author Julien Seinturier
  */
 public class ActivityMonitor extends JDialog{
 
 
-  private static final long serialVersionUID = Common.BUILD;
+  private static final long serialVersionUID = 1;
   
   /**
-   * Show the progress in percent of the work.
-   * @see #SHOW_PROGRESS_COUNT
+   * Show the progress percent flag.
    */
   public static final int SHOW_PROGRESS_PERCENT = 1;
   
   /**
-   * Show the process in count of task units.
-   * @see #SHOW_PROGRESS_PERCENT
+   * Show the progress count flag.
    */
   public static final int SHOW_PROGRESS_COUNT   = 2;
   
   /**
-   * Show all the progress indicators (percent and units)
-   * @see #SHOW_PROGRESS_PERCENT
-   * @see #SHOW_PROGRESS_COUNT
+   * Show all progress flag.
    */
   public static final int SHOW_PROGRESS_ALL     = SHOW_PROGRESS_PERCENT | SHOW_PROGRESS_COUNT;
   
-  /**
-   * A lock used to dispatch access to components in case of concurrent monitoring.
-   */
-  public Lock lock = null;
+  private Lock lock = null;
+
+  private GridBagLayout layout;
+
+
+  private javax.swing.text.DefaultStyledDocument activityTracerDocument;
+
+  private JPanel progressBarsPN   = null;
   
-  Icon frameIcon;
+  private StyleContext sc         = null;
 
-  GridBagLayout layout;
+  private Style taskStartedStyle  = null;
+  private Style taskFinishedStyle = null;
+  private Style taskProgressStyle = null;
+  private Style taskInfoStyle     = null;
+  private Style taskWarningStyle  = null;
+  private Style taskErrorStyle    = null;
 
-  JProgressBar progressBar;
-  javax.swing.text.DefaultStyledDocument activityTracerDocument;
+  private JTextPane activityTracer;
+  private JScrollPane activityTracerScrollPane;
+  private JPanel activityTracerPN = null;
+  
+  private JCheckBox persistenceCheckBox;
 
-  StyleContext sc = null;
+  private boolean showProgressionText  = false;
 
-  Style taskStartedStyle  = null;
-  Style taskFinishedStyle = null;
-  Style taskProgressStyle = null;
-  Style taskInfoStyle = null;
-  Style taskWarningStyle = null;
-  Style taskErrorStyle = null;
-
-  JTextPane activityTracer;
-  JScrollPane activityTracerScrollPane;
-  JCheckBox persistenceCheckBox;
-
-  boolean showProgressionText = true;
+  private boolean textAreaVisible            = false;
+  
+  private boolean persistenceCheckBoxVisible = false;
+  
+  private boolean progressLabelVisible       = false;
+  
+  private boolean progressBarVisible         = false;
+  
+  private HashMap<String, JTaskProgress> taskProgressMap = null;
   
   int showProgressType        = SHOW_PROGRESS_ALL;
   
   // La fenetre doit elle être persistante (ne pas se fermer seule)
-  boolean isPersistent = true;
-
-  boolean PROGRESS_BAR_VISIBLE;
-  boolean ACTIVITY_TRACER_VISIBLE;
+  private boolean isPersistent = true;
 
   // Compteur de taches imbriquees
-  int boundedTask;
+  private int boundedTask;
 
-  Font taskStartFont      = new Font("Dialog", Font.BOLD, 11);
-  Color taskStartColor    = Color.green;
+  private boolean useNewLine = true;
+  
+  private int activityTracerHeight = 440;
 
-  Font taskProgressFont   = new Font("Dialog", Font.ITALIC, 10);
-  Color taskProgressColor = Color.black;
-
+  private int progressBarHeight    = 24;
+  
+  private int progressLabelHeight  = 16;
+  
 //CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 //CC CONSTRUCTEUR                                                             CC
 //CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
   
   /**
-   * Create a new activity monitor as a modal dialog.
-   * @param owner the owner of the activity monitor.
+   * Is the monitor use new line for writing task informations.
+   * @return <code>true</code> if the monitor has to use new line for writing task information of <code>false</code> otherwise.
+   * @see #setUseNewLine(boolean)
    */
-  public ActivityMonitor(JFrame owner){
+  public boolean isUseNewLine() {
+    return useNewLine;
+  }
+
+  /**
+   * Set if the monitor use new line for writing task informations.
+   * @param useNewLine <code>true</code> if the monitor has to use new line for writing task information of <code>false</code> otherwise.
+   * @see #isUseNewLine()
+   */
+  public void setUseNewLine(boolean useNewLine) {
+    this.useNewLine = useNewLine;
+  }
+
+  /**
+   * Create a new activity monitor.
+   * @param owner the owner of the component.
+   * @param activityTracerVisible is the activity tracer has to be visible.
+   * @param progressLabelVisible is the progress labels have to be visible.
+   * @param progressBarVisible is the progress bars have to be visible.
+   */
+  public ActivityMonitor(JFrame owner, boolean activityTracerVisible, boolean progressLabelVisible, boolean progressBarVisible){
     super(owner);
     super.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-    this.setSize(new Dimension(600, 500));
-    this.setPreferredSize(new Dimension(600, 500));
 
+    this.textAreaVisible      = activityTracerVisible;
+    this.progressBarVisible   = progressBarVisible;
+    this.progressLabelVisible = progressLabelVisible;
+    
+    taskProgressMap = new LinkedHashMap<String, JTaskProgress>();
+    
     sc = new StyleContext();
     taskStartedStyle  = sc.addStyle("taskStarted", null);
     taskFinishedStyle = sc.addStyle("taskFinished", null);
@@ -163,13 +195,202 @@ public class ActivityMonitor extends JDialog{
     
     initGUI();
   }
-//CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-//CC FIN CONSTRUCTEUR                                                         CC
-//CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
- 
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-//AA ACCESSEURS                                                               AA
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+  
+  /**
+   * Creates a new default activity monitor attached to the given owner component.
+   * @param owner the owner component.
+   */
+  public ActivityMonitor(JFrame owner){
+    this(owner, false, true, true);
+  }
+  
+  /**
+   * Get the desired height of the activity tracer in pixels.
+   * @return the desired height of the activity tracer in pixels.
+   * @see #setActivityTracerHeight(int)
+   * @see #isActivityTracerVisible()
+   */
+  public int getActivityTracerHeight() {
+    return activityTracerHeight;
+  }
+
+  /**
+   * Set the the desired height of the activity tracer in pixels.
+   * @param height the the desired height of the activity tracer in pixels.
+   * @see #getActivityTracerHeight()
+   * @see #isActivityTracerVisible()
+   */
+  public void setActivityTracerHeight(int height) {
+    this.activityTracerHeight = height;
+  }
+
+  /**
+   * Get the desired height of the progress bars in pixels.
+   * @return the desired height of the progress bars in pixels.
+   * @see #setProgressBarHeight(int)
+   * @see #isProgessBarVisible()
+   * @see #getProgressLabelHeight()
+   */
+  public int getProgressBarHeight() {
+    return progressBarHeight;
+  }
+
+  /**
+   * Set the desired height of the progress bars in pixels.
+   * @param height the desired height of the progress bars in pixels.
+   * @see #getProgressBarHeight()
+   * @see #isProgessBarVisible()
+   * @see #getProgressLabelHeight()
+   */
+  public void setProgressBarHeight(int height) {
+    this.progressBarHeight = height;
+  }
+
+  /**
+   * Get the desired height of the progress labels in pixels.
+   * @return the desired height of the progress labels in pixels.
+   * @see #isProgessLabelVisible()
+   * @see #setProgressLabelHeight(int)
+   * @see #getProgressBarHeight()
+   */
+  public int getProgressLabelHeight() {
+    return progressLabelHeight;
+  }
+
+  /**
+   * Set the desired height of the progress labels in pixels.
+   * @param height the desired height of the progress labels in pixels.
+   * @see #getProgressLabelHeight()
+   * @see #isProgessLabelVisible()
+   * @see #getProgressBarHeight()
+   */
+  public void setProgressLabelHeight(int height) {
+    this.progressLabelHeight = height;
+  }
+  
+  /**
+   * Get if the activity tracer that log progress details is visible.
+   * @return <code>true</code> if the text area that log progress details is visible and <code>false</code> otherwise.
+   * @see #setActivityTracerVisible(boolean)
+   */
+  public boolean isActivityTracerVisible(){
+    return textAreaVisible;
+  }
+  
+  /**
+   * Set if the activity tracer that log progress details has to be visible.
+   * @param visible <code>true</code> if the text area that log progress details has to be visible and <code>false</code> otherwise.
+   * @see #isActivityTracerVisible()
+   */
+  public void  setActivityTracerVisible(boolean visible){
+    
+    if (isActivityTracerVisible() != visible){
+      this.textAreaVisible = visible;
+      
+      if (visible){
+        activityTracerPN.add(activityTracerScrollPane, BorderLayout.CENTER);
+        
+        Dimension dim    = getSize();
+
+        Dimension newDim = new Dimension((int)dim.getWidth(), (int)(dim.getHeight() + activityTracerPN.getSize().getHeight()));
+        
+        setSize(newDim);
+        setPreferredSize(newDim);
+        
+      } else {
+        activityTracerPN.remove(activityTracerScrollPane);
+        
+        Dimension dim    = getSize();
+
+        Dimension newDim = new Dimension((int)dim.getWidth(), (int)(dim.getHeight() - activityTracerPN.getSize().getHeight()));
+        
+        setSize(newDim);
+        setPreferredSize(newDim);
+        
+      }
+      validate();
+      
+      refreshGUI();
+    }
+    
+    
+  }
+  
+  /**
+   * Get if the persistence check box is visible.
+   * @return <code>true</code> if the persistence check box is visible and <code>false</code> otherwise.
+   * @see #setPersistenceCheckBoxVisible(boolean)
+   */
+  public boolean isPersistenceCheckBoxVisible(){
+    return persistenceCheckBoxVisible;
+  }
+  
+  /**
+   * Set if the persistence check box has to be  visible.
+   * @param visible <code>true</code> if the persistence check box is visible and <code>false</code> otherwise.
+   * @see #isPersistenceCheckBoxVisible()
+   */
+  public void setPersistenceCheckBoxVisible(boolean visible){
+    this.persistenceCheckBoxVisible = visible;
+    refreshGUI();
+  }
+  
+  /**
+   * Get if the progress labels (textual labels above progress bars) are visible.
+   * @return <code>true</code> if the progress label are visible and <code>false</code> otherwise.
+   * @see #setProgressLabelVisible(boolean)
+   */
+  public boolean isProgessLabelVisible(){
+    return progressLabelVisible;  
+  }
+  
+  /**
+   * Set if the progress labels (textual labels above progress bars) are visible.
+   * @param visible <code>true</code> if the progress label are visible and <code>false</code> otherwise.
+   * @see #isProgessLabelVisible()
+   */
+  public void setProgressLabelVisible(boolean visible){
+    progressLabelVisible = visible;
+    refreshGUI();
+  }
+  
+  /**
+   * Get if the progress bars are visible.
+   * @return <code>true</code> if the progress bar are visible and <code>false</code> otherwise.
+   * @see #setProgressBarVisible(boolean)
+   */
+  public boolean isProgessBarVisible(){
+    return progressBarVisible;  
+  }
+  
+  /**
+   * Set if the progress bars are visible.
+   * @param visible <code>true</code> if the progress bar are visible and <code>false</code> otherwise.
+   * @see #isProgessBarVisible()
+   */
+  public void setProgressBarVisible(boolean visible){
+    progressBarVisible = visible;
+    refreshGUI();
+  }
+  
+  /**
+   * Set if the progression labels has to be visible.
+   * @return <code>true</code> if the progression labels are visible and <code>false</code> otherwise.
+   * @see #isProgessLabelVisible()
+   */
+  public boolean isShowProgressionText() {
+	return showProgressionText;
+  }
+
+  /**
+   * Get if the progression labels are visible.
+   * @param showProgressionText <code>true</code> if the progression labels are visible and <code>false</code> otherwise.
+   * @see #setProgressLabelVisible(boolean)
+   */
+  public void setShowProgressionText(boolean showProgressionText) {
+	this.showProgressionText = showProgressionText;
+  }
+  
   /**
    * Specify if the activity monitor is persistent. If it's the case, the monitor 
    * is always displayed. If the <code>isPersistent</code> value is equals to false,
@@ -202,7 +423,6 @@ public class ActivityMonitor extends JDialog{
   
   protected void initGUI(){
 
-    //frameIcon = IconServer.getIcon("plastik/information16.png");
     
     activityTracer = new JTextPane(){
 
@@ -213,7 +433,7 @@ public class ActivityMonitor extends JDialog{
         try {
           super.repaint();
         } catch (Exception e) {
-          Common.logger.log(Level.WARNING, "Cannot repaint activity tracer");
+          
         }
       }
       
@@ -222,7 +442,7 @@ public class ActivityMonitor extends JDialog{
         try {
           super.repaint(tm);
         } catch (Exception e) {
-          Common.logger.log(Level.WARNING, "Cannot repaint activity tracer");
+          
         }
       }
       
@@ -231,7 +451,7 @@ public class ActivityMonitor extends JDialog{
         try {
           super.repaint(x, y, width, height);
         } catch (Exception e) {
-          Common.logger.log(Level.WARNING, "Cannot repaint activity tracer");
+          
         }
       }
       
@@ -240,7 +460,7 @@ public class ActivityMonitor extends JDialog{
         try {
           super.repaint(tm, x, y, width, height);
         } catch (Exception e) {
-          Common.logger.log(Level.WARNING, "Cannot repaint activity tracer");
+          
         }
       }
       
@@ -249,7 +469,7 @@ public class ActivityMonitor extends JDialog{
         try {
           super.setCaretPosition(position);
         } catch (Exception e) {
-          Common.logger.log(Level.WARNING, "Cannot set caret position in activity tracer");
+          
         }
       }
     };
@@ -268,15 +488,20 @@ public class ActivityMonitor extends JDialog{
     activityTracerScrollPane.setWheelScrollingEnabled(true);
     activityTracerScrollPane.getViewport().add(activityTracer);
 
-
-    progressBar    = new JProgressBar();
-    progressBar.setSize(new Dimension(320, 20));
-    progressBar.setPreferredSize(new Dimension(320, 20));
-    progressBar.setMinimumSize(new Dimension(320, 20));
-    progressBar.setStringPainted(true);
+    activityTracerPN = new JPanel();
+    activityTracerPN.setLayout(new BorderLayout());
+    
+    if (isActivityTracerVisible()){
+      activityTracerPN.add(activityTracerScrollPane, BorderLayout.CENTER);
+    }
+    
+    
+    progressBarsPN = new JPanel();
+    progressBarsPN.setLayout(new GridBagLayout());
     
     persistenceCheckBox = new JCheckBox("Close");
     persistenceCheckBox.addItemListener(new ItemListener(){
+                            @Override
                             public void itemStateChanged(ItemEvent e){
                               if (e.getStateChange() == ItemEvent.SELECTED){
                                 isPersistent = false;
@@ -287,7 +512,7 @@ public class ActivityMonitor extends JDialog{
 
     layout = new GridBagLayout();
     this.setTitle("Monitor");
-    //this.setIconImage(new ImageIcon(this.getClass().getResource("resource/icon/AmetistActivityMonitor16.gif")).getImage());
+    setIconImage(IconLoader.getImage("arpenteur/monitor/monitor-frame.png"));
     this.setName("Monitor");
     this.getContentPane().setLayout(layout);
     
@@ -296,7 +521,7 @@ public class ActivityMonitor extends JDialog{
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
-    c.gridy     = GridBagConstraints.RELATIVE;
+    c.gridy     = GridBagConstraints.NORTH;
     c.gridheight= 1;
     c.gridwidth = GridBagConstraints.REMAINDER;
     c.fill      = GridBagConstraints.BOTH;
@@ -304,7 +529,7 @@ public class ActivityMonitor extends JDialog{
     c.weightx   = 1.0;
     c.weighty   = 1.0;
     c.anchor    = GridBagConstraints.NORTH;
-    add(activityTracerScrollPane, c);
+    add(activityTracerPN, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -316,38 +541,84 @@ public class ActivityMonitor extends JDialog{
     c.weightx   = 1.0;
     c.weighty   = 1.0;
     c.anchor    = GridBagConstraints.NORTH;
-    add(progressBar, c);
+    add(progressBarsPN, c);
     
-    c           = new GridBagConstraints();
-    c.gridx     = GridBagConstraints.RELATIVE;
-    c.gridy     = GridBagConstraints.RELATIVE;
-    c.gridheight= 1;
-    c.gridwidth = GridBagConstraints.REMAINDER;
-    c.fill      = GridBagConstraints.BOTH;
-    //c.insets    = labelInsets;
-    c.weightx   = 1.0;
-    c.weighty   = 1.0;
-    c.anchor    = GridBagConstraints.NORTH;
-    add(persistenceCheckBox, c);
+    if (isPersistenceCheckBoxVisible()){
+      c           = new GridBagConstraints();
+      c.gridx     = GridBagConstraints.RELATIVE;
+      c.gridy     = GridBagConstraints.RELATIVE;
+      c.gridheight= 1;
+      c.gridwidth = GridBagConstraints.REMAINDER;
+      c.fill      = GridBagConstraints.BOTH;
+      //c.insets    = labelInsets;
+      c.weightx   = 1.0;
+      c.weighty   = 1.0;
+      c.anchor    = GridBagConstraints.NORTH;
+      add(persistenceCheckBox, c);
+    }
     
+    if (getOwner() != null){
+      Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+      Dimension frameSize = getSize();
+      if (frameSize.height > screenSize.height) {
+        frameSize.height = screenSize.height;
+      }
+      if (frameSize.width > screenSize.width) {
+        frameSize.width = screenSize.width;
+      }
+
+      setLocation( (screenSize.width - frameSize.width) / 2,(screenSize.height - frameSize.height) / 2);
+    }
+
+    int frameWidth  = 600;
+    int frameHeight =   0;
     
-    this.pack();
+    if (isActivityTracerVisible()){
+      frameHeight += getActivityTracerHeight();
+    }
+    
+    if (isProgessBarVisible()){
+      frameHeight += getProgressBarHeight();
+    }
+    
+    if (isProgessLabelVisible()){
+      frameHeight += getProgressLabelHeight();
+    }
+    
+    setSize(new Dimension(frameWidth, frameHeight));
+    setPreferredSize(new Dimension(frameWidth, frameHeight));
+    
+    pack();
   }
 
   /**
-   * Initialize the activity monitor.
-   * @param activityVisible <code>true</code> if the activity is visible and <code>false</code> otherwise.
-   * @param progressBarVisible <code>true</code> if the progress bar is visible and <code>false</code> otherwise.
+   * Refresh the graphical user interface components.
+   */
+  protected void refreshGUI(){
+    
+  }
+  
+  /**
+   * Init the activity monitor.
+   * @param activityVisible is the activity tracer is visible.
+   * @param progressBarVisible is the progress bar is visible.
    */
   public void init(boolean activityVisible, boolean progressBarVisible){
 
     Point location      = null;
     Dimension ownerSize = null;
+    Dimension size      = null;
 
     if (getOwner() != null){
       location = getOwner().getLocation();
       ownerSize = getOwner().getSize();
-      this.setLocation( ((int)location.getX() + ownerSize.width/2) - this.getWidth()/ 2,(((int)location.getY() + ownerSize.height) / 2) - this.getHeight()/2);
+      size      = getSize();
+      
+      location = new Point((int)(location.getX() + ownerSize.getWidth()/2), (int)(location.getY()+ownerSize.getHeight()/2));
+      
+      System.out.println(location);
+      
+      setLocation((int)(location.getX() - size.width/2), (int)(location.getY() + size.height/2));
 
     } else {
       Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -364,9 +635,6 @@ public class ActivityMonitor extends JDialog{
     }
     
     activityTracerScrollPane.setVisible(activityVisible);
-
-    progressBar.setVisible(progressBarVisible);
-    progressBar.setEnabled(progressBarVisible);
     
     this.boundedTask = 0;
 
@@ -394,14 +662,21 @@ public class ActivityMonitor extends JDialog{
       
       lock.lock();
       
-      activityTracerDocument.insertString(activityTracerDocument.getLength(),
-                                              "    " + str +
-                                              "\n", style);
+      if (isUseNewLine()){
+        activityTracerDocument.insertString(activityTracerDocument.getLength(),
+                                                "\n"
+                                              + str
+                                              , style);
+      } else {
+        activityTracerDocument.insertString(activityTracerDocument.getLength(),
+          str
+          , style);
+      }
       activityTracer.setCaretPosition(activityTracerDocument.getLength());
       
     } catch (Exception ex) {
       
-      Common.logger.log(Level.WARNING, "Cannot display message on activity monitor", ex);
+      
     } finally {
       lock.unlock();
     }
@@ -412,36 +687,58 @@ public class ActivityMonitor extends JDialog{
     write(indent(str, indent*2), style);
   }
 
-  
   /**
    * Process a task event.
    * @param event The task Event to process.
+   * @see #processTaskEvent(TaskEvent, boolean)
    */
   public void processTaskEvent(TaskEvent event){
+    processTaskEvent(event, true);
+  }
+  
+  /**
+   * Process a task event. The boolean <code>progressBarVisible</code> can be used to override 
+   * the {@link #isProgessBarVisible()} and {@link #isProgessLabelVisible()} values for the specified task.
+   * @param event The task Event to process.
+   * @param progressBarVisible <code>true</code> if a task progress (progress bar plus label) has to be created for this task.
+   */
+  public void processTaskEvent(TaskEvent event, boolean progressBarVisible){
 
+    JTaskProgress taskProgress = null;
+    
     try {
-      //Common.logger.log(Level.INFO, "Event Processed: "+event.getTaskName()+" "+event.getDescription());
+      //Common.logger.log.info( "Event Processed: "+event.getTaskName()+" "+event.getDescription());
 
       switch (event.getID()){
 
       // Evènement de début de tâche
       case TaskEvent.TASK_STARTED:
 
-        if ((event.getDescription() != null) && !(event.getDescription().trim().equals(""))){  
+        if (isActivityTracerVisible() && (event.getDescription() != null) && !(event.getDescription().trim().equals(""))){  
           writeWithIndent(event.getDescription(), boundedTask, taskStartedStyle);
         }
 
-        boundedTask = boundedTask + 1;
-        if (event.getSize() > 0){
-          this.progressBar.setMinimum(0);
-          this.progressBar.setMaximum(event.getSize());
-          this.progressBar.setValue(0);
-          this.progressBar.setIndeterminate(false);
-        } else {
-          this.progressBar.setMinimum(0);
-          this.progressBar.setMaximum(0);
-          this.progressBar.setValue(0);
-          this.progressBar.setIndeterminate(true);
+        if (progressBarVisible){
+          taskProgress = new JTaskProgress(isProgessLabelVisible(), isProgessBarVisible());
+          taskProgress.getLabel().setText(event.getDescription());
+          
+          boundedTask = boundedTask + 1;
+          if (event.getSize() > 0){
+            taskProgress.getProgressBar().setMinimum(0);
+            taskProgress.getProgressBar().setMaximum(event.getSize());
+            taskProgress.getProgressBar().setValue(0);
+            taskProgress.getProgressBar().setIndeterminate(false);
+          } else {
+            taskProgress.getProgressBar().setMinimum(0);
+            taskProgress.getProgressBar().setMaximum(0);
+            taskProgress.getProgressBar().setValue(0);
+            taskProgress.getProgressBar().setIndeterminate(true);
+          }
+
+          taskProgress.getProgressBar().setStringPainted(true);
+          
+          taskProgressMap.put(event.getTaskName(), taskProgress);
+          addJTaskProgress(taskProgress);
         }
 
         //this.pack();
@@ -451,44 +748,61 @@ public class ActivityMonitor extends JDialog{
         // Progression dans une tache
       case TaskEvent.TASK_PROGRESS:
 
-        String progress = "";
-        String percent  = "";
+        String progress = null;
+        String percent  = null;
         String text     = "";
         int   ratio     = 0;
 
         int size        = event.getSize();
 
-        if ((event.getDescription() != null) && !(event.getDescription().trim().equals(""))){    
-          writeWithIndent(event.getDescription(), boundedTask+3, taskProgressStyle);
-        }
-
-        this.progressBar.setValue(size);
-
-        if (showProgressionText && (!this.progressBar.isIndeterminate())){
-          if ((this.showProgressType & SHOW_PROGRESS_COUNT) != 0){
-            progress += ""+size+" / "+this.progressBar.getMaximum();
-          } 
-
-          if ((this.showProgressType & SHOW_PROGRESS_PERCENT) != 0){
-            ratio = (int)(((double)size / (double)this.progressBar.getMaximum())*100);
-            percent  += ""+ratio+" %";
+        taskProgress = taskProgressMap.get(event.getTaskName());
+        
+        if (isActivityTracerVisible() && (event.getDescription() != null) && !(event.getDescription().trim().equals(""))){    
+          if (isUseNewLine()){
+            writeWithIndent(event.getDescription(), boundedTask+3, taskProgressStyle);
+          } else {
+            write(event.getDescription(), taskProgressStyle);
           }
+        } 
 
-          if (progress != null){
-            text += progress;
+        if (taskProgress != null){
+          
+          if (event.getDescription() != null){
+            taskProgress.getLabel().setText(event.getDescription());
           }
+          
+          if (size >= 0){
+            taskProgress.getProgressBar().setValue(size);
+          }
+          
+          if (showProgressionText && (!taskProgress.getProgressBar().isIndeterminate()) && (size >= 0)){
+            if ((this.showProgressType & SHOW_PROGRESS_COUNT) != 0){
+              progress = ""+size+" / "+taskProgress.getProgressBar().getMaximum();
+            } 
 
-          if (percent != null){
-            if (!text.equals("")){
-              text +=" - "+percent;
-            } else {
-              text += percent;
+            if ((this.showProgressType & SHOW_PROGRESS_PERCENT) != 0){
+              ratio = (int)(((float)size / (float)taskProgress.getProgressBar().getMaximum())*100);
+              percent  = ""+ratio+" %";
             }
-          }
-        }
-        this.progressBar.setString(text);
 
-        this.progressBar.repaint();
+            if (progress != null){
+              text += progress;
+            }
+
+            if (percent != null){
+              if (!text.equals("")){
+                text +=" - "+percent;
+              } else {
+                text += percent;
+              }
+            }
+            
+            taskProgress.getProgressBar().setString(text);
+          }
+          
+          taskProgress.getProgressBar().repaint();
+        }
+
         this.activityTracer.repaint();
         this.repaint();  
         break;
@@ -503,7 +817,7 @@ public class ActivityMonitor extends JDialog{
 
         boundedTask = boundedTask - 1;
 
-        if ((event.getDescription() != null) && !(event.getDescription().trim().equals(""))){
+        if (isActivityTracerVisible() && (event.getDescription() != null) && !(event.getDescription().trim().equals(""))){
           writeWithIndent(event.getDescription()+"\n", boundedTask, taskFinishedStyle);
         }
 
@@ -511,49 +825,169 @@ public class ActivityMonitor extends JDialog{
           this.setVisible(false);
         }
 
-        this.progressBar.setIndeterminate(false);
-
+        removeJTaskProgress(taskProgressMap.get(event.getTaskName()));
+        taskProgressMap.remove(event.getTaskName());
+        
         break;
 
         // Avertissement dans une tâche
       case TaskEvent.TASK_WARNING:
-        if ((event.getDescription() != null) && !(event.getDescription().trim().equals(""))){  
-          writeWithIndent(event.getDescription(), boundedTask+3, taskWarningStyle);
+        if (isActivityTracerVisible() && (event.getDescription() != null) && !(event.getDescription().trim().equals(""))){  
+          if (isUseNewLine()){
+            writeWithIndent(event.getDescription(), boundedTask+3, taskWarningStyle);
+          } else {
+            write(event.getDescription(), taskWarningStyle);
+          }
         }
-        this.progressBar.repaint();
+
         this.activityTracer.repaint();
         this.repaint();
         break;
 
         // Erreur dans une tâche  
       case TaskEvent.TASK_ERROR:
-        if ((event.getDescription() != null) && !(event.getDescription().trim().equals(""))){   
-          writeWithIndent(event.getDescription(), boundedTask+3, taskErrorStyle);
+        if (isActivityTracerVisible() && (event.getDescription() != null) && !(event.getDescription().trim().equals(""))){   
+          if (isUseNewLine()){
+            writeWithIndent(event.getDescription(), boundedTask+3, taskErrorStyle);
+          } else {
+            write(event.getDescription(), taskErrorStyle);
+          }
         }
-        this.progressBar.repaint();
+
         this.activityTracer.repaint();
         this.repaint();
         break;
 
         // Information sur une tâche  
       case TaskEvent.TASK_INFO:
-        if ((event.getDescription() != null) && !(event.getDescription().trim().equals(""))){ 
-          writeWithIndent(event.getDescription(), boundedTask+3, taskInfoStyle);
+        if (isActivityTracerVisible() && (event.getDescription() != null) && !(event.getDescription().trim().equals(""))){ 
+          if (isUseNewLine()){
+            writeWithIndent(event.getDescription(), boundedTask+3, taskInfoStyle);
+          } else {
+            write(event.getDescription(), taskInfoStyle);
+          }
         }
 
-
-
-        this.progressBar.repaint();
         this.activityTracer.repaint();
         this.repaint();
 
         break;
       }
     } catch (Exception e) {
-      Common.logger.log(Level.WARNING, "Cannot repaint activity monitor", e);
+     
     }
   }
   
-}
+  /**
+   * Dispose all active tasks displayed within the monitor. You can use this method is the monitored process has failed.
+   */
+  public void disposeTasks(){
+    boundedTask = 0;
+    
+    Iterator<JTaskProgress> iter = taskProgressMap.values().iterator();
+    while(iter.hasNext()){
+      removeJTaskProgress(iter.next());
+    }
+    
+    if (!isPersistent){
+      setVisible(false);
+    }
+  }
+  
+  private boolean addJTaskProgress(JTaskProgress taskProgress){
+    
+    if (taskProgress != null){
+      
+      GridBagConstraints c = null;
+      
+      c           = new GridBagConstraints();
+      c.gridx     = GridBagConstraints.RELATIVE;
+      c.gridy     = GridBagConstraints.RELATIVE;
+      c.gridheight= 1;
+      c.gridwidth = GridBagConstraints.REMAINDER;
+      c.fill      = GridBagConstraints.BOTH;
+      //c.insets    = labelInsets;
+      c.weightx   = 1.0;
+      c.weighty   = 1.0;
+      c.anchor    = GridBagConstraints.NORTH;
+      progressBarsPN.add(taskProgress, c);
 
+      Dimension size             = getSize();
+      Dimension preferredSize    = getPreferredSize();
+      
+      int height                 = (int)size.getHeight();
+      int preferredHeight        = (int)preferredSize.getHeight();
+      
+      if (isProgessLabelVisible()){
+        height          += getProgressLabelHeight();
+        preferredHeight += getProgressLabelHeight();
+      }
+      
+      if (isProgessBarVisible()){
+        height          += getProgressBarHeight();
+        preferredHeight += getProgressLabelHeight();
+      }
+      
+      Dimension newSize          = new Dimension((int)size.getWidth(), height);
+      Dimension newPreferredSize = new Dimension((int)preferredSize.getWidth(), preferredHeight);
+      
+      setSize(newSize);
+      setPreferredSize(newPreferredSize);
+      
+      pack();
+      validate();
+      repaint();
+
+      size             = null;
+      preferredSize    = null;
+      newSize          = null;
+      newPreferredSize = null;
+      
+      return true;
+    }
+    
+    return false;
+  }
+  
+  private boolean removeJTaskProgress(JTaskProgress taskProgress){
+    if (taskProgress != null){
+      progressBarsPN.remove(taskProgress);
+      
+      Dimension size             = getSize();
+      Dimension preferredSize    = getPreferredSize();
+      
+      int height                 = (int)size.getHeight();
+      int preferredHeight        = (int)preferredSize.getHeight();
+      
+      if (isProgessLabelVisible()){
+        height          -= getProgressLabelHeight();
+        preferredHeight -= getProgressLabelHeight();
+      }
+      
+      if (isProgessBarVisible()){
+        height          -= getProgressBarHeight();
+        preferredHeight -= getProgressLabelHeight();
+      }
+      
+      Dimension newSize          = new Dimension((int)size.getWidth(), height);
+      Dimension newPreferredSize = new Dimension((int)preferredSize.getWidth(), preferredHeight);
+      
+      setSize(newSize);
+      setPreferredSize(newPreferredSize);
+      
+      pack();
+      validate();
+      repaint();
+      
+      size             = null;
+      preferredSize    = null;
+      newSize          = null;
+      newPreferredSize = null;
+      
+      return true;
+    }
+    
+    return false;
+  }
+}
 

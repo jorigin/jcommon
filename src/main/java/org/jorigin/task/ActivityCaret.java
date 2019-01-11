@@ -122,7 +122,7 @@ import java.util.logging.Level;
  * @version 1.148 11/30/06
  * @see     Caret
  */
- class ActivityCaret extends Rectangle implements Caret, FocusListener, MouseListener, MouseMotionListener {
+ public class ActivityCaret extends Rectangle implements Caret, FocusListener, MouseListener, MouseMotionListener {
 
     /**
    * 
@@ -132,8 +132,6 @@ import java.util.logging.Level;
     /**
      * Indicates that the caret position is to be updated only when
      * document changes are performed on the Event Dispatching Thread.
-     * @see #setUpdatePolicy
-     * @see #getUpdatePolicy
      * @since 1.5
      */
     public static final int UPDATE_WHEN_ON_EDT = 0;
@@ -144,9 +142,7 @@ import java.util.logging.Level;
      * updates, except when the document length becomes less than
      * the current caret position due to removal. In that case the caret
      * position is adjusted to the end of the document.
-     *
-     * @see #setUpdatePolicy
-     * @see #getUpdatePolicy
+
      * @since 1.5
      */
     public static final int NEVER_UPDATE = 1;
@@ -231,13 +227,7 @@ import java.util.logging.Level;
      * @param policy one of the following values : <code>UPDATE_WHEN_ON_EDT</code>,
      * <code>NEVER_UPDATE</code>, <code>ALWAYS_UPDATE</code>
      * @throws IllegalArgumentException if invalid value is passed
-     *
-     * @see #getUpdatePolicy
-     * @see #adjustVisibility
-     * @see #UPDATE_WHEN_ON_EDT
-     * @see #NEVER_UPDATE
-     * @see #ALWAYS_UPDATE
-     *
+
      * @since 1.5
      */
     public void setUpdatePolicy(int policy) {
@@ -249,12 +239,6 @@ import java.util.logging.Level;
      *
      * @return one of the following values : <code>UPDATE_WHEN_ON_EDT</code>,
      * <code>NEVER_UPDATE</code>, <code>ALWAYS_UPDATE</code>
-     *
-     * @see #setUpdatePolicy
-     * @see #UPDATE_WHEN_ON_EDT
-     * @see #NEVER_UPDATE
-     * @see #ALWAYS_UPDATE
-     *
      * @since 1.5
      */
     public int getUpdatePolicy() {
@@ -863,6 +847,8 @@ import java.util.logging.Level;
      *          doesn't specify a class or interface that implements
      *          <code>java.util.EventListener</code>
      *
+     * @param <T> the type of the listened object.
+     *
      * @see #getChangeListeners
      *
      * @since 1.3
@@ -1071,7 +1057,6 @@ import java.util.logging.Level;
      * selection range to zero.
      *
      * @param dot the position &gt;= 0
-     * @see #setDot(int, Position.Bias)
      * @see Caret#setDot
      */
     public void setDot(int dot) {
@@ -1083,7 +1068,6 @@ import java.util.logging.Level;
      * with a forward bias.
      *
      * @param dot the position &gt;= 0
-     * @see #moveDot(int, javax.swing.text.Position.Bias)
      * @see Caret#moveDot
      */
     public void moveDot(int dot) {

@@ -1,34 +1,24 @@
-/*
-  This file is part of JOrigin Common Library.
-
-    JOrigin Common is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    JOrigin Common is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with JOrigin Common.  If not, see <http://www.gnu.org/licenses/>.
-    
-*/
 package org.jorigin.io;
 
 import java.io.File;
 import java.io.FileFilter;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
+import org.jorigin.lang.PathUtil;
+
 
 
 /**
  * A file management API. This Class provide simple and efficient file management methods.
- * @author Julien Seinturier - (c) 2009 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien Seinturier - (c) 2009 - Arpenteur project - <a href="http://www.arpenteur.net">http:/www.arpenteur.net</a>
+ * @version 1.0.8
  * @since 1.0.0
+ *
  */
 public class FileUtil {
 
+ 
   /**
    * Return the file or directory size in byte
    * @param path the file or directory to check
@@ -57,9 +47,10 @@ public class FileUtil {
   }
 
   /**
-   * Delete recursively a directory. 
+   * Delete recursively a directory and its content. After cleaning all the contents, the directory itself is deleted. 
    * @param path path to the directory (or file) you want to delete
-   * @return <code>true</code> if the delete was successfull and <code>false</code> if the delete was unable to erase all the directory
+   * @return <code>true</code> if the delete was successfull and <code>false</code> if the delete was unable to erase all the directory.
+   * @see #cleanDirectory(File)
    */
   static public boolean deleteDirectory(File path) {
     boolean result = true;
@@ -84,6 +75,35 @@ public class FileUtil {
     return (result);
   }
 
+  /**
+   * Delete recursively the content of a directory. Only the directory content is deleted, the directory itself is not deleted.
+   * @param path path to the directory (or file) you want to clean
+   * @return <code>true</code> if the delete was successfull and <code>false</code> if the delete was unable to erase all the directory
+   * @see #deleteDirectory(File)
+   */
+  static public boolean cleanDirectory(File path) {
+    boolean result = true;
+    // Verification de l'existence du repertoire
+    if (path.exists()) {
+      // Liste des fichiers (et sous repertoire)
+      File[] files = path.listFiles();
+      // si on a un fichier simple, on l'efface
+      if (files == null) {
+        return path.delete();
+      }
+      for (int i = 0; i < files.length; i++) {
+        // Utilisation de la recursivite pour l'effacage
+        if (files[i].isDirectory()) {
+          result &= !deleteDirectory(files[i]);
+        }
+        result &= files[i].delete();
+      }
+    }
+    
+    return (result);
+  }
+
+  
   /**
    * Simple copy of a source file to a destination file
    * @param source the path of the source file
@@ -165,25 +185,30 @@ public class FileUtil {
   }
 
   /**
-   * List recursively a directory and its sub-directories.
-   * @param source the source directory (or file to copy).
-   * @param filter a {@link java.io.FileFilter filter} used for accepting files within the list.
-   * @return the list of files presents in the directory.
+   * List a directory and select files that are selected by the given {@link java.io.FileFilter file filter}
+   * @param dir the directory to list.
+   * @param filter the {@link java.io.FileFilter file filter} that accept or not listed files.
+   * @param recurse is set to <code>true</code> if the listing process have to enter subdirectory, <code>false</code> otherwise.
+   * @return the files that are selected by the given {@link java.io.FileFilter file filter}
    */
-  public static ArrayList<File> listFiles(File source, FileFilter filter) {
-    ArrayList<File> list = null;
+  public static List<File> list(File dir, FileFilter filter, boolean recurse) {
+    LinkedList<File> list = null;
     // Premiere verification: le source existe t'il
-    if (!source.exists()) {
+    if (dir == null){
+      return null;
+    }
+    
+    if (!dir.exists()) {
       return null;
     } else {
-      list = new ArrayList<File>();
+      list = new LinkedList<File>();
     }
     // Liste les fichiers du repertoire
-    File[] files = source.listFiles();
+    File[] files = dir.listFiles();
     // Parcours de la liste de fichiers et copie recursive
     for (int i = 0; i < files.length; i++) {
-      if (files[i].isDirectory()) {
-        list.addAll(listFiles(files[i], filter));
+      if (files[i].isDirectory() && recurse) {
+        list.addAll(list(files[i], filter, recurse));
       } else {
         if ((filter == null) || (filter.accept(files[i]))) {
           list.add(files[i]);
@@ -192,5 +217,69 @@ public class FileUtil {
     }
     return list;
   }
+  
+  /**
+   * List a directory and select files that are selected by the given {@link java.io.FileFilter file filter}
+   * @param dir the directory to list.
+   * @param filter the {@link java.io.FileFilter file filter} that accept or not listed files.
+   * @param recurse is set to <code>true</code> if the listing process have to enter subdirectory, <code>false</code> otherwise.
+   * @return the pathes of the files that are selected by the given {@link java.io.FileFilter file filter}
+   */
+  public static List<String> listPathes(File dir, FileFilter filter, boolean recurse) {
+    LinkedList<String> list = null;
+    // Premiere verification: le source existe t'il
+    if (dir == null){
+      return null;
+    }
+    
+    if (!dir.exists()) {
+      return null;
+    } else {
+      list = new LinkedList<String>();
+    }
+    // Liste les fichiers du repertoire
+    File[] files = dir.listFiles();
+    // Parcours de la liste de fichiers et copie recursive
+    for (int i = 0; i < files.length; i++) {
+      if (files[i].isDirectory() && recurse) {
+        list.addAll(listPathes(files[i], filter, recurse));
+      } else {
+        if ((filter == null) || (filter.accept(files[i]))) {
+          list.add(PathUtil.URIToPath(files[i].getPath()));
+        }
+      }
+    }
+    return list;
+  }
 
+  
+  /**
+   * List recursively a directory and select files that match the given 
+   * <a href="http://docs.oracle.com/javase/tutorial/essential/regex/">regular expression.</a>
+   * @param source the directory to list.
+   * @param regex the regular expression that the tested file path have to match.
+   * @param recurse is set to <code>true</code> if the listing process have to enter subdirectory, <code>false</code> otherwise.
+   * @return the list of files contained within the given directory and from witch path are matched by te given regular expression.
+   */
+  public static List<File> list(File source, final String regex, boolean recurse) {
+    FileFilter filter = new FileFilter(){
+      
+      @Override
+      public boolean accept(File pathname) {
+        if (pathname != null){
+          
+          String path = pathname.getPath();
+          if (path != null){
+            return path.matches(regex);
+          } else {
+            return false;
+          }
+          
+        } else {
+          return false;
+        }
+      }};
+      
+    return list(source, filter, recurse);
+  }
 }
