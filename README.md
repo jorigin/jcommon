@@ -21,46 +21,43 @@ Edit the maven settings file (by default located at ~/.m2/settings.xml) and add 
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
-      <properties>
-        
-      </properties>
     </profile>
   </profiles>
 </settings>
 ```
 Make then the following actions.
 
-Clean the project:
+__1. Clean the project__:
 ```console
 mvn clean
 ```
-Prepare the release:
+__2. Prepare the release__:
 ```console
 mvn -Dgpg.passphrase="yourpassphrase" -Dnexus.user="your_sonatype_username" -Dnexus.password="your_sonatype_password" release:prepare
 ```
-Perform the release:
+__3. Perform the release__:
 ```console
 mvn -Dgpg.passphrase="yourpassphrase" -Dnexus.user="your_sonatype_username" -Dnexus.password="your_sonatype_password" release:perform
 ```
-Update the Git project:
+__4. Update the Git project__:
 ```console
 git push --tags
 git push origin master
 ```
 
-In case of problem:
+__5. In case of <span style="color:red">problem</span> during steps 1 to 4__:
 
-Step 1: Undo the release:
++ 5.1: Undo the release:
+```console
+git reset --hard HEAD~1
+```
+_(You may have to do it a second time, depending upon when the error occurred.)_
 
-git reset –hard HEAD~1 (You may have to do it a second time, depending upon when the error occurred.)
-
-git reset –hard HEAD~1
-
-Step 2: Delete the tag.
-
++ 5.2: Delete the tag.
+```console
 git tag -d tagName
-
 git push origin :refs/tags/tagName
+```
 
 ## Changes:
 
