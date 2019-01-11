@@ -13,10 +13,13 @@ import java.util.List;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import org.jorigin.Common;
+
 
 /**
  * This class contains method for managing Java classes.
- * @author Julien Seinturier - (c) 2017 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.3
  */
 public class ClassUtil {

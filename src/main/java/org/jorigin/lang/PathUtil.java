@@ -19,14 +19,17 @@ package org.jorigin.lang;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import org.jorigin.Common;
+
 import java.net.URI;
 import java.io.File;
 import java.net.URISyntaxException;
 
 /**
- * This class provide methods for mapping system path, url and URI.
- *
- * @author Julien Seinturier - (c) 2009 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * This class provide methods for processing resource pathes (files, URL, URI, ...).
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  */
 public class PathUtil {

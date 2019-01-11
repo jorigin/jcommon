@@ -22,12 +22,15 @@ import java.awt.event.AWTEventListener;
 
 import javax.swing.event.EventListenerList;
 
+import org.jorigin.Common;
+
 /**
  * Event pool class enable to share events between many components. The event pool register listeners
  * and dispatch event. Components which have to fire event to other use the event pool to propagate it.<br>
  * This class use {@link java.awt.AWTEvent} as a global event. So All event that can be fired on the event pool must be
  * an {@link java.awt.AWTEvent} or a subclass.
- * @author Julien Seinturier - (c) 2009 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  */
 public class EventPool {

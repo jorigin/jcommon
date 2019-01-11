@@ -8,11 +8,13 @@ import java.util.logging.Level;
 
 import javax.swing.ImageIcon;
 
+import org.jorigin.Common;
 import org.jorigin.lang.PathUtil;
 
 /**
  * A class dedicated to the load of icons. This class enable to seek icons from a given directory and enable to scale icons in metric units.
- * @author Julien Seinturier - (c) 2016 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.3
  */
 public class IconLoader {

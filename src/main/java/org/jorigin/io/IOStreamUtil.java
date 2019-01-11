@@ -30,12 +30,14 @@ import java.net.URL;
 
 import java.io.File;
 
+import org.jorigin.Common;
 import org.jorigin.lang.PathUtil;
 
 
 /**
  * This class is an helper class designed for the handling of I/O streams. This class provide methods for creating and managing streams from various sources.
- * @author Julien Seinturier - (c) 2009 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  */
 public class IOStreamUtil {

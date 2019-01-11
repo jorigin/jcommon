@@ -21,6 +21,7 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
+import org.jorigin.Common;
 import org.jorigin.gui.IconLoader;
 import org.jorigin.task.gui.JTaskProgress;
 
@@ -34,7 +35,8 @@ import javax.swing.JPanel;
 
 /**
  * A class that enables to graphically monitor tasks.
- * @author Julien Seinturier
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  */
 public class ActivityMonitor extends JDialog{
 

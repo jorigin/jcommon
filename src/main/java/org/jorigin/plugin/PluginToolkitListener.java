@@ -19,11 +19,14 @@ package org.jorigin.plugin;
 
 import java.awt.event.AWTEventListener;
 
+import org.jorigin.Common;
+
 /**
  * The <code>PluginToolkitListener</code> is a convenience interface that wrap an <code>AWTEventListener</code>. This listener can be 
  * used for the capture of {@link org.jorigin.plugin.PluginToolkitEvent PluginToolkitEvent} 
  * fired by the {@link org.jorigin.plugin.PluginToolkit PluginToolkit}.
- * @author Julien Seinturier - (c) 2009 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  */
 public interface PluginToolkitListener extends AWTEventListener{

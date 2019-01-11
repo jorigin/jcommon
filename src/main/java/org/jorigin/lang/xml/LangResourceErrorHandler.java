@@ -26,7 +26,8 @@ import org.xml.sax.SAXParseException;
 /**
  * An error handler used with the {@link org.jorigin.lang.xml.LangResourceContentHandler LangResourceContentHandler}. 
  * This error handler only output errors on the {@link org.jorigin.Common Common} logger.
- * @author Julien Seinturier - (c) 2009 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  *
  */

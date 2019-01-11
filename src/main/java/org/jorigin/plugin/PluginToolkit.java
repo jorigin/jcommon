@@ -39,7 +39,8 @@ import org.jorigin.lang.PathUtil;
  * This class is a toolkit used for helping plugin management. Using this class, user can scan and load a list of plugins
  * related to a given package ({@link #setPluginPackage(String)}) from given locations on the system ({@link #addPluginDir(String)}, 
  * {@link #addPluginDir(File)}). The plugin loading is launched via the {@link #loadPlugins()} method.
- * @author Julien Seinturier - (c) 2009 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  *
  */

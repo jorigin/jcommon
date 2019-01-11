@@ -28,7 +28,8 @@ import org.jorigin.Common;
 /**
  * This class is a default implementation of the {@link org.jorigin.plugin.IPluginManager IPluginManager} interface. 
  * The plugins are stored in an underlying {@link java.util.ArrayList ArrayList}.
- * @author Julien Seinturier - (c) 2009 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  *
  */

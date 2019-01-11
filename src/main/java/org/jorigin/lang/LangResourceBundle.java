@@ -25,10 +25,13 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.Vector;
 
+import org.jorigin.Common;
+
 /**
  * This class represent a bundle of XML based language resources. The XML based language resource bundle behavior 
  * is most the same that the classic {@link java.util.ResourceBundle ResourceBundle}. 
- * @author Julien Seinturier - (c) 2009 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  */
 public class LangResourceBundle extends ResourceBundle{

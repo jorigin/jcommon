@@ -39,9 +39,9 @@ import org.jorigin.logging.LogHandler;
  * </ul>
  * When a value is set, all level above are implicitly included. For example, a level <code>FINE</code> enable also <code>CONFIG</code>, <code>INFO</code>, 
  * <code>WARNING</code> and <code>SEVERE</code>.
- * @author Julien Seinturier - (c) 2009 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
- * @version 1.0.4
  */
 public class Common {
 

@@ -19,17 +19,13 @@ package org.jorigin.task;
 
 import java.util.EventListener;
 
+import org.jorigin.Common;
+
 /**
- * <p>Title: Task Event</p>
- *
- * <p>Description: </p>
- *
- * <p>Copyright: Copyright (c) 2005</p>
- *
- * <p>Company: </p>
- *
- * @author Julien Seinturier
- * @version 1.0
+ * A listener that enables to process {@link TaskEvent task event}.
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
+ * @since 1.0.0
  */
 public interface TaskListener extends EventListener{
 

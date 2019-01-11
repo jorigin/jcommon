@@ -22,6 +22,8 @@ import java.util.List;
 
 import javax.swing.JPanel;
 
+import org.jorigin.Common;
+
 /**
  * A {@link JPanel swing component} that enables to display {@link BufferedImage images}. 
  * <p>
@@ -30,8 +32,9 @@ import javax.swing.JPanel;
  * <p>
  * This image panel also manages {@link JImageFeature features} that enable to display interactive overlays on the panel.
  * </p>
- * @author Julien Seinturier - COMEX S.A. - http://www.seinturier.fr
- * @version 1.0.0
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
+ * @since 1.0.2
  */
 public class JImagePanel extends JPanel {
 

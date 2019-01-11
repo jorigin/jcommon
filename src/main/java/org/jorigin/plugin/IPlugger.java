@@ -17,13 +17,16 @@
 */
 package org.jorigin.plugin;
 
+import org.jorigin.Common;
+
 /**
  * This class represents a plugger. A plugger is the interface between the kernel of the application and the plugins.
  * The main method of the plugger is {@link #getExensionPoint(String) getExensionPoint(String)} which return an extension point that can be
  * accessed by the plugins. The extension keys can be obtained by the method {@link #getExtensionPointKeys() getExtensionPointKeys()}. <br><br>
  * A class implementing the interface {@link org.jorigin.plugin.IPlugin IPlugin} can also implements the <code>IPlugger</code> interface. 
  * So a plugin can also be a plugger and can be extended by others plugins.
- * @author Julien Seinturier - (c) 2009 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  *
  */

@@ -5,14 +5,15 @@ import java.io.FileFilter;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.jorigin.Common;
 import org.jorigin.lang.PathUtil;
 
 
 
 /**
  * A file management API. This Class provide simple and efficient file management methods.
- * @author Julien Seinturier - (c) 2009 - Arpenteur project - <a href="http://www.arpenteur.net">http:/www.arpenteur.net</a>
- * @version 1.0.8
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  *
  */

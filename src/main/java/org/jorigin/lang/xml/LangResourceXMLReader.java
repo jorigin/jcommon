@@ -24,8 +24,7 @@ import javax.swing.event.EventListenerList;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 
-
-
+import org.jorigin.Common;
 import org.jorigin.lang.LangResource;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
@@ -35,7 +34,8 @@ import org.xml.sax.XMLReader;
  * A XML reader used for handling XML language resource files. This reader delegates processing to 
  * {@link org.jorigin.lang.xml.LangResourceContentHandler LangResourceContentHandler}, {@link org.jorigin.lang.xml.LangResourceErrorHandler LangResourceErrorHandler}
  * and {@link org.jorigin.lang.xml.LangResourceXMLFilter LangResourceXMLFilter}
- * @author Julien Seinturier - (c) 2009 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  */
 public class LangResourceXMLReader{

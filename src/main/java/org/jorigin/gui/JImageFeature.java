@@ -4,10 +4,12 @@ import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 
+import org.jorigin.Common;
+
 /**
  * An image feature that can be displayed within a {@link JImagePanel JImagePanel}.
- * @author Julien Seinturier - COMEX S.A. - http://www.seinturier.fr
- * @version 1.0.0
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.4
  */
 public interface JImageFeature {

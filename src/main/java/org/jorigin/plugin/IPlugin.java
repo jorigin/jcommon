@@ -17,12 +17,14 @@
 */
 package org.jorigin.plugin;
 
+import org.jorigin.Common;
 
 /**
  * This interface represent an application plugin. An aplication plugin enable to extends
  * an application with various functions. The plugin interface specifies the method necessary to the plugin manager
  * for managing the plugin.
- * @author Julien Seinturier - (c) 2009 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  */
 public interface IPlugin {

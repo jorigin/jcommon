@@ -27,7 +27,8 @@ import org.jorigin.Common;
 
 /**
  * This class extends a {@link javax.swing.JDesktopPane JDesktopPane} and provide organization methods for the internal frames.
- * @author Julien Seinturier - (c) 2009 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.1
  */
 public class JDesktopPane extends javax.swing.JDesktopPane {

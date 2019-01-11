@@ -21,7 +21,7 @@ import java.io.IOException;
 
 import javax.swing.event.EventListenerList;
 
-
+import org.jorigin.Common;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -32,7 +32,8 @@ import org.xml.sax.helpers.XMLFilterImpl;
 /**
  * A simple override of the {@link org.xml.sax.helpers.XMLFilterImpl XMLFilterImpl} dedicated to the lang XML resource file parsing. 
  * Most of the methods simply delegate to super methods.
- * @author Julien Seinturier - (c) 2009 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  */
 public class LangResourceXMLFilter extends XMLFilterImpl{

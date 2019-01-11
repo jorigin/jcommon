@@ -66,7 +66,8 @@ import org.jorigin.Common;
  * If you don't do anything, multiple simple internal frames will
  * be displayed as selected.
  *
- * @author Julien Seinturier - (c) 2010 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.1
  *
  * @see    javax.swing.JInternalFrame

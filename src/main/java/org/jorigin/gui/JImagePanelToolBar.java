@@ -16,9 +16,13 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.jorigin.Common;
+
 /**
  * A tool bar dedicated to {@link JImagePanel image panel} control.
- * @author Julien Seinturier - COMEX S.A. - http://www.seinturier.fr
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
+ * @since 1.0.2
  */
 public class JImagePanelToolBar extends JToolBar implements PropertyChangeListener {
 

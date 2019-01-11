@@ -19,9 +19,12 @@ package org.jorigin.task;
 
 import java.awt.AWTEvent;
 
+import org.jorigin.Common;
+
 /**
  * An event that describes the life cycle of a task.
- * @author Julien Seinturier - (c) 2010 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  *
  */

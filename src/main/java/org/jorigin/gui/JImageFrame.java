@@ -14,6 +14,8 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.jorigin.Common;
+
 import java.awt.Dimension;
 import java.awt.Point;
 
@@ -26,7 +28,8 @@ import java.awt.Point;
  * <p>
  * This underlying image panel also manages {@link JImageFeature features} that enable to display interactive overlays on the panel.
  * </p>
- * @author Julien Seinturier - COMEX S.A. - http://www.seinturier.fr
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @version 1.0.0
  */
 public class JImageFrame extends JFrame {
