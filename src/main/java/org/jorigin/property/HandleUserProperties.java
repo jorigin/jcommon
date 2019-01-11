@@ -16,7 +16,7 @@ public interface HandleUserProperties {
 	 * Get the user property mapped with the given <code>name</code>. If no property is mapped, <code>null</code> is returned.
 	 * @param propertyName the name of the property.
 	 * @return the user property mapped with the given <code>name</code>. If no property is mapped, <code>null</code> is returned.
-	 * @see #setUserProperty(Object)
+	 * @see #setUserProperty(String, Object)
 	 */
 	public Object getUserProperty(String propertyName);
 	

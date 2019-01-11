@@ -13,7 +13,7 @@ public interface Identified {
 	/**
 	 * Get the identification of the object an an integer.
 	 * @return the identification of the object an an integer.
-	 * @see #setIdentification()
+	 * @see #setIdentification(int)
 	 */
 	public int getIdentification();
 	
