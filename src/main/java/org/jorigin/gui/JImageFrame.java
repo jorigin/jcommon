@@ -37,7 +37,7 @@ public class JImageFrame extends JFrame {
   /**
    * 
    */
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 201903071000L;
 
   private JImagePanel imagePanel = null;
   
@@ -226,20 +226,45 @@ public class JImageFrame extends JFrame {
   
   /**
    * Get the {@link JImageFeature image features} that are attached to the underlying {@link JImagePanel image panel}.
+   * If the layer does not exist, it is created. 
+   * In this case, the layer will not be displayed until a call to {@link #setLayerDisplayed(String, boolean) setLayerDisplayed(layer, true)}.
+   * If the layer exists, all previous existing features are deleted.
+   * @param layer the layer that holds the features.
    * @return the {@link JImageFeature image features} that are attached to the underlying image panel.
-   * @see #setImageFeatures(List)
+   * @see #setImageFeatures(String, List)
    */
-  public List<JImageFeature> getImageFeatures(){
-    return imagePanel.getImageFeatures();
+  public List<JImageFeature> getImageFeatures(String layer){
+    return imagePanel.getImageFeatures(layer);
   }
   
   /**
    * Set the {@link JImageFeature image features} to attach to the underlying {@link JImagePanel image panel}.
+   * @param layer the layer that holds the features.
    * @param features the {@link JImageFeature image features} to attach to the underlying {@link JImagePanel image panel}.
-   * @see #getImageFeatures()
+   * @see #getImageFeatures(String)
    */
-  public void setImageFeatures(List<JImageFeature> features){
-    imagePanel.setImageFeatures(features);
+  public void setImageFeatures(String layer, List<JImageFeature> features){
+    imagePanel.setImageFeatures(layer, features);
+  }
+  
+  /**
+   * Get if the <code>layer</code> is actually displaying within the underlying {@link JImagePanel image panel}.
+   * @param layer the layer to check.
+   * @return <code>true</code> if the <code>layer</code> is actually displaying and <code>false</code> otherwise.
+   * @see #setLayerDisplayed(String, boolean)
+   */
+  public boolean isLayerDisplayed(String layer) {
+	  return imagePanel.isLayerDisplayed(layer);
+  }
+  
+  /**
+   * Set if the <code>layer</code> has to be displayed within the underlying {@link JImagePanel image panel}.
+   * @param layer the layer to set.
+   * @param displayed <code>true</code> if the <code>layer</code> has to be displayed and <code>false</code> otherwise.
+   * @see #isLayerDisplayed(String)
+   */
+  public void setLayerDisplayed(String layer, boolean displayed) {
+	  imagePanel.setLayerDisplayed(layer, displayed);
   }
   
   /**

@@ -17,31 +17,26 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JPanel;
 
 import org.jorigin.Common;
 
 /**
- * A {@link JPanel swing component} that enables to display {@link BufferedImage images}. 
- * <p>
- * This panel provides various operations on the view (zoom, moving, ...) and helper methods for correspondence between image space and display space.
- * </p>
- * <p>
+ * A {@link JPanel swing component} that enables to display {@link BufferedImage images}. <br>
+ * This panel provides various operations on the view (zoom, moving, ...) and helper methods for correspondence between image space and display space.<br>
  * This image panel also manages {@link JImageFeature features} that enable to display interactive overlays on the panel.
- * </p>
  * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
  * @version {@value Common#version} - b{@value Common#BUILD}
- * @since 1.0.2
+ * @since 1.0.4
  */
 public class JImagePanel extends JPanel {
 
-  /**
-   * 
-   */
-  private static final long serialVersionUID = 201708311445L;
+  private static final long serialVersionUID = 201903071000L;
   
   /**
    * The image feature selection mode property name. 
@@ -78,7 +73,9 @@ public class JImagePanel extends JPanel {
 
   private BufferedImage image = null;
   
-  private List<JImageFeature> features = null;
+  private Map<String, List<JImageFeature>> layers;
+  
+  private Map<String, Boolean> layersVisibility;
   
   private double scale = 1.0f;
 
@@ -279,9 +276,23 @@ public class JImagePanel extends JPanel {
     }
     
     // Draw image features
-    if (features != null){
-      for(JImageFeature feature : features){
-        feature.draw(g2d, transform);
+    if (layers != null){
+      
+      for (String layer : layers.keySet()) {
+        
+        if (isLayerDisplayed(layer)) {
+          
+          List<JImageFeature> displayingFeatures = layers.get(layer);
+          
+          if (displayingFeatures != null) {
+            for(JImageFeature feature : displayingFeatures){
+              
+              if (feature.isDisplaying()) {
+                feature.draw(g2d, transform);
+              }
+            }
+          }
+        }
       }
     }
     
@@ -329,6 +340,26 @@ public class JImagePanel extends JPanel {
    */
   public boolean isRendering() {
     return painting;
+  }
+  
+  /**
+   * Get the {@link RenderingHints rendering hints} that this panel use. If this method return <code>null</code>, 
+   * default rendering hints are used.
+   * @return the {@link RenderingHints rendering hints} that this panel use.
+   * @see #setRenderingHints(RenderingHints)
+   */
+  public RenderingHints getRenderingHints() {
+    return renderingHints;
+  }
+  
+  /**
+   * Set the {@link RenderingHints rendering hints} that this panel has to use. If <code>hints</code> parameter is set to <code>null</code>, 
+   * then default rendering hints are used.
+   * @param hints the {@link RenderingHints rendering hints} that this panel has to use.
+   * @see #getRenderingHints()
+   */
+  public void setRenderingHints(RenderingHints hints) {
+    this.renderingHints = hints;
   }
   
   /**
@@ -547,55 +578,121 @@ public class JImagePanel extends JPanel {
   }
   
   /**
-   * Get the {@link JImageFeature image features} attached to this panel.
-   * @return the image features attached to this panel.
-   * @see #setImageFeatures(List)
+   * Check if the given <code>layer</code> is displayed. 
+   * If this method return <code>true</code>, then the features that are within the layer are visible on the image panel. 
+   * @param layer the layer to check.
+   * @return <code>true</code> if the layer is displayed and <code>false</code> otherwise.
+   * @see #setLayerDisplayed(String, boolean)
    */
-  public List<JImageFeature> getImageFeatures(){
-    return features;
-  }
-  
-  /**
-   * Set the {@link JImageFeature image features} to attach to this panel.
-   * @param features the image features attached to attach to this panel.
-   * @see #getImageFeatures()
-   */
-  public void setImageFeatures(List<JImageFeature> features){
-    this.features = features;
-  }
-  
-  /**
-   * Attach the given {@link JImageFeature image feature} to this panel.
-   * @param feature the {@link JImageFeature image feature} to attach.
-   * @return <code>true</code> if the feature is successfully attached and <code>false</code> otherwise.
-   * @see #removeImageFeature(JImageFeature)
-   */
-  public boolean addImageFeature(JImageFeature feature){
-    
-    if (feature != null){
-      if (features == null){
-        features = new LinkedList<JImageFeature>();
+  public boolean isLayerDisplayed(String layer) {
+    if (layersVisibility != null) {
+      if (layersVisibility.get(layer) != null) {
+        return layersVisibility.get(layer);
+      } else {
+        return false;
       }
-      
-      return features.add(feature);
     } else {
       return false;
     }
   }
   
   /**
-   * Remove the given {@link JImageFeature image feature} from this panel.
+   * Set if the given <code>layer</code> has to be displayed. 
+   * @param layer the layer to check.
+   * @param displayed <code>true</code> if the layer has to be displayed and <code>false</code> otherwise.
+   */
+  public void setLayerDisplayed(String layer, boolean displayed) {
+    if (layers != null) {
+      if (layers.get(layer) != null) {
+        
+        if (layersVisibility == null) {
+          layersVisibility = new HashMap<String, Boolean>();
+        }
+        
+        layersVisibility.put(layer, displayed);
+      }
+    }
+  }
+  
+  /**
+   * Get the {@link JImageFeature image features} contained within the specified <code>layer</code> attached to this panel.
+   * @param layer the layer of the features.
+   * @return the image features attached to this panel and <code>null</code> if the layer is empty or does not exists.
+   * @see #setImageFeatures(String, List)
+   */
+  public List<JImageFeature> getImageFeatures(String layer){
+    
+    if (layers != null) {
+      return layers.get(layer);
+    } else {
+      return null;
+    }
+  }
+  
+  /**
+   * Set the {@link JImageFeature image features} to attach to this panel within the specified <code>layer</code>. 
+   * If the <code>layer</code> does not exist, it is created. In this case, the layer will not be displayed until a call to {@link #setLayerDisplayed(String, boolean) setLayerDisplayed(layer, true)}. 
+   * If the layer exists, all previous existing features are deleted.
+   * @param layer the layer of the features.
+   * @param features the image features attached to attach to this panel.
+   * @see #getImageFeatures(String)
+   */
+  public void setImageFeatures(String layer, List<JImageFeature> features){
+    
+    if (layers == null) {
+      layers = new HashMap<String, List<JImageFeature>>();
+    }
+    
+    layers.put(layer, features);
+  }
+  
+  /**
+   * Attach the given {@link JImageFeature image feature} to this panel within the specified <code>layer</code>.
+   * If the <code>layer</code> does not exist, it is created. In this case, the layer will not be displayed until a call to {@link #setLayerDisplayed(String, boolean) setLayerDisplayed(layer, true)}. 
+   * @param layer the layer of the feature.
+   * @param feature the {@link JImageFeature image feature} to attach.
+   * @return <code>true</code> if the feature is successfully attached and <code>false</code> otherwise.
+   * @see #removeImageFeature(String, JImageFeature)
+   */
+  public boolean addImageFeature(String layer, JImageFeature feature){
+    
+    if (feature != null){
+      if (layers == null) {
+        layers = new HashMap<String, List<JImageFeature>>();
+      }
+      
+      if (layers.get(layer) == null) {
+        layers.put(layer, new ArrayList<JImageFeature>());
+      }
+      
+      layers.get(layer).add(feature);
+      
+      return true;
+
+    } else {
+      return false;
+    }
+  }
+  
+  /**
+   * Remove the given {@link JImageFeature image feature} from the specified <code>layer</code>.
+   * @param layer the layer of the feature.
    * @param feature the {@link JImageFeature image feature} to remove.
    * @return <code>true</code> if the feature is successfully removed and <code>false</code> otherwise.
-   * @see #addImageFeature(JImageFeature)
+   * @see #addImageFeature(String, JImageFeature)
    */
-  public boolean removeImageFeature(JImageFeature feature){
-    if (features == null){
+  public boolean removeImageFeature(String layer, JImageFeature feature){
+    if (feature == null){
       return false;
     } else {
       
-      if (feature != null){
-        return features.remove(feature);
+      if (layers != null){
+
+        if (layers.get(layer) != null) {
+          return layers.get(layer).remove(feature);
+        } else {
+          return false;
+        }
       } else {
         return false;
       }
