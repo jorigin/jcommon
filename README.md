@@ -61,6 +61,9 @@ git push origin :refs/tags/tagName
 
 ## Changes:
 
+### 1.0.10
+  + Added layer handling within Image display (see JImagePanel)
+
 ### 1.0.8
   + Updated FileUtil
   + Updated ActivityMonitor
