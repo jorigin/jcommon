@@ -62,7 +62,7 @@ public class Common {
   /**
    * The version number
    */
-  public static final String version = "1.0.9";
+  public static final String version = "1.0.11";
   
   /**
    * Initialize the JOrigin common package.

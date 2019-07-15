@@ -6,6 +6,7 @@ import java.awt.geom.AffineTransform;
 
 import org.jorigin.Common;
 import org.jorigin.identification.Named;
+import org.jorigin.state.HandleDisplay;
 
 /**
  * An image feature that can be displayed within a {@link JImagePanel JImagePanel}.
@@ -13,7 +14,7 @@ import org.jorigin.identification.Named;
  * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.4
  */
-public interface JImageFeature extends Named, Displayable{
+public interface JImageFeature extends Named, HandleDisplay{
 
   /**
    * Draw this feature on the given {@link Graphics2D graphic context}. The given graphic context is related to the original image space. 

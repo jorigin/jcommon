@@ -61,6 +61,11 @@ git push origin :refs/tags/tagName
 
 ## Changes:
 
+### 1.0.11
+  + Added state package that provide interfaces that can handle various states (Activation, Display, Selection, ...)
+  + Interface Displayable from org.jorigin.gui package has been refactored into HandleDisplay interface from org.jorigin.state package.
+  + [BUG] Corrected an encoding bug for '%' display within Activity Monitor 
+
 ### 1.0.10
   + Added layer handling within Image display (see JImagePanel)
 

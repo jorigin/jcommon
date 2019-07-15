@@ -287,7 +287,7 @@ public class JImagePanel extends JPanel {
           if (displayingFeatures != null) {
             for(JImageFeature feature : displayingFeatures){
               
-              if (feature.isDisplaying()) {
+              if (feature.isStateDisplaying()) {
                 feature.draw(g2d, transform);
               }
             }

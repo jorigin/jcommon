@@ -189,7 +189,6 @@ public class ActivityMonitor extends JDialog{
     StyleConstants.setFontFamily(taskErrorStyle, "Helvetica");
     StyleConstants.setFontSize(taskErrorStyle, 11);
     StyleConstants.setForeground(taskErrorStyle, Color.RED);
-    //StyleConstants.setComponent(taskErrorStyle, new JLabel("coucou"));
     //StyleConstants.setIcon(taskErrorStyle, IconServer.getIcon("plastik/error16.png"));
 
     
@@ -784,7 +783,7 @@ public class ActivityMonitor extends JDialog{
 
             if ((this.showProgressType & SHOW_PROGRESS_PERCENT) != 0){
               ratio = (int)(((float)size / (float)taskProgress.getProgressBar().getMaximum())*100);
-              percent  = ""+ratio+" %";
+              percent  = ""+ratio+"%%";
             }
 
             if (progress != null){
