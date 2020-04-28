@@ -58,36 +58,3 @@ _(You may have to do it a second time, depending upon when the error occurred.)_
 git tag -d tagName
 git push origin :refs/tags/tagName
 ```
-
-## Changes:
-
-### 1.0.11
-  + Added state package that provide interfaces that can handle various states (Activation, Display, Selection, ...)
-  + Interface Displayable from org.jorigin.gui package has been refactored into HandleDisplay interface from org.jorigin.state package.
-  + [BUG] Corrected an encoding bug for '%' display within Activity Monitor 
-
-### 1.0.10
-  + Added layer handling within Image display (see JImagePanel)
-
-### 1.0.8
-  + Updated FileUtil
-  + Updated ActivityMonitor
-  + Added JThumbnail handling
-
-### 1.0.7
-  + Maven Central deploy integration
-  + Java 9/10/11 compliance changes (removed calls to deprecated methods / classes)
-
-### 1.0.5-SNAPSHTOT
-  + Added public static void showImageFrame(String, Dimension, Point, BufferedImage, boolean) method to JImageFrame in order
-    to quickly display images.
-
-### 1.0.4:
-  + Added List<Class<?>> listClasses(String) method within ClassUtil.
-    This mlethod enable to list classes from a given package.
-  + Added JImagePanel image visualization component that enable to display images and features
-  + Added JImageFeature that enable to display feature within JImagePanel
-  + Added JImageToolbar and JImageFrame helper classes
-
-### 1.0.3:
-  + Added ClassUtil that enable to manages classes

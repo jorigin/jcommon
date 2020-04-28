@@ -19,6 +19,8 @@ package org.jorigin.lang;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jorigin.Common;
 
@@ -711,38 +713,22 @@ public class PathUtil {
    * @return the directory of the path, or <code>null</code> if the path is invalid or have no directory.
    */
   public static String getDirectory(String path){
-    String directory = null;
     
-    String uri      = null;
-
     if (path == null){
       return null;
     } else {
-      
-      // Mise sous forme d'uri standard du chemin
-      uri = pathToURI(path).toString();
-      
-      // Si l'uri est correcte
-      if (uri != null){
-        
-        // Si l'uri est un chemin à plusieurs niveaux (présence d'au moins un séparateur)
-        // alors le nom de fichier est la dernière partie du chemin.
-        if (uri.indexOf("/") != -1){
-          directory = uri.substring(0, uri.lastIndexOf("/"));
-          
-        // Si l'uri n'a pas plusieurs nineaux, elle spécifie déjà un nom de chemin.
-        } else {
-          directory = new String(uri);
-        }
-      
-      // Si l'uri est incorrecte, il n'est pas possible de retourner un nom de 
-      // fichier
+    
+      String tmp = path.replace("\\", "/");
+    	
+      // Check if the path contains files separators
+      int lastSeparatorIndex = tmp.lastIndexOf("/");
+
+      if (lastSeparatorIndex >= 0) {
+    	  return path.substring(0, lastSeparatorIndex);
       } else {
-        directory = null;
+    	  return null;
       }
     }
-    
-    return directory;
   }
   
   /**
