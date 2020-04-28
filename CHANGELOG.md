@@ -1,7 +1,7 @@
 # Changelog
 
 
-## [1.0.12](https://github.com/jorigin/jcommon/releases/tag/jcommon-1.0.12)
+## [1.0.12](https://github.com/jorigin/jcommon/releases/tag/release-1.0.12)
 ### Added
   + Access to display layer within JImagePanel
   + Added module-info.java file
