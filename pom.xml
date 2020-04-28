@@ -4,7 +4,7 @@
 
 	<groupId>org.jorigin</groupId>
 	<artifactId>jcommon</artifactId>
-	<version>1.0.12</version>
+	<version>1.0.13-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>JCommon</name>
@@ -72,7 +72,7 @@
 		<connection>scm:git:git://github.com/jorigin/jcommon.git</connection>
 		<developerConnection>scm:git:git@github.com:jorigin/jorigin.git</developerConnection>
 		<url>https://github.com/jorigin/jcommon</url>
-		<tag>jcommon-1.0.12</tag>
+		<tag>jcommon-1.0.11</tag>
 	</scm>
 
 	<profiles>
