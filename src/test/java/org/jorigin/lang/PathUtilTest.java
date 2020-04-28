@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
  * A test dedicated to {@link PathUtil}
  * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
  * @version {@value Common#version} - b{@value Common#BUILD}
- * @since 1.0.13
+ * @since 1.0.12
  */
 public class PathUtilTest {
 

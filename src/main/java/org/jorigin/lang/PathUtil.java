@@ -19,8 +19,6 @@ package org.jorigin.lang;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.jorigin.Common;
 

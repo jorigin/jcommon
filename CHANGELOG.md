@@ -1,16 +1,15 @@
 # Changelog
 
-## [1.0.13](https://github.com/jorigin/jcommon/releases/tag/jcommon-1.0.13)
+
+## [1.0.12](https://github.com/jorigin/jcommon/releases/tag/jcommon-1.0.12)
 ### Added
+  + Access to display layer within JImagePanel
   + Added module-info.java file
   + Added Junit 5 compliance
-
+  
 ### Changed
   + PathUtil `getDirectory(String)` has been updated
 
-## 1.0.12
-### Added
-  + Access to display layer within JImagePanel
 
 ## 1.0.11
 ### Added
