@@ -1,5 +1,8 @@
 # Changelog
 
+## [1.0.13](https://github.com/jorigin/jcommon/releases/tag/release-1.0.13)
+### Changed
+ - Corrected icon resource bug for `JMemoryStateBar`
 
 ## [1.0.12](https://github.com/jorigin/jcommon/releases/tag/release-1.0.12)
 ### Added

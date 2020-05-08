@@ -120,7 +120,7 @@ public class JMemoryStateBar extends JPanel{
 
 
     memoryGarbageCollectorButton = new JButton();
-    memoryGarbageCollectorButton.setIcon(new ImageIcon(getClass().getResource("resource/icon/memory_monitor_garbage.png")));
+    memoryGarbageCollectorButton.setIcon(new ImageIcon(getClass().getResource("memory_monitor_garbage.png")));
     memoryGarbageCollectorButton.setPreferredSize(new Dimension(20,20));
     memoryGarbageCollectorButton.setEnabled(true);
     memoryGarbageCollectorButton.setToolTipText("Force unused memory free");
@@ -135,8 +135,8 @@ public class JMemoryStateBar extends JPanel{
 
 
     memoryMonitorActivateButton = new JToggleButton();
-    memoryMonitorActivateButton.setSelectedIcon(new ImageIcon(getClass().getResource("resource/icon/memory_monitor_inactive.png")));
-    memoryMonitorActivateButton.setIcon(new ImageIcon(getClass().getResource("resource/icon/memory_monitor_active.png")));
+    memoryMonitorActivateButton.setSelectedIcon(new ImageIcon(getClass().getResource("memory_monitor_inactive.png")));
+    memoryMonitorActivateButton.setIcon(new ImageIcon(getClass().getResource("memory_monitor_active.png")));
     memoryMonitorActivateButton.setPreferredSize(new Dimension(20,20));
     memoryMonitorActivateButton.setEnabled(true);
     memoryMonitorActivateButton.setToolTipText("Desactivate the memory monitor");
