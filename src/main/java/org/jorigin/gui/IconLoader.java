@@ -177,6 +177,23 @@ public class IconLoader {
 	}
 
 	/**
+	 * Get an {@link Image image} from the given <code>path</code>. If the image <code>path</code> is relative, 
+	 * a complete path is created by concatenating the {@link #getIconDirectory() icon root path} and the given one. 
+	 * If the image <code>path</code> is absolute, the image is directly loaded.
+	 * @param path the path to the image. Can be relative or absolute.
+	 * @return the loaded image or <code>null</code> if no image was found.
+	 */
+	public static Image getImage(String path) {
+		ImageIcon icon = getIcon(path);
+		
+		if (icon != null) {
+			return icon.getImage();
+		}
+		
+		return null;
+	}
+	
+	/**
 	 * Get an icon and scale it to the desired size given in millimeters.
 	 * @param name the name of the icon to load.
 	 * @param dimension the dimension in millimeters of the icon.
@@ -276,7 +293,5 @@ public class IconLoader {
 			iconDirectory = null;
 			logger.log(Level.INFO, "No icon path set "+path);
 		}
-
-
 	}
 }
