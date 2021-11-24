@@ -1,10 +1,14 @@
 # Changelog
 
 ## [1.0.14](https://github.com/jorigin/jcommon/releases/tag/release-1.0.14)
+### Added
+ - Added new icon set for GUI components
+
 ### Changed
  - Refactored package `org.jorigin.gui` into `org.jorigin.swing`
  - Moved class GraphicsEnvironmentPanel from `org.jorigin.system.gui` to `org.jorigin.swing`
  - IconLoader can now load icons from Jar files or specified directory
+ - JMemoryStateBar can be stopped / restarted
 
 ## [1.0.13](https://github.com/jorigin/jcommon/releases/tag/release-1.0.13)
 ### Changed

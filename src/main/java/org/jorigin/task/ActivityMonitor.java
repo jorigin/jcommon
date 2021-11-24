@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ItemEvent;
@@ -26,9 +27,11 @@ import org.jorigin.swing.IconLoader;
 import org.jorigin.task.gui.JTaskProgress;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.swing.JPanel;
 
@@ -513,7 +516,19 @@ public class ActivityMonitor extends JDialog{
 
     layout = new GridBagLayout();
     this.setTitle("Monitor");
-    setIconImage(IconLoader.getImage("arpenteur/monitor/monitor-frame.png"));
+    
+    List<Image> images = new ArrayList<Image>();
+    images.add(IconLoader.getImage("icon/org/jorigin/swing/chart-raising-gray-16.png"));
+    images.add(IconLoader.getImage("icon/org/jorigin/swing/chart-raising-gray-24.png"));
+    images.add(IconLoader.getImage("icon/org/jorigin/swing/chart-raising-gray-32.png"));
+    images.add(IconLoader.getImage("icon/org/jorigin/swing/chart-raising-gray-48.png"));
+    images.add(IconLoader.getImage("icon/org/jorigin/swing/chart-raising-gray-64.png"));
+    images.add(IconLoader.getImage("icon/org/jorigin/swing/chart-raising-gray-72.png"));
+    images.add(IconLoader.getImage("icon/org/jorigin/swing/chart-raising-gray-128.png"));
+    images.add(IconLoader.getImage("icon/org/jorigin/swing/chart-raising-gray-256.png"));
+    images.add(IconLoader.getImage("icon/org/jorigin/swing/chart-raising-gray-512.png"));
+    
+    setIconImages(images);
     this.setName("Monitor");
     this.getContentPane().setLayout(layout);
     
