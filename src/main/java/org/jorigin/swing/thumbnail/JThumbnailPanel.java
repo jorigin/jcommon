@@ -1,4 +1,4 @@
-package org.jorigin.gui.thumbnail;
+package org.jorigin.swing.thumbnail;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;

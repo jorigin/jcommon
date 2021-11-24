@@ -15,7 +15,7 @@
     along with JOrigin Common.  If not, see <http://www.gnu.org/licenses/>.
     
 */
-package org.jorigin.gui;
+package org.jorigin.swing;
 
 import java.awt.Container;
 import java.awt.Dimension;

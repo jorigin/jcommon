@@ -8,9 +8,9 @@ module org.jcommon {
 
 	exports org.jorigin;
 	exports org.jorigin.event;
-	exports org.jorigin.gui;
-	exports org.jorigin.gui.layout;
-	exports org.jorigin.gui.thumbnail;
+	exports org.jorigin.swing;
+	exports org.jorigin.swing.layout;
+	exports org.jorigin.swing.thumbnail;
 	exports org.jorigin.identification;
 	exports org.jorigin.io;
 	exports org.jorigin.lang;
@@ -19,7 +19,6 @@ module org.jcommon {
 	exports org.jorigin.plugin;
 	exports org.jorigin.property;
 	exports org.jorigin.state;
-	exports org.jorigin.system.gui;
 	exports org.jorigin.task;
 	exports org.jorigin.task.gui;
 	

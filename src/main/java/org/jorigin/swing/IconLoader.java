@@ -1,6 +1,5 @@
-package org.jorigin.gui;
+package org.jorigin.swing;
 
-import static org.arpenteur.common.util.logging.Logging.log;
 import static org.jorigin.Common.logger;
 
 import java.awt.Dimension;
@@ -64,9 +63,9 @@ public class IconLoader {
 	private static void init() {
 		if (System.getProperty(ICON_LOADER_DIR) != null) {
 			IconLoader.setIconDirectory(System.getProperty(ICON_LOADER_DIR));
-			log.log(Level.INFO, "Icon directory: "+IconLoader.getIconDirectory()+" (from property "+ICON_LOADER_DIR+")");
+			logger.log(Level.INFO, "Icon directory: "+IconLoader.getIconDirectory()+" (from property "+ICON_LOADER_DIR+")");
 		} else {
-			log.log(Level.INFO, "Icon directory: "+IconLoader.getIconDirectory()+" (default)");		
+			logger.log(Level.INFO, "Icon directory: "+IconLoader.getIconDirectory()+" (default)");		
 		}
 	}
 

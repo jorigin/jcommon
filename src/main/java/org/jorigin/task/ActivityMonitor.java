@@ -22,7 +22,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
 import org.jorigin.Common;
-import org.jorigin.gui.IconLoader;
+import org.jorigin.swing.IconLoader;
 import org.jorigin.task.gui.JTaskProgress;
 
 import java.awt.BorderLayout;

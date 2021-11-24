@@ -1,4 +1,4 @@
-package org.jorigin.gui.layout;
+package org.jorigin.swing.layout;
 
 import java.awt.Component;
 import java.awt.Container;

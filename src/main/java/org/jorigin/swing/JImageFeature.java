@@ -1,4 +1,4 @@
-package org.jorigin.gui;
+package org.jorigin.swing;
 
 import java.awt.Graphics2D;
 import java.awt.Shape;

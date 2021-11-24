@@ -1,4 +1,4 @@
-package org.jorigin.system.gui;
+package org.jorigin.swing;
 
 import java.awt.BorderLayout;
 import java.awt.Component;

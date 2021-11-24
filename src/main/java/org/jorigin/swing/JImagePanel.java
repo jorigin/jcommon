@@ -1,4 +1,4 @@
-package org.jorigin.gui;
+package org.jorigin.swing;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
