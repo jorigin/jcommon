@@ -82,6 +82,11 @@ public class IconLoader {
 			ClassLoader urlClassLoader = MethodHandles.lookup().lookupClass().getClassLoader();
 			URL url = urlClassLoader.getResource(path);
 
+			if (url == null) {
+				logger.log(Level.WARNING, "Icon "+path+" does not match a resource.");
+				return null;
+			}
+			
 			try {
 				image = new ImageIcon(url.toExternalForm());
 				if (image.getIconWidth() < 1){
@@ -160,6 +165,11 @@ public class IconLoader {
 				ClassLoader urlClassLoader = MethodHandles.lookup().lookupClass().getClassLoader();
 				URL url = urlClassLoader.getResource(path);
 
+				if (url == null) {
+					logger.log(Level.WARNING, "Icon "+path+" does not match a resource.");
+					return null;
+				}
+				
 				try {
 					image = new ImageIcon(url.toExternalForm());
 					if (image.getIconWidth() < 1){
