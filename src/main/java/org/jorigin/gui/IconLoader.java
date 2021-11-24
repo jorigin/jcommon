@@ -1,5 +1,6 @@
 package org.jorigin.gui;
 
+import static org.arpenteur.common.util.logging.Logging.log;
 import static org.jorigin.Common.logger;
 
 import java.awt.Dimension;
@@ -13,10 +14,16 @@ import javax.swing.ImageIcon;
 import org.jorigin.lang.PathUtil;
 
 /**
- * A class dedicated to SWING icon loading.
+ * A class dedicated to SWING icon loading. 
+ * It is possible to specify where the icon loader has to search for icons by setting the {@value IconLoader#ICON_LOADER_DIR} system property.
  * @author Julien SEINTURIER, IVM Technologies / j.seinturier@ivm-technologies.com
  */
 public class IconLoader {
+
+	/**
+	 * Specify where the icon loader has to search for icons (default empty string ""). 
+	 */
+	public static final String ICON_LOADER_DIR = "org.jorigin.icon.dir";
 
 	/**
 	 * This flag identifies an unknown type for the resource path.
@@ -43,9 +50,25 @@ public class IconLoader {
 	 */
 	public static int PATH_TYPE_EMBEDDED_ZIP = 4;
 
-	private static String iconDirectory = "";
+	private static String iconDirectory = "/";
 
 	private static int pathType = 0;
+
+	static {
+		init();
+	};
+
+	/**
+	 * Initialize the Icon Loader
+	 */
+	private static void init() {
+		if (System.getProperty(ICON_LOADER_DIR) != null) {
+			IconLoader.setIconDirectory(System.getProperty(ICON_LOADER_DIR));
+			log.log(Level.INFO, "Icon directory: "+IconLoader.getIconDirectory()+" (from property "+ICON_LOADER_DIR+")");
+		} else {
+			log.log(Level.INFO, "Icon directory: "+IconLoader.getIconDirectory()+" (default)");		
+		}
+	}
 
 	/**
 	 * Get an {@link ImageIcon icon} from the given <code>path</code>. If the icon <code>path</code> is relative, 
@@ -79,16 +102,16 @@ public class IconLoader {
 			}
 
 			// Load from the class loader resources
-			ClassLoader urlClassLoader = MethodHandles.lookup().lookupClass().getClassLoader();
-			URL url = urlClassLoader.getResource(path);
+			Class<?> c = MethodHandles.lookup().lookupClass();
+			URL url = c.getResource(path);
 
 			if (url == null) {
 				logger.log(Level.WARNING, "Icon "+path+" does not match a resource.");
 				return null;
 			}
-			
+
 			try {
-				image = new ImageIcon(url.toExternalForm());
+				image = new ImageIcon(url);
 				if (image.getIconWidth() < 1){
 					image = null;
 					logger.log(Level.WARNING, "Icon "+url.toExternalForm()+" is not a valid image file.");
@@ -99,6 +122,7 @@ public class IconLoader {
 			}
 
 		} else {
+
 			// The icon directory is specified.
 			if ((iconDirectory != null) && (!iconDirectory.isEmpty())) {
 
@@ -126,7 +150,7 @@ public class IconLoader {
 					return null;
 				} else {
 
-					String processedPath = PathUtil.URIToPath(iconDirectory+path);
+					String processedPath = iconDirectory+path;
 
 					try {
 
@@ -139,6 +163,28 @@ public class IconLoader {
 					} catch (Exception ex) {
 						logger.log(Level.WARNING, "Icon "+iconDirectory+"/"+processedPath+" cannot be loaded: "+ex.getMessage(), ex);
 						image = null;
+					}
+
+					if (image == null) {
+						// Load from the class loader resources
+						Class<?> c = MethodHandles.lookup().lookupClass();
+						URL url = c.getResource(iconDirectory+path);
+
+						if (url == null) {
+							logger.log(Level.WARNING, "Icon "+path+" does not match a resource.");
+							return null;
+						}
+
+						try {
+							image = new ImageIcon(url);
+							if (image.getIconWidth() < 1){
+								image = null;
+								logger.log(Level.WARNING, "Icon "+url.toExternalForm()+" is not a valid image file.");
+							}
+						} catch (Exception ex) {
+							logger.log(Level.WARNING, "Icon "+url.toExternalForm()+" cannot be loaded: "+ex.getMessage(), ex);
+							image = null;
+						}
 					}
 				}
 			} else {
@@ -162,16 +208,16 @@ public class IconLoader {
 				}
 
 				// Load from the class loader resources
-				ClassLoader urlClassLoader = MethodHandles.lookup().lookupClass().getClassLoader();
-				URL url = urlClassLoader.getResource(path);
+				Class<?> c = MethodHandles.lookup().lookupClass();
+				URL url = c.getResource(path);
 
 				if (url == null) {
 					logger.log(Level.WARNING, "Icon "+path+" does not match a resource.");
 					return null;
 				}
-				
+
 				try {
-					image = new ImageIcon(url.toExternalForm());
+					image = new ImageIcon(url);
 					if (image.getIconWidth() < 1){
 						image = null;
 						logger.log(Level.WARNING, "Icon "+url.toExternalForm()+" is not a valid image file.");
@@ -195,14 +241,14 @@ public class IconLoader {
 	 */
 	public static Image getImage(String path) {
 		ImageIcon icon = getIcon(path);
-		
+
 		if (icon != null) {
 			return icon.getImage();
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Get an icon and scale it to the desired size given in millimeters.
 	 * @param name the name of the icon to load.
@@ -303,5 +349,7 @@ public class IconLoader {
 			iconDirectory = null;
 			logger.log(Level.INFO, "No icon path set "+path);
 		}
+
+
 	}
 }
