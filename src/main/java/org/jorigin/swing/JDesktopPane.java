@@ -329,9 +329,6 @@ public class JDesktopPane extends javax.swing.JDesktopPane {
     
     frameDimension   = frame.getSize();
     
-//    System.out.println("frame dimension: "+frameDimension);
-//    System.out.println("desk dimension: "+desktopDimension);
-    
     switch(fitMethod){
       case FIT_NONE:
         break;

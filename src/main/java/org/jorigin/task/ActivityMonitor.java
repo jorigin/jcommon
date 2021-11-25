@@ -632,8 +632,6 @@ public class ActivityMonitor extends JDialog{
       
       location = new Point((int)(location.getX() + ownerSize.getWidth()/2), (int)(location.getY()+ownerSize.getHeight()/2));
       
-      System.out.println(location);
-      
       setLocation((int)(location.getX() - size.width/2), (int)(location.getY() + size.height/2));
 
     } else {

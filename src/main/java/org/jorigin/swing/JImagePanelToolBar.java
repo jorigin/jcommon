@@ -201,7 +201,6 @@ public class JImagePanelToolBar extends JToolBar implements PropertyChangeListen
   public void propertyChange(PropertyChangeEvent evt) {
     
     if (listening){
-      System.out.println("Property "+evt.getPropertyName()+" changed from "+evt.getOldValue()+" to "+evt.getNewValue());
       refreshGUI();
     }
   }
