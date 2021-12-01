@@ -34,19 +34,31 @@ import org.xml.sax.XMLReader;
  * A XML reader used for handling XML language resource files. This reader delegates processing to 
  * {@link org.jorigin.lang.xml.LangResourceContentHandler LangResourceContentHandler}, {@link org.jorigin.lang.xml.LangResourceErrorHandler LangResourceErrorHandler}
  * and {@link org.jorigin.lang.xml.LangResourceXMLFilter LangResourceXMLFilter}
- * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
  * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  */
 public class LangResourceXMLReader{
 
   //Liste des écouteurs informés des evenements du panneau
+	/**
+	 * The attached listeners.
+	 */
   protected EventListenerList idListenerList = new EventListenerList();
 
+  /**
+   * The underlying lang resource.
+   */
   protected LangResource resource = null;
 
+  /**
+   * The URI of the underlying lang resource.
+   */
   String uri = null;
 
+  /**
+   * The working activity state.
+   */
   boolean working = false;
 
   /**

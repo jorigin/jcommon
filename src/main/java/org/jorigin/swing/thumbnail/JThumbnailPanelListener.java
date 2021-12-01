@@ -3,12 +3,13 @@ package org.jorigin.swing.thumbnail;
 import java.util.EventListener;
 import java.util.List;
 
+import org.jorigin.Common;
+
 /**
  * An event listener that can deal with JThumbnailPanel.
- * @author Julien Seinturier - (c) 2009 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
  * @since 1.0.8
- * @version 1.0.8
- *
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @param <T> the type of the objects that are displayed within the thumbnails.
  */
 public interface JThumbnailPanelListener<T> extends EventListener{

@@ -33,7 +33,7 @@ import org.jorigin.lang.xml.LangResourceXMLReader;
 /**
  * This class enable to use lang localization in a Java application. 
  * The lang resource are stored in XML file and can be easily maintained without any link with the Java code.
- * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
  * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  */

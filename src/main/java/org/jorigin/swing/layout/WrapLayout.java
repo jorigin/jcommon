@@ -12,11 +12,12 @@ import javax.swing.SwingUtilities;
 import org.jorigin.Common;
 
 /**
- *  {@link java.awt.FlowLayout FlowLayout} subclass that fully supports wrapping of components. 
- *  This code was originally published by Rob Camick (<a href="http://tips4java.wordpress.com/">http://tips4java.wordpress.com/</a>)
- *  @author Rob Camick
- *  @version 1.0.8
- *  @since 1.0.8
+ * {@link java.awt.FlowLayout FlowLayout} subclass that fully supports wrapping of components. 
+ * This code was originally published by Rob Camick (<a href="http://tips4java.wordpress.com/">http://tips4java.wordpress.com/</a>)
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
+ * @author Rob Camick
+ * @version {@value Common#version} - b{@value Common#BUILD}
+ * @since 1.0.8
  */
 public class WrapLayout extends FlowLayout {
 

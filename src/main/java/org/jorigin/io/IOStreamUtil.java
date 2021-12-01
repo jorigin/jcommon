@@ -36,7 +36,7 @@ import org.jorigin.lang.PathUtil;
 
 /**
  * This class is an helper class designed for the handling of I/O streams. This class provide methods for creating and managing streams from various sources.
- * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
  * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  */

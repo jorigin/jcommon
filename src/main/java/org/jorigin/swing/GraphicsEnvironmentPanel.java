@@ -28,7 +28,7 @@ import org.jorigin.lang.LangResourceBundle;
 /**
  * A panel that display a {@link java.awt.GraphicsEnvironment GraphicsEnvironment}. The graphics environment is an object that represents 
  * the system graphics capabilities.
- * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
  * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.2
  */

@@ -6,22 +6,24 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
+import org.jorigin.Common;
+
 /**
  * A thumbnail that display an image as content.
- * @author Julien Seinturier - (c) 2009 - JOrigin project - <a href="http://www.jorigin.org">http:/www.jorigin.org</a>
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
  * @since 1.0.8
- * @version 1.0.8
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @param <T> the type of the objects that are displayed within the thumbnail.
  */
 public class JThumbnailImage<T> extends JThumbnail<T> {
 
   private static final long serialVersionUID = 1L;
 
-  JLabel imageLB = null;
+  private JLabel imageLB = null;
   
-  Image image = null;
+  private Image image = null;
   
-  ImageIcon icon = null;
+  private ImageIcon icon = null;
   
   /**
    * Create a new thumbnail that use an image as displayable content.

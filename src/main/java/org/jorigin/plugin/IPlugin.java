@@ -23,7 +23,7 @@ import org.jorigin.Common;
  * This interface represent an application plugin. An aplication plugin enable to extends
  * an application with various functions. The plugin interface specifies the method necessary to the plugin manager
  * for managing the plugin.
- * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
  * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  */

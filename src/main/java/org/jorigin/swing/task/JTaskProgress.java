@@ -1,4 +1,4 @@
-package org.jorigin.task.gui;
+package org.jorigin.swing.task;
 
 import java.awt.BorderLayout;
 
@@ -11,7 +11,7 @@ import org.jorigin.Common;
 
 /**
  * A panel dedicated to task progress monitoring.
- * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
  * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.8
  */
@@ -128,6 +128,9 @@ public class JTaskProgress extends JPanel {
     return label;
   }
   
+  /**
+   * Initialize the Graphical User Interface (GUI) components.
+   */
   protected void initGUI(){
     setLayout(new BorderLayout());
     

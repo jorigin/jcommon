@@ -1,4 +1,4 @@
-package org.jorigin.task;
+package org.jorigin.swing.task;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -24,7 +24,7 @@ import javax.swing.text.StyleContext;
 
 import org.jorigin.Common;
 import org.jorigin.swing.IconLoader;
-import org.jorigin.task.gui.JTaskProgress;
+import org.jorigin.task.TaskEvent;
 
 import java.awt.BorderLayout;
 import java.util.ArrayList;
@@ -38,10 +38,10 @@ import javax.swing.JPanel;
 
 /**
  * A class that enables to graphically monitor tasks.
- * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
  * @version {@value Common#version} - b{@value Common#BUILD}
  */
-public class ActivityMonitor extends JDialog{
+public class JActivityMonitor extends JDialog{
 
 
   private static final long serialVersionUID = 1;
@@ -97,7 +97,8 @@ public class ActivityMonitor extends JDialog{
   
   private HashMap<String, JTaskProgress> taskProgressMap = null;
   
-  int showProgressType        = SHOW_PROGRESS_ALL;
+  /** The way to show progress type. */
+  private int showProgressType        = SHOW_PROGRESS_ALL;
   
   // La fenetre doit elle être persistante (ne pas se fermer seule)
   private boolean isPersistent = true;
@@ -142,7 +143,7 @@ public class ActivityMonitor extends JDialog{
    * @param progressLabelVisible is the progress labels have to be visible.
    * @param progressBarVisible is the progress bars have to be visible.
    */
-  public ActivityMonitor(JFrame owner, boolean activityTracerVisible, boolean progressLabelVisible, boolean progressBarVisible){
+  public JActivityMonitor(JFrame owner, boolean activityTracerVisible, boolean progressLabelVisible, boolean progressBarVisible){
     super(owner);
     super.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 
@@ -204,7 +205,7 @@ public class ActivityMonitor extends JDialog{
    * Creates a new default activity monitor attached to the given owner component.
    * @param owner the owner component.
    */
-  public ActivityMonitor(JFrame owner){
+  public JActivityMonitor(JFrame owner){
     this(owner, false, true, true);
   }
   
@@ -424,7 +425,9 @@ public class ActivityMonitor extends JDialog{
 //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
   
 
-  
+  /**
+   * Initialize the Graphical User Interface (GUI) components.
+   */
   protected void initGUI(){
 
     

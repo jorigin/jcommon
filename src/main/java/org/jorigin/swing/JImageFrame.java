@@ -28,9 +28,9 @@ import java.awt.Point;
  * <p>
  * This underlying image panel also manages {@link JImageFeature features} that enable to display interactive overlays on the panel.
  * </p>
- * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
  * @version {@value Common#version} - b{@value Common#BUILD}
- * @version 1.0.0
+ * @since 1.0.0
  */
 public class JImageFrame extends JFrame {
 

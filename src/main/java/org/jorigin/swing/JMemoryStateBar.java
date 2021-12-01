@@ -24,7 +24,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -37,13 +36,15 @@ import org.jorigin.Common;
 /**
  * This class represents a simple widget dedicated to the monitoring of the available Java Runtime memory. 
  * The memory state bar is a {@link javax.swing.JPanel} standalone component that can be embedded into other components.
- * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
  * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  */
 public class JMemoryStateBar extends JPanel{
 
-
+    /**
+     * The Serial version UID.
+     */
 	private static final long serialVersionUID         = Common.BUILD;
 
 	/**
@@ -56,16 +57,34 @@ public class JMemoryStateBar extends JPanel{
 	 */
 	public static final String COMMAND_ACTIVE          = "commandActive";
 
+	/**
+	 * The progress bar.
+	 */
 	private JProgressBar memoryStateBar                = null;
 
+	/**
+	 * The garbage collector activation button.
+	 */
 	private JButton memoryGarbageCollectorButton       = null;  
 
+	/**
+	 * The memory monotirong activation button.
+	 */
 	private JToggleButton memoryMonitorActivateButton  = null;
 
+	/**
+	 * The memory monitor worker.
+	 */
 	private SwingWorker<Object, Object> memoryMonitor  = null;
 
+	/**
+	 * The refresh delay in milliseconds (ms)
+	 */
 	private long refreshDelay                          = 500;
 
+	/**
+	 * The activation flag
+	 */
 	private boolean isActive = true;
 
 	/**

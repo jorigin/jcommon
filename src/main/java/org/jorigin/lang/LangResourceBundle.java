@@ -30,7 +30,7 @@ import org.jorigin.Common;
 /**
  * This class represent a bundle of XML based language resources. The XML based language resource bundle behavior 
  * is most the same that the classic {@link java.util.ResourceBundle ResourceBundle}. 
- * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
  * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  */
@@ -60,6 +60,14 @@ public class LangResourceBundle extends ResourceBundle{
     return bundle;
   }
   
+  /**
+   * Get the {@link java.util.ResourceBundle resource bundle} attached to the given parameters.
+   * @param baseName the base name
+   * @param targetLocale the target locale
+   * @param loader the class loader to use
+   * @param control the control to use
+   * @return the resource bundle
+   */
   public static ResourceBundle getBundle(String baseName, Locale targetLocale,
       ClassLoader loader, Control control) {
     return bundle;

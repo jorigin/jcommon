@@ -39,24 +39,24 @@ import org.jorigin.lang.PathUtil;
  * This class is a toolkit used for helping plugin management. Using this class, user can scan and load a list of plugins
  * related to a given package ({@link #setPluginPackage(String)}) from given locations on the system ({@link #addPluginDir(String)}, 
  * {@link #addPluginDir(File)}). The plugin loading is launched via the {@link #loadPlugins()} method.
- * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
  * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  *
  */
 public class PluginToolkit {
   
-  ArrayList<IPlugin> plugins         = null;
-  
-  ArrayList<String> pluginPackages   = null;
-  
-  ArrayList<File> pluginDirs         = null;
+  private ArrayList<IPlugin> plugins         = null;
+
+  private ArrayList<File> pluginDirs         = null;
     
-  String corePackage                 = null;
+  private String corePackage                 = null;
   
-  int taskCurrentTime                = 0;
-  
-  //Liste des écouteurs informés des evenements du panneau
+  private int taskCurrentTime                = 0;
+
+  /**
+   * The attached listeners.
+   */
   protected EventListenerList idListenerList = new EventListenerList();
 
   
@@ -68,8 +68,6 @@ public class PluginToolkit {
    */
   public PluginToolkit(){
     plugins        = null;
-    
-    pluginPackages = new ArrayList<String>();
     
     pluginDirs     = new ArrayList<File>();
     

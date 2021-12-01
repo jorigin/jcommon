@@ -30,7 +30,7 @@ import org.jorigin.Common;
  * A {@link JPanel swing component} that enables to display {@link BufferedImage images}. <br>
  * This panel provides various operations on the view (zoom, moving, ...) and helper methods for correspondence between image space and display space.<br>
  * This image panel also manages {@link JImageFeature features} that enable to display interactive overlays on the panel.
- * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
  * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.4
  */
@@ -91,8 +91,9 @@ public class JImagePanel extends JPanel {
   
   private int mouseButtonActive = 0;
   
-  int lastCursorPositionX = 0;
-  int lastCursorPositionY = 0;
+  private int lastCursorPositionX = 0;
+  
+  private int lastCursorPositionY = 0;
   
   private boolean autoRepaint = true;
   

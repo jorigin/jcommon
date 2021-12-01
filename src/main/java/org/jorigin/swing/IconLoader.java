@@ -10,12 +10,15 @@ import java.util.logging.Level;
 
 import javax.swing.ImageIcon;
 
+import org.jorigin.Common;
 import org.jorigin.lang.PathUtil;
 
 /**
  * A class dedicated to SWING icon loading. 
  * It is possible to specify where the icon loader has to search for icons by setting the {@value IconLoader#ICON_LOADER_DIR} system property.
- * @author Julien SEINTURIER, IVM Technologies / j.seinturier@ivm-technologies.com
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
+ * @version {@value Common#version} - b{@value Common#BUILD}
+ * @since 1.0.0
  */
 public class IconLoader {
 

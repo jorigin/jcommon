@@ -10,6 +10,7 @@ module org.jcommon {
 	exports org.jorigin.event;
 	exports org.jorigin.swing;
 	exports org.jorigin.swing.layout;
+	exports org.jorigin.swing.task;
 	exports org.jorigin.swing.thumbnail;
 	exports org.jorigin.identification;
 	exports org.jorigin.io;
@@ -20,7 +21,6 @@ module org.jcommon {
 	exports org.jorigin.property;
 	exports org.jorigin.state;
 	exports org.jorigin.task;
-	exports org.jorigin.task.gui;
 	
 	requires transitive java.desktop;
 	requires transitive java.logging;

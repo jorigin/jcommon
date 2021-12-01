@@ -28,7 +28,7 @@ import org.jorigin.Common;
 /**
  * This class is a default implementation of the {@link org.jorigin.plugin.IPluginManager IPluginManager} interface. 
  * The plugins are stored in an underlying {@link java.util.ArrayList ArrayList}.
- * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
  * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.0
  *
@@ -60,11 +60,11 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
    */
   private ArrayList<PluginManagerListener> listeners = null;
   
+  /** the plugins count */
   private int pluginCount     = 0;
   
+  /** The number of plugins that have been processed. */
   private int pluginProcessed = 0;
-  
-  float percentDone           = 0;
   
   //IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   //II IMPLEMENTATION                                      II

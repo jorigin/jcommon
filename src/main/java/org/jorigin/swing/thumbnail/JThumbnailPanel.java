@@ -19,28 +19,35 @@ import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.EventListenerList;
 
+import org.jorigin.Common;
 import org.jorigin.task.TaskEvent;
 import org.jorigin.task.TaskListener;
 
 /**
  * A panel dedicated to {@link JThumbnail thumbnail} display. 
  * This object works like a {@link JList} but enable more flexibility on the thumbnail interaction.
- * @author Julien Seinturier - COMEX SA
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
  * @param <T> the type enclosed by the thumbnails of the list.
- * @version 1.0.8
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.8
  */
 public class JThumbnailPanel<T> extends JPanel {
 
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = Common.BUILD;
 
+  /** The label width. */
   protected int labelWidth = 0;
+  
+  /** The label height. */
   protected int labelHeight = 0;
 
+  /** The thumb ratio. */
   protected double thumbRatio = 0;
 
+  /** the label margin. */
   protected int labelMargin = 5;
 
+  /** The label count. */
   protected int labelCount = 0;
 
   /** The label added to the list */
@@ -55,6 +62,7 @@ public class JThumbnailPanel<T> extends JPanel {
   /** The first selected label */
   protected JThumbnail<T> activatedLabel;
 
+  /** The label loading state */
   protected volatile boolean isLabelLoading = false;
 
   /**
@@ -86,9 +94,10 @@ public class JThumbnailPanel<T> extends JPanel {
    */
   protected Color selectedColor = Color.RED;
 
+  /** The item presentation color */
   protected Color itemPResentColor = Color.YELLOW;
 
-  // Variables d'etat d'une tache
+  /** The state description. */
   protected String state = "";
 
   /**
@@ -886,6 +895,11 @@ public class JThumbnailPanel<T> extends JPanel {
 // EVENEMENT
 //EEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
+  /**
+   * Fire a thumbnail added event.
+   * @param panel the panel that contains the added thumbnail
+   * @param thumbnail the added thumbnail
+   */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void fireThumbnailAdded(JThumbnailPanel<T> panel, JThumbnail<T> thumbnail){
     Object[] listeners = idListenerList.getListenerList();
@@ -896,6 +910,11 @@ public class JThumbnailPanel<T> extends JPanel {
     }
   }
   
+  /**
+   * Fire a thumbnail removed event.
+   * @param panel the panel that contains the removed thumbnail
+   * @param thumbnail the removed thumbnail
+   */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void fireThumbnailRemoved(JThumbnailPanel<T> panel, JThumbnail<T> thumbnail){
     Object[] listeners = idListenerList.getListenerList();
@@ -906,6 +925,11 @@ public class JThumbnailPanel<T> extends JPanel {
     }
   }
  
+  /**
+   * Fire a thumbnail selection event.
+   * @param panel the panel that contains the selected thumbnail
+   * @param thumbnail the selected thumbnail
+   */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void fireThumbnailSelected(JThumbnailPanel<T> panel, JThumbnail<T> thumbnail){
     Object[] listeners = idListenerList.getListenerList();
@@ -916,6 +940,11 @@ public class JThumbnailPanel<T> extends JPanel {
     }
   }
   
+  /**
+   * Fire a thumbnail selection event.
+   * @param panel the panel that contains the selected thumbnails
+   * @param thumbnails the selected thumbnails
+   */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void fireThumbnailSelected(JThumbnailPanel<T> panel, List<JThumbnail<T>> thumbnails){
     Object[] listeners = idListenerList.getListenerList();
@@ -926,6 +955,11 @@ public class JThumbnailPanel<T> extends JPanel {
     }
   }
   
+  /**
+   * Fire a thumbnail activation event.
+   * @param panel the panel that contains the activated thumbnail
+   * @param thumbnail the activated thumbnail
+   */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void fireThumbnailActivated(JThumbnailPanel<T> panel, JThumbnail<T> thumbnail){
     Object[] listeners = idListenerList.getListenerList();
@@ -936,6 +970,11 @@ public class JThumbnailPanel<T> extends JPanel {
     }
   }
 
+  /**
+   * Fire a thumbnail entered event.
+   * @param panel the panel that contains the entered thumbnail
+   * @param thumbnail the entered thumbnail
+   */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void fireThumbnailEntered(JThumbnailPanel<T> panel, JThumbnail<T> thumbnail){
     Object[] listeners = idListenerList.getListenerList();
@@ -946,6 +985,11 @@ public class JThumbnailPanel<T> extends JPanel {
     }
   }
 
+  /**
+   * Fire a thumbnail exited event.
+   * @param panel the panel that contains the exited thumbnail
+   * @param thumbnail the exited thumbnail
+   */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void fireThumbnailExited(JThumbnailPanel<T> panel, JThumbnail<T> thumbnail){
     Object[] listeners = idListenerList.getListenerList();
@@ -956,6 +1000,11 @@ public class JThumbnailPanel<T> extends JPanel {
     }
   }
   
+  /**
+   * Fire a thumbnail refresh needed event.
+   * @param panel the panel that contains the refresh needed thumbnail
+   * @param thumbnail the refresh needed thumbnail
+   */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void fireThumbnailNeedRefresh(JThumbnailPanel<T> panel, JThumbnail<T> thumbnail){
     Object[] listeners = idListenerList.getListenerList();
@@ -966,6 +1015,10 @@ public class JThumbnailPanel<T> extends JPanel {
     }
   }
   
+  /**
+   * Fire a task event.
+   * @param e the event to fire.
+   */
   protected void fireEvent(TaskEvent e) {
     Object[] listeners = idListenerList.getListenerList();
     for (int i = listeners.length - 2; i >= 0; i -= 2) {

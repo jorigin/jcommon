@@ -2,13 +2,19 @@
 
 ## [1.0.14](https://github.com/jorigin/jcommon/releases/tag/release-1.0.14)
 ### Added
+ - Added `org.jorigin.device.DeficeInfo` interface for handling manufactured devices metadata
+ - Added `org.jorigin.device.SimpleDeficeInfo` class for handling manufactured devices metadata
  - Added new icon set for GUI components
 
 ### Changed
  - Refactored package `org.jorigin.gui` into `org.jorigin.swing`
  - Moved class GraphicsEnvironmentPanel from `org.jorigin.system.gui` to `org.jorigin.swing`
+ - Moved class `org.jorigin.task.ActivityMonitor` to `org.jorigin.swing.task.JActivityMonitor`
+ - Moved class `org.jorigin.task.gui.JTaskProgress` to `org.jorigin.swing.task.JTaskProgress`
+ - Moved class `org.jorigin.task.ActivityCaret` to `org.jorigin.swing.task.ActivityCaret`
  - IconLoader can now load icons from Jar files or specified directory
  - JMemoryStateBar can be stopped / restarted
+ - Corrected inconsistents Javadoc @author
 
 ## [1.0.13](https://github.com/jorigin/jcommon/releases/tag/release-1.0.13)
 ### Changed

@@ -21,8 +21,8 @@ import org.jorigin.Common;
 
 /**
  * A SWING component that is dedicated to the display of a thumbnail.
- * @author Julien Seinturier 
- * @version 1.0.8
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
+ * @version {@value Common#version} - b{@value Common#BUILD}
  * @since 1.0.8
  * @param <T> the type of the object displayed within the thumbnail.
  */
@@ -37,56 +37,63 @@ implements EventListener, MouseListener{
 	 */
 	protected JPanel thumbnailPN = null;
 
+	/** The thumbnail name label */
 	protected JLabel nameLB      = null;
 
-	// Marge du label
+	/** The thumbnail margin */
 	protected int thumbnailMargin = 5;
 
-	// Police d'affichage de l'identificateur numerique
+	/** The thumbnail identifier font */
 	protected Font idFont;
 
-	// Couleur d'affichage de l'identificateur numerique
+	/** The thumbnail identifier font color */
 	protected Color idColor = Color.BLACK;
 
-	// Couleur d'affichage standard du label
+	/** The thumbnail standard background color */
 	protected Color standardBgColor = (Color)UIManager.get("List.background");
-	// Couleur d'affichage du fond si le label a le focus
+
+	/** The thumbnail focused background color */
 	protected Color focusBgColor = (Color)UIManager.get("Label.background");
-	// Couleur d'affichage du fond si le label est selectionne
+
+	/** The thumbnail activated background color */
 	protected Color selectedBgColor = (Color)UIManager.get("List.selectionBackground");
-	// Couleur d'affichage du fond si le label est marque
+
+	/** The thumbnail marked background color */
 	protected Color markedBgColor = Color.YELLOW;
 
-	// Bordure d'affichage d'un label avec focus
+	/** The thumbnail focused border */
 	protected Border focusedBorder = (Border)UIManager.get("List.focusCellHighlightBorder");
 
+	/** The thumbnail current border */
 	protected Border currentBorder = null;
 
-
-	// Couleur courante de fond
+	/** The thumbnail current background color */
 	protected Color currentBgColor = standardBgColor;
 
 	// Variables d'etat du label
 
-	// Label dans l'etat standard
+	/** Is the label is in standard state. */
 	protected boolean standard = true;
-	// Label ayant le focus
+
+	/** Is the label is in focused state. */
 	protected boolean focused = false;
-	// Label selectionne
+
+	/** Is the label is in selected state. */
 	protected boolean selected = false;
-	// Label marque
+
+	/** Is the label is in marked state. */
 	protected boolean marked = false;
 
-	// Identificateur numerique unique du label dans le thumbnail
+	/** The thumbnail numerical identifier. */
 	protected int thumbnailID;
 
-	// Identifiant numerique de l'objet affiche dans le label
+	/** The thumbnail name. */
 	protected String name;
 
-	// Contenu reel du thumbnail (reference vers l'objet represente dans le thumbnail)
+	/** The thumbnail underlying content. */
 	protected T content;
 
-	// Compiosant a afficher dans le label
+	/** The thumbnail displayed component. */
 	protected JComponent thumbnailComponent;
 
 	/**
@@ -437,9 +444,9 @@ implements EventListener, MouseListener{
 		this.idVisible = visible;
 	}
 
-    /**
-     * Refresh the graphical components of the thumbnail.
-     */
+	/**
+	 * Refresh the graphical components of the thumbnail.
+	 */
 	public void refresh(){
 
 		if (standard){
@@ -500,6 +507,10 @@ implements EventListener, MouseListener{
 
 	}
 
+	/**
+	 * Fire a thumbnail focused event.
+	 * @param thumbnail the thumbnail that has raised the event.
+	 */
 	@SuppressWarnings("unchecked")
 	protected void fireThumbnailFocused(JThumbnail<T> thumbnail){
 		Object[] listeners = idListenerList.getListenerList();
@@ -510,6 +521,10 @@ implements EventListener, MouseListener{
 		}
 	}
 
+	/**
+	 * Fire a thumbnail unfocused event.
+	 * @param thumbnail the thumbnail that has raised the event.
+	 */
 	@SuppressWarnings("unchecked")
 	protected void fireThumbnailUnfocused(JThumbnail<T> thumbnail){
 		Object[] listeners = idListenerList.getListenerList();
@@ -520,10 +535,17 @@ implements EventListener, MouseListener{
 		}
 	}
 
+	/**
+	 * Fire a thumbnail selected event.
+	 */
 	protected void fireThumbnailSelected(){
 		fireThumbnailSelected(this);
 	}
 
+	/**
+	 * Fire a thumbnail selected event.
+	 * @param thumbnail the thumbnail that has raised the event.
+	 */
 	@SuppressWarnings("unchecked")
 	protected void fireThumbnailSelected(JThumbnail<T> thumbnail){
 		Object[] listeners = idListenerList.getListenerList();
@@ -534,6 +556,10 @@ implements EventListener, MouseListener{
 		}
 	}
 
+	/**
+	 * Fire a thumbnail activated event.
+	 * @param thumbnail the thumbnail that has raised the event.
+	 */
 	@SuppressWarnings("unchecked")
 	protected void fireThumbnailActivated(JThumbnail<T> thumbnail){
 		Object[] listeners = idListenerList.getListenerList();
@@ -544,6 +570,9 @@ implements EventListener, MouseListener{
 		}
 	}
 
+	/**
+	 * Fire a label activated event.
+	 */
 	@SuppressWarnings("unchecked")
 	protected void labelActivated(){
 		Object[] listeners = idListenerList.getListenerList();
@@ -623,7 +652,10 @@ implements EventListener, MouseListener{
 	}
 
 
-
+	/**
+	 * Process a mouse event that occurred on the label.
+	 * @param e the underlying mouse event
+	 */
 	protected void processLabelMouseEvent(MouseEvent e){
 		switch (e.getID()){
 		case MouseEvent.MOUSE_ENTERED: 
@@ -652,6 +684,9 @@ implements EventListener, MouseListener{
 		} 
 	}
 
+	/**
+	 * Refresh the Graphical User Interface (GUI) components.
+	 */
 	protected void refreshGUI(){
 
 		Dimension size = getSize();
