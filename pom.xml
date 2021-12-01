@@ -4,7 +4,7 @@
 
 	<groupId>org.jorigin</groupId>
 	<artifactId>jcommon</artifactId>
-	<version>2.0.0-SNAPSHOT</version>
+	<version>1.0.14-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>JCommon</name>
