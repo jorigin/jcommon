@@ -5,7 +5,7 @@
 	<groupId>org.jorigin</groupId>
 	<artifactId>jcommon</artifactId>
 	<version>2.0.0-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
 	<name>JCommon</name>
 	<description>A java common package that enable to deal with various functionalities</description>
@@ -23,10 +23,10 @@
 		<developer>
 			<id>jseinturier</id>
 			<name>Julien Seinturier</name>
-			<email>seinturier@gmail.com</email>
+			<email>julien.seinturier@univ-tln.fr</email>
 			<url>http://www.seinturier.fr</url>
-			<organization>COMEX SA</organization>
-			<organizationUrl>http://www.comex.fr</organizationUrl>
+			<organization>University of Toulon / LIS umr CNRS 7020</organization>
+			<organizationUrl>http://www.univ-tln.fr</organizationUrl>
 			<roles>
 				<role>architect</role>
 				<role>developer</role>
@@ -40,21 +40,29 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.release>11</maven.compiler.release>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
-		<junit.jupiter.version>5.6.2</junit.jupiter.version>
+    
+		<maven.plugin.compiler.version>3.8.1</maven.plugin.compiler.version>
+		<maven.plugin.deploy.version>3.0.0-M1</maven.plugin.deploy.version>
+		<maven.plugin.javadoc.version>3.2.0</maven.plugin.javadoc.version>
+		<maven.plugin.release.version>3.0.0-M4</maven.plugin.release.version>
+		<maven.plugin.nexus.version>1.6.8</maven.plugin.nexus.version>
+		<maven.plugin.source.version>3.2.0</maven.plugin.source.version>
+		<maven.plugin.scm-provider-gitexe.version>1.11.2</maven.plugin.scm-provider-gitexe.version>
+		<maven.plugin.surefire.version>3.0.0</maven.plugin.surefire.version>
+		
+		<junit.platform.version>1.9.2</junit.platform.version>
+		<junit.jupiter.version>5.9.2</junit.jupiter.version>
 	</properties>
 
-	<dependencies>
-		<dependency>
-			<groupId>org.junit.jupiter</groupId>
-			<artifactId>junit-jupiter-api</artifactId>
-			<version>${junit.jupiter.version}</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
+	<modules>
+		<module>jcommon-core</module>
+		<module>jcommon-swing</module>
+		<module>jcommon-jfx</module>
+		<module>jcommon-sample</module>
+	</modules>
 
 	<distributionManagement>
 		<snapshotRepository>
@@ -72,7 +80,7 @@
 		<connection>scm:git:git://github.com/jorigin/jcommon.git</connection>
 		<developerConnection>scm:git:git@github.com:jorigin/jorigin.git</developerConnection>
 		<url>https://github.com/jorigin/jcommon</url>
-		<tag>jcommon-1.0.11</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 	<profiles>
@@ -113,36 +121,25 @@
 
 	<build>
 		<plugins>
-
-			<!-- Compile sources -->
+		
+			<!--  Compile sources -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.8.1</version>
+				<version>${maven.plugin.compiler.version}</version>
 				<configuration>
+					<release>${maven.compiler.release}</release>
 					<source>${maven.compiler.source}</source>
 					<target>${maven.compiler.target}</target>
 				</configuration>
 			</plugin>
-
-			<!-- Testing -->
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0-M4</version>
-				            <dependencies>
-                <dependency>
-                    <groupId>org.junit.jupiter</groupId>
-                    <artifactId>junit-jupiter-engine</artifactId>
-                    <version>${junit.jupiter.version}</version>
-                </dependency>
-            </dependencies>
-			</plugin>
-
-			<!-- Generate sources jar during package phase equivalent to maven sources:jar -->
+    
+			<!-- Generate sources jar during package phase 
+				equivalent to maven sources:jar -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>3.1.0</version>
+				<version>${maven.plugin.source.version}</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -153,16 +150,22 @@
 				</executions>
 			</plugin>
 
-			<!-- Generate apidoc jar during package phase equivalent to maven javadoc:jar -->
+			<!-- Generate apidoc jar during package phase 
+				equivalent to maven javadoc:jar -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>3.3.1</version>
-				
+				<version>${maven.plugin.javadoc.version}</version>
+		
+				<!-- Embedding Latex formulas within javadoc using MathJax-->
 				<configuration>
-					<show>protected</show>
-				</configuration>
-				
+
+					<additionalJOptions>
+						<additionalJOption>--allow-script-in-comments</additionalJOption>
+					</additionalJOptions>
+					<header>'&lt;script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"&gt;&lt;/script&gt;'</header>
+				</configuration>  
+        
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
@@ -172,14 +175,11 @@
 					</execution>
 				</executions>
 			</plugin>
-
-			<!-- Distribution management -->
+      
+			<!--  Distribution management -->
 			<plugin>
 				<artifactId>maven-deploy-plugin</artifactId>
-				<version>2.8.2</version>
-				<configuration>
-					<updateReleaseInfo>true</updateReleaseInfo>
-				</configuration>
+				<version>${maven.plugin.deploy.version}</version>
 				<executions>
 					<execution>
 						<id>default-deploy</id>
@@ -190,42 +190,42 @@
 					</execution>
 				</executions>
 			</plugin>
-
+      
 			<!-- Release management -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
-
+				<version>${maven.plugin.release.version}</version>
 				<configuration>
 					<localCheckout>true</localCheckout>
 					<pushChanges>false</pushChanges>
 					<mavenExecutorId>forked-path</mavenExecutorId>
-					<!--<arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments> -->
+					<arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
 				</configuration>
-
+        
 				<dependencies>
 					<dependency>
 						<groupId>org.apache.maven.scm</groupId>
 						<artifactId>maven-scm-provider-gitexe</artifactId>
-						<version>1.9.5</version>
+						<version>${maven.plugin.scm-provider-gitexe.version}</version>
 					</dependency>
 				</dependencies>
 			</plugin>
-
+      
 			<!-- Sonatype nexus plugin -->
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.8</version>
+				<version>${maven.plugin.nexus.version}</version>
 				<extensions>true</extensions>
-
+        
 				<configuration>
 					<serverId>ossrh</serverId>
 					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
 					<autoReleaseAfterClose>true</autoReleaseAfterClose>
 				</configuration>
 			</plugin>
-
+      
 		</plugins>
 	</build>
 </project>
