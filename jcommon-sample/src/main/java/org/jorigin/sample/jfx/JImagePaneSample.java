@@ -12,12 +12,14 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.robot.Robot;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.transform.Affine;
 import javafx.stage.Screen;
@@ -36,11 +38,14 @@ public class JImagePaneSample extends Application{
 		
 		// Take a screenshot
 		Rectangle2D screenBounds = Screen.getPrimary().getBounds();
-		Robot robot = new Robot();
-		WritableImage img = robot.getScreenCapture(null, screenBounds);
+		//Robot robot = new Robot();
+		//WritableImage image = robot.getScreenCapture(null, screenBounds);
 
+		// load image
+		Image image = new Image(getClass().getResource("/image/landscape/mountain-lake.jpg").toExternalForm());
+		
 		// Create display
-		JImageCanvas canvas = new JImageCanvas(img);
+		JImageCanvas canvas = new JImageCanvas(image);
 
         canvas.setBackgroundPaint(Color.DARKGRAY);
 		
@@ -51,7 +56,7 @@ public class JImagePaneSample extends Application{
 		//bottomPane.setBackground(new Background(new BackgroundFill(Color.CYAN, CornerRadii.EMPTY, Insets.EMPTY)));
 		
 		Label cursorPositionLB = new Label("Cursor position: -");
-		Label imageSizeLB = new Label("Image size: "+img.getWidth()+" x "+img.getHeight()+" px");
+		Label imageSizeLB = new Label("Image size: "+image.getWidth()+" x "+image.getHeight()+" px");
 		
 		bottomPane.getChildren().add(imageSizeLB);
 		bottomPane.getChildren().add(new Separator());
@@ -62,8 +67,8 @@ public class JImagePaneSample extends Application{
 		
 		Scene scene = new Scene(centerPane);
 
-		primaryStage.setWidth(512);
-		primaryStage.setHeight(512);
+		primaryStage.setWidth(screenBounds.getWidth() / 2.0d);
+		primaryStage.setHeight(screenBounds.getHeight() / 2.0d);
 		primaryStage.setTitle("JImageCanvas Sample");
 
 		primaryStage.setScene(scene);
@@ -86,9 +91,9 @@ public class JImagePaneSample extends Application{
 		
 		// Create grid layer
 		JImageFeatureLayer gridLayer = new JImageFeatureLayer("Grid");
-		for(int line = 50; line < screenBounds.getWidth() - 50; line = line + 50) {
-			for(int column = 50; column < screenBounds.getHeight() - 50; column = column + 50) {
-				gridLayer.addImageFeature(new SquareImageFeature(line, column, Color.color(Math.random(), Math.random(), Math.random())));
+		for(int line = 50; line < image.getWidth() - 50; line = line + 50) {
+			for(int column = 50; column < image.getHeight() - 50; column = column + 50) {
+				gridLayer.addImageFeature(new SquareImageFeature(line, column, Color.ORANGE));
 			}
 		}
 
@@ -96,7 +101,10 @@ public class JImagePaneSample extends Application{
 
 		canvas.addImageFeatureLayer(gridLayer);
 		
-		canvas.setSelectionMode(JImageCanvas.MODE_SELECTION_RECTANGLE);
+		//canvas.rotate(45);	
+		//System.out.println("Rotation: "+canvas.getRotation());
+		
+		//canvas.setSelectionMode(JImageCanvas.MODE_SELECTION_RECTANGLE);
 	}
 
 	/**
@@ -116,6 +124,8 @@ class SquareImageFeature implements JImageFeature {
 
 	private Color color = Color.AZURE; 
 
+	private Color selectedStroke = Color.CYAN;
+	
 	private boolean selectable = true;
 
 	private boolean selected = false;
@@ -126,6 +136,8 @@ class SquareImageFeature implements JImageFeature {
 
 	private Object userData = null;
 
+	private Rectangle shape = null;
+	
 	private JImageFeatureLayer layer = null;
 
 	@Override
@@ -172,10 +184,26 @@ class SquareImageFeature implements JImageFeature {
 	public void draw(GraphicsContext g2d, Affine transform) {
 		if (g2d != null) {
 			if (transform != null) {
-				Paint paint = g2d.getFill();
-				g2d.setFill(color);
-				g2d.fillRect(line - 10, column - 10, 20, 20);
-				g2d.setFill(paint);
+				
+				Paint originalFill = g2d.getFill();
+				Paint originalStroke = g2d.getStroke();
+				
+				if (isStateSelected()) {
+					g2d.setFill(color);
+					g2d.fillRect(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
+					
+					g2d.setStroke(selectedStroke);
+					g2d.strokeRect(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
+					
+				} else {
+					
+					g2d.setFill(color);
+					g2d.fillRect(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
+					
+				}
+				
+				g2d.setFill(originalFill);
+				g2d.setStroke(originalStroke);
 			}
 		}
 	}
@@ -187,7 +215,7 @@ class SquareImageFeature implements JImageFeature {
 
 	@Override
 	public boolean contains(Shape s) {
-		return false;
+		return (s != null) && (shape.intersects(s.getBoundsInParent()));
 	}
 
 	@Override
@@ -197,7 +225,7 @@ class SquareImageFeature implements JImageFeature {
 
 	@Override
 	public boolean inside(Shape s) {
-		return false;
+		return (s != null) && (s.getBoundsInParent().contains(shape.getBoundsInLocal()));
 	}
 
 	@Override
@@ -230,6 +258,8 @@ class SquareImageFeature implements JImageFeature {
 		this.line   = line;
 		this.column = column;
 		this.color  = color;
+		
+		shape = new Rectangle(line - 10, column - 10, 20, 20);
 	}
 
 }

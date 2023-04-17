@@ -33,6 +33,10 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.transform.Affine;
+import javafx.scene.transform.NonInvertibleTransformException;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Scale;
+import javafx.scene.transform.Translate;
 
 /**
  * A JavaFX canvas that can display images.
@@ -59,7 +63,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #MODE_SELECTION_POLYGON
 	 */
 	public static final int MODE_SELECTION_NONE = 0;
-	
+
 	/**
 	 * The selection with point mode. This mode enable to select features on the image using a point.
 	 * @see #MODE_SELECTION_NONE
@@ -91,7 +95,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #MODE_SELECTION_POLYGON
 	 */
 	public static final int MODE_SELECTION_ACTIVE_MASK = MODE_SELECTION_POINT | MODE_SELECTION_RECTANGLE | MODE_SELECTION_POLYGON;
-	
+
 	/**
 	 * No fit is applied to the image when displayed.
 	 * @see #FIT_COMPLETE
@@ -153,14 +157,34 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	private IntegerProperty selectionMode = null;
 
 	/**
-	 * The transform applied to the canvas.
+	 * The transform that enable to pass from the image referential to the view referential.
+	 * @see #viewScale
 	 */
-	private Affine transform;
-	
+	private Affine viewTransform;
+
 	/**
-	 * The scale factor applied to the image.
+	 * The rotation that enable to pass from the image referential to the view referential.
+	 * This rotation is a part of the {@link #viewTransform view transform}.
 	 */
-	private DoubleProperty scale = null;
+	private Rotate viewRotation;
+
+	/**
+	 * The scale that enable to pass from the image referential to the view referential.
+	 * This scale is a part of the {@link #viewTransform view transform}.
+	 */
+	private Scale viewScale;
+
+	/**
+	 * The translation that enable to pass from the image referential to the view referential.
+	 * This translation is a part of the {@link #viewTransform view transform}.
+	 */
+	private Translate viewTranslation;
+
+	/**
+	 * The margin to use when translating the image to avoid a edge of the image to be fixed to the edge of the canvas.
+	 * This margin is expressed within the view referential.
+	 */
+	private DoubleProperty imageMargin;
 
 	/**
 	 * The layers that are displayed within the canvas.
@@ -168,13 +192,13 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	private List<JImageFeatureLayer> layers;
 
 	private Shape selectionShape = null;
-	
+
 	private Point2D selectionOrigin = null;
-	
+
 	private Paint selectionShapeStroke = null;
 
 	private Paint selectionShapeFill = null;
-	
+
 	private ObjectProperty<Point2D> cursorPosition;
 
 	private BooleanProperty autoRepaint;
@@ -190,53 +214,53 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	private ObjectProperty<Paint> backgroundPaint;
 
 	private BooleanProperty controlPrimaryActive;
-	
+
 	private BooleanProperty controlSecondaryActive;
 
 	private BooleanProperty resizableProperty = new SimpleBooleanProperty(true);
-	
+
 	private SynchronousQueue<Runnable> refreshQueue;
-	
+
 	private Semaphore refreshLock = new Semaphore(1);
-	
+
 	// The following overrides enable the canvas to be resizable when contained
 	// by a dynamic size container.
 	@Override
 	public double minHeight(double width){
-	    return 0;
+		return 0;
 	}
 
 	@Override
 	public double maxHeight(double width){
-	    return Double.MAX_VALUE;
+		return Double.MAX_VALUE;
 	}
 
 	@Override
 	public double prefHeight(double width){
-	    return minHeight(width);
+		return minHeight(width);
 	}
 
 	@Override
 	public double minWidth(double height){
-	    return 0;
+		return 0;
 	}
 
 	@Override
 	public double maxWidth(double height){
-	    return Double.MAX_VALUE;
+		return Double.MAX_VALUE;
 	}
 
 	@Override
 	public void resize(double width, double height){
-	    super.setWidth(width);
-	    super.setHeight(height);
+		super.setWidth(width);
+		super.setHeight(height);
 	}
-	
+
 	@Override
 	public boolean isResizable() {
 		return resizableProperty.get();
 	}
-	
+
 	/**
 	 * Set if the image canvas can be resized.
 	 * @param resizable <code>true</code> if the image canvas has to be resizable (default) or <code>false</code> otherwise.
@@ -246,7 +270,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 		resizableProperty.set(resizable);
 	}
 	// End of the overrides dedicated to the resize of the canvas.
-	
+
 	@Override
 	public void onImageFeatureAdded(JImageFeatureLayer layer, JImageFeature feature) {
 		if (layer != null) {
@@ -359,11 +383,11 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 		this.selectionMode = new SimpleIntegerProperty(selection);
 
 		this.selectionMode.addListener((ChangeListener<Number>)(observable, oldValue, newValue) ->{
-			
+
 			// Only perform update if the change is effective
 			if (!oldValue.equals(newValue)) {
 				selectionShape = null;
-				
+
 				if (newValue.intValue() == MODE_SELECTION_POINT) {
 					selectionShape = null;
 				} else if (newValue.intValue() == MODE_SELECTION_RECTANGLE) {
@@ -373,17 +397,23 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 				}
 			}
 		});
-		
+
 		this.selectionShapeFill   = new Color(0.8d, 0.0d, 0.0d, 0.5d);
-		
+
 		this.selectionShapeStroke = new Color(0.8d, 0.8d, 0.0d, 1.0d);
+
+		this.viewTransform = new Affine();
+
+		this.viewRotation = new Rotate();
+
+		this.viewScale = new Scale();
+
+		this.viewTranslation = new Translate();
+
+		this.imageMargin = new SimpleDoubleProperty(20.0d);
 		
-		this.transform = new Affine();
-
-		this.scale = new SimpleDoubleProperty(1.0d);
-
 		this.cursorPosition = new SimpleObjectProperty<Point2D>();
-		
+
 		this.autoRepaint = new SimpleBooleanProperty(autoRepaint);
 
 		this.autoFit = new SimpleBooleanProperty(autoFit);
@@ -397,13 +427,13 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 		this.needRefresh = new SimpleBooleanProperty(true);
 
 		this.controlPrimaryActive = new SimpleBooleanProperty(false);
-		
+
 		this.controlSecondaryActive = new SimpleBooleanProperty(false);
-		
+
 		this.layers = new LinkedList<JImageFeatureLayer>();
 
 		refreshQueue = new SynchronousQueue<Runnable>();
-		
+
 		if (image != null) {
 			setImage(image);
 		}
@@ -444,9 +474,18 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	}
 
 	/**
+	 * Get the image fit method property.
+	 * @return the image fit method property
+	 */
+	public IntegerProperty getImageFitMethodProperty() {
+		return imageFitMethod;
+	}
+	
+	/**
 	 * Get the image fit method. Possible return values are {@link #FIT_NONE}, {@link #FIT_COMPLETE}, {@link #FIT_WIDTH}, {@link #FIT_HEIGHT} or {@link #FIT_AUTO}.
 	 * @return the image fit method
 	 * @see #setImageFitMethod(int)
+	 * @see #getImageFitMethodProperty()
 	 */
 	public int getImageFitMethod() {
 		return imageFitMethod.get();
@@ -474,23 +513,57 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	public ObjectProperty<Point2D> getCursorPositionProperty(){
 		return cursorPosition;
 	}
-	
+
 	/**
 	 * Get the cursor current position. The cursor position is expressed within the canvas referential (scale, rotation and translation are taken in account).
 	 * @return the cursor current position
+	 * @see #getCursorPositionProperty()
 	 */
 	public Point2D getCursorPosition() {
 		return cursorPosition.get();
 	}
+
+	/**
+	 * Get the property that describes margin (in pixel) that the displayed image as to respect from the canvas borders. 
+	 * Defining such a margin is useful for avoiding the edge of the image to be on the edge of the canvas.
+	 * This margin is expressed within image referential.
+	 * @return the margin that the displayed image as to respect from the canvas borders
+	 */
+	public DoubleProperty getImageMarginProperty() {
+		return this.imageMargin;
+	}
 	
 	/**
-	 * Get the image fit method property.
-	 * @return the image fit method property
+	 * Get the margin (in pixels) that the displayed image as to respect from the canvas borders. 
+	 * Defining such a margin is useful for avoiding the edge of the image to be on the edge of the canvas.
+	 * This margin is expressed within image referential.
+	 * @return the margin that the displayed image as to respect from the canvas borders
+	 * @see #setImageMargin(double)
+	 * @see #getImageMarginProperty()
 	 */
-	public final IntegerProperty getImageFitMethodProperty() {
-		return imageFitMethod;
+	public double getImageMargin() {
+		return imageMargin.get();
 	}
-
+	
+	/**
+	 * Set the margin (in pixels) that the displayed image as to respect from the canvas borders. 
+	 * Defining such a margin is useful for avoiding the edge of the image to be on the edge of the canvas.
+	 * This margin is expressed within image referential.
+	 * @param margin the margin that the displayed image as to respect from the canvas borders
+	 * @see #getImageMargin()
+	 */
+	public void setImageMargin(double margin) {
+		this.imageMargin.set(margin);
+	}
+	
+	/**
+	 * Get the selection mode property.
+	 * @return the selection mode property.
+	 */
+	public IntegerProperty getSelectionModeProperty() {
+		return this.selectionMode;
+	}
+	
 	/**
 	 * Get the selection mode used by the panel. This can be one of:
 	 * <ul>
@@ -520,52 +593,49 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	}
 
 	/**
-	 * Get the selection mode property.
-	 * @return the selection mode property.
-	 */
-	public final IntegerProperty getSelectionModeProperty() {
-		return this.selectionMode;
-	}
-
-	/**
 	 * Get the current selection shape. All coordinates and length are expressed within canvas referential. 
 	 * @return the current selection shape
 	 */
 	public Shape getSelectionShape() {
 		return selectionShape;
 	}
-	
+
 	/**
-	 * Get the translation applied to the view as a {@link Point2D 2D point}.
-	 * @return the translation applied to the view.
-	 * @see #setTranslation(Point2D)
+	 * Get the rotation applied to the view as an angle expressed in degree (°).
+	 * @return the rotation applied to the view as an angle expressed in degree (°).
+	 * @see #setRotation(double)
+	 * @see #getTranslation()
 	 * @see #getScale()
 	 */
-	public Point2D getTranslation(){
-		return new Point2D(transform.getTx(), transform.getTy());
+	public double getRotation() {
+		if (viewRotation != null) {
+			return viewRotation.getAngle();
+		}
+
+		return 0.0d;
 	}
 
 	/**
-	 * Set the translation to apply to the view. The translation is set to the given one. 
-	 * For a cumulative translation, use {@link #translate(Point2D)} method.
-	 * @param translation the translation to apply to the view as a {@link Point2D 2D point}.
-	 * @see #getTranslation()
+	 * Set the rotation to apply to the view. For a cumulative rotation, use {@link #rotate(double)} method.
+	 * @param angle the rotation angle, expressed in degree (°)
+	 * @see #getRotation()
+	 * @see #setTranslation(Point2D)
 	 * @see #setScale(double)
-	 * @see #translate(Point2D)
+	 * @see #rotate(double)
 	 */
-	public void setTranslation(Point2D translation){
-		if (translation != null){
+	public void setRotation(double angle) {
+		if ((viewRotation.getAngle() != angle) && (Double.isFinite(angle) && (image != null))){
 
-			transform.setTx(translation.getX());
-			transform.setTy(translation.getY());
+			// The rotation is made around the image center.
+			viewRotation.setPivotX(image.getWidth() / 2.0d);
+			viewRotation.setPivotY(image.getHeight() / 2.0d);
 
-			setNeedRefresh(true);
+			viewRotation.setAngle(angle);
 
-			if (autoRepaint.get()){
-				refresh();
-			}
+			viewTransformUpdate();
 		}
 	}
+
 
 	/**
 	 * Get the current scale factor of the panel view.
@@ -574,31 +644,135 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #getTranslation()
 	 */
 	public double getScale(){
-		return transform.getMxx();
+		return viewScale.getX();
 	}
 
 	/**
 	 * Set the scale factor to apply to the panel view.
-	 * @param zoom the scale factor applied to the image.
+	 * @param scale the scale factor applied to the image.
 	 * @see #getScale()
 	 * @see #setTranslation(Point2D)
 	 */
-	public void setScale(double zoom){
+	public void setScale(double scale){
 
-		if (scale.get() != zoom){
+		if ((viewScale.getX() != scale) || (viewScale.getY() != scale)) {
+			viewScale.setX(scale);
+			viewScale.setY(scale);
 
-			transform.setMxx(zoom);
-			transform.setMyy(zoom);
+			viewTransformUpdate();
+		}
+	}
 
-			scale.set(zoom);
+	/**
+	 * Get the translation applied to the view as a {@link Point2D 2D point}.
+	 * @return the translation applied to the view.
+	 * @see #setTranslation(Point2D)
+	 * @see #getRotation()
+	 * @see #getScale()
+	 */
+	public Point2D getTranslation(){
+		return new Point2D(viewTranslation.getTx(), viewTranslation.getTy());
+	}
 
-			setNeedRefresh(true);
+	/**
+	 * Set the translation to apply to the view.
+	 * For a cumulative translation, use {@link #translate(Point2D)} method.
+	 * @param translation the translation to apply to the view as a {@link Point2D 2D point}.
+	 * @see #getTranslation()
+	 * @see #setRotation(double)
+	 * @see #setScale(double)
+	 * @see #translate(Point2D)
+	 */
+	public void setTranslation(Point2D translation){
+		if ((translation != null) && ((viewTranslation.getX() != translation.getX()) || ((viewTranslation.getY() != translation.getY())))){
 
-			if (autoRepaint.get()){
-				refresh();
+			viewTranslation.setX(translation.getX());
+			viewTranslation.setY(translation.getY());
+
+			viewTransformUpdate();
+		}
+	}
+
+	/**
+	 * Rotate the current view by the given angle. The angle has to be expressed in degree (°).
+	 * This method add the new rotation angle to the current one. If a reset of the rotation is needed, the method has to be used.
+	 * @param angle the rotation angle, expressed in degree (°)
+	 * @see #translate(Point2D)
+	 */
+	public void rotate(double angle) {
+
+		this.viewTransform.appendRotation(angle, this.getWidth()/2.0d, this.getHeight()/2.0d);
+
+		setNeedRefresh(true);
+	}
+
+	/**
+	 * Translate the current view by the given vector. The vector is expressed within the canvas referential.
+	 * This method substract the given vector from the existing translation. The reset of the translation can be done by calling {@link #setTranslation(Point2D)}.
+	 * @param vector the translation vector, expressed within the canvas referential
+	 * @see #setTranslation(Point2D)
+	 */
+	public void translate(Point2D vector) {
+
+		if ((this.image != null) && (this.viewTransform != null)) {
+			
+			// The translation within the image referential.
+			Point2D translationImage = new Point2D(vector.getX()/viewScale.getX(), vector.getY()/viewScale.getY());
+
+			double margin = this.imageMargin.get()/viewScale.getX();
+			
+			// Compute image bounds according to the current rotation and scale
+			Point2D imageUpperLeftInView  = viewTransform.transform(new Point2D(0 - margin, 0 - margin));
+			Point2D imageLowerLeftInView  = viewTransform.transform(new Point2D(0 - margin, this.image.getHeight() + margin));
+			Point2D imageUpperRightInView = viewTransform.transform(new Point2D(this.image.getWidth()+ margin, 0 - margin));
+			Point2D imageLowerRightInView = viewTransform.transform(new Point2D(this.image.getHeight()+ margin, this.image.getHeight()+ margin));
+
+			Point2D boundsMin = new Point2D(Math.min(Math.min(imageUpperLeftInView.getX(), imageLowerLeftInView.getX()), 
+													 Math.min(imageUpperRightInView.getX(), imageLowerRightInView.getX())),
+											Math.min(Math.min(imageUpperLeftInView.getY(), imageLowerLeftInView.getY()), 
+													 Math.min(imageUpperRightInView.getY(), imageLowerRightInView.getY())));
+
+			Point2D boundsMax = new Point2D(Math.max(Math.max(imageUpperLeftInView.getX(), imageLowerLeftInView.getX()), 
+													 Math.max(imageUpperRightInView.getX(), imageLowerRightInView.getX())),
+											Math.max(Math.max(imageUpperLeftInView.getY(), imageLowerLeftInView.getY()), 
+													 Math.max(imageUpperRightInView.getY(), imageLowerRightInView.getY())));
+
+			double boundedTranslationX = 0.0d;
+			
+			double boundedTranslationY = 0.0d;
+			
+			// Handling X translation
+			if (translationImage.getX() < 0.0d) {
+				
+				boundedTranslationX = Math.min(Math.max(getWidth() - boundsMax.getX(), translationImage.getX()),
+    										   Math.max(-boundsMin.getX(), translationImage.getX()));
+				
+			} else if (translationImage.getX() > 0.0d) {
+				
+				boundedTranslationX = Math.max(Math.min(getWidth() - boundsMax.getX(), translationImage.getX()),
+                        					   Math.min(-boundsMin.getX(), translationImage.getX()));
+			}
+
+			// Handling Y translation
+			if (translationImage.getY() < 0.0d) {
+				
+				boundedTranslationY = Math.min(Math.max(getHeight() - boundsMax.getY(), translationImage.getY()),
+    										   Math.max(-boundsMin.getY(), translationImage.getY()));
+				
+			} else if (translationImage.getY() > 0.0d){
+				
+				boundedTranslationY = Math.max(Math.min(getHeight() - boundsMax.getY(), translationImage.getY()),
+                        					   Math.min(-boundsMin.getY(), translationImage.getY()));
+
+			}
+			
+			// Update the translation only if the parameter have been changed.
+			if ((boundedTranslationX != 0) || (boundedTranslationY != 0.0d)){				
+				setTranslation(new Point2D(viewTranslation.getX()+boundedTranslationX, viewTranslation.getY()+boundedTranslationY));
 			}
 		}
 	}
+
 
 	/**
 	 * Get if the canvas is auto fitting when dimension changes occur.
@@ -758,7 +932,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 				Point2D dest = new Point2D(0, 0);
 
 				try {
-					dest = transform.inverseTransform(point);
+					dest = viewTransform.inverseTransform(point);
 
 					if ((dest.getX() < 0)||(dest.getX() >= image.getWidth() - 1) || (dest.getY() < 0)||(dest.getY() >= image.getHeight() - 1)){
 						dest = null;
@@ -776,7 +950,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Get the coordinate within the canvas referential of the given point expressed within the image referential.
 	 * @param point the point expressed within the image referential.
@@ -786,11 +960,11 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 */
 	public Point2D getViewCoordinate(Point2D point){
 		if ((image != null) && (point != null)){
-			if (transform != null) {
+			if (viewTransform != null) {
 
 				Point2D dest = new Point2D(0, 0);
 
-				dest = transform.transform(point);
+				dest = viewTransform.transform(point);
 
 				return dest;
 			} else {
@@ -812,7 +986,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	public Point2D getViewCoordinate(double x, double y){
 		return getViewCoordinate(new Point2D(x, y));
 	}
-	
+
 	/**
 	 * Check if the given <code>layer</code> is displayed. 
 	 * If this method return <code>true</code>, then the features that are within the layer are visible on the image panel. 
@@ -953,15 +1127,15 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 		});
 
 		setOnMousePressed((EventHandler<MouseEvent>)(event) ->{
-			
+
 			if (event.getButton() == MouseButton.PRIMARY) {
 				controlPrimaryActive.set(true);
-				
+
 				// The canvas is within selection mode
 				if ((selectionMode.get() | MODE_SELECTION_ACTIVE_MASK) != 0) {
-	              selectionOrigin = cursorPosition.get();
-	              
-	              if (selectionMode.get() == MODE_SELECTION_POINT) {
+					selectionOrigin = cursorPosition.get();
+
+					if (selectionMode.get() == MODE_SELECTION_POINT) {
 						selectionShape = null;
 					} else if (selectionMode.get() == MODE_SELECTION_RECTANGLE) {
 						selectionShape = new Rectangle();
@@ -970,19 +1144,25 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 					}
 				}
 			}
-			
+
 			if (event.getButton() == MouseButton.SECONDARY) {
 				controlSecondaryActive.set(true);
 			}
 		});
-		
+
 		setOnMouseReleased((EventHandler<MouseEvent>)(event) ->{
-			
+
 			boolean refreshNeeded = false;
-			
+
 			if (event.getButton() == MouseButton.PRIMARY) {
 
-				// TODO proceed to auto-selection
+				// Process to selection on underlying features
+				if ((selectionMode.get() | MODE_SELECTION_ACTIVE_MASK) != 0) {
+					if (selectionShape != null) {
+						select(selectionShape);
+					}
+				}
+
 
 				if (selectionShape != null) {
 					selectionShape = null;
@@ -992,19 +1172,19 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 				controlPrimaryActive.set(false);
 			}
-			
+
 			if (event.getButton() == MouseButton.SECONDARY) {
 				controlSecondaryActive.set(false);
 			}
-			
+
 			setNeedRefresh(refreshNeeded);
 
 			if (autoRepaint.get()){
 				refresh();
 			}
 		});
-		
-		
+
+
 		// Mouse dragged
 		setOnMouseDragged(new EventHandler<MouseEvent>() {
 
@@ -1013,64 +1193,60 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 				if (listeningControls.get()) {
 
-					if (getImage() != null) {
+					// Using temporary cursor position as it is needed by following code but 
+					// we do not want cursorPosition property to be changed now.						
+					Point2D tmpCursorPosition = new Point2D(event.getX(), event.getY());
 
-						double deltaX = (cursorPosition.get().getX() - event.getX());
-						double deltaY = (cursorPosition.get().getY() - event.getY());
+					Point2D cursorMove = tmpCursorPosition.subtract(cursorPosition.get());
 
-						// Using temporary cursor position as it is needed by following code but 
-						// we do not want cursorPosition property to be changed now.						
-						Point2D tmpCursorPosition = new Point2D(event.getX(), event.getY());
-						
-						if ((selectionMode.get() == MODE_SELECTION_NONE) || (selectionMode.get() == MODE_SELECTION_POINT)){
+					if ((selectionMode.get() == MODE_SELECTION_NONE) || (selectionMode.get() == MODE_SELECTION_POINT)){
 
-							if (event.isPrimaryButtonDown()){
-						
-								translate(new Point2D(deltaX, deltaY));
-							
-								if (autoRepaint.get()){
-									refresh();
-								}
-							}
+						if (controlPrimaryActive.get()){
 
-						} else if ((selectionMode.get() & MODE_SELECTION_RECTANGLE) == MODE_SELECTION_RECTANGLE){
-							
-							// Allow translation using secondary control
-							if (controlSecondaryActive.get()){								
-								translate(new Point2D(deltaX, deltaY));
-							}
-							
-							if (controlPrimaryActive.get()) {
-								
-								if (selectionShape != null) {
-									Point2D upperLeft  = new Point2D(Math.max(0, Math.min(selectionOrigin.getX(), tmpCursorPosition.getX())), Math.max(0, Math.min(selectionOrigin.getY(), tmpCursorPosition.getY())));
-									
-									Point2D lowerRight = new Point2D(Math.min(getWidth(), Math.max(selectionOrigin.getX(), tmpCursorPosition.getX())), Math.min(getHeight(), Math.max(selectionOrigin.getY(), tmpCursorPosition.getY())));
-									
-									Rectangle rectangle = ((Rectangle)selectionShape);
-									
-									rectangle.setX(upperLeft.getX());
-									rectangle.setY(upperLeft.getY());
-									rectangle.setWidth(lowerRight.getX() - upperLeft.getX());
-									rectangle.setHeight(lowerRight.getY() - upperLeft.getY());
-																	
-									setNeedRefresh(true);
-								}
-							}
+							translate(cursorMove);
 
 							if (autoRepaint.get()){
 								refresh();
 							}
-							
-						} else if ((selectionMode.get() & MODE_SELECTION_POLYGON) == MODE_SELECTION_POLYGON){
-							// TODO implements free shape selection
-						} else {
-
 						}
-						
-						// Update the cursor position and fire property changes 
-						cursorPosition.set(tmpCursorPosition);
+
+					} else if ((selectionMode.get() & MODE_SELECTION_RECTANGLE) == MODE_SELECTION_RECTANGLE){
+
+						// Allow translation using secondary control
+						if (controlSecondaryActive.get()){								
+							translate(cursorMove);
+						}
+
+						if (controlPrimaryActive.get()) {
+
+							if (selectionShape != null) {
+								Point2D upperLeft  = new Point2D(Math.max(0, Math.min(selectionOrigin.getX(), tmpCursorPosition.getX())), Math.max(0, Math.min(selectionOrigin.getY(), tmpCursorPosition.getY())));
+
+								Point2D lowerRight = new Point2D(Math.min(getWidth(), Math.max(selectionOrigin.getX(), tmpCursorPosition.getX())), Math.min(getHeight(), Math.max(selectionOrigin.getY(), tmpCursorPosition.getY())));
+
+								Rectangle rectangle = ((Rectangle)selectionShape);
+
+								rectangle.setX(upperLeft.getX());
+								rectangle.setY(upperLeft.getY());
+								rectangle.setWidth(lowerRight.getX() - upperLeft.getX());
+								rectangle.setHeight(lowerRight.getY() - upperLeft.getY());
+
+								setNeedRefresh(true);
+							}
+						}
+
+						if (autoRepaint.get()){
+							refresh();
+						}
+
+					} else if ((selectionMode.get() & MODE_SELECTION_POLYGON) == MODE_SELECTION_POLYGON){
+						// TODO implements free shape selection
+					} else {
+
 					}
+
+					// Update the cursor position and fire property changes 
+					cursorPosition.set(tmpCursorPosition);
 				}
 			}
 
@@ -1087,7 +1263,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			}
 
 		});
-		
+
 		// Zoom / scaling
 		setOnZoomFinished(new EventHandler<ZoomEvent>() {
 
@@ -1124,35 +1300,30 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #getImageFitMethod()
 	 */
 	public void fit() {
-		if (image != null) {
+		/*
+		if ((image != null) && (this.getWidth() != 0.0d) && (this.getHeight() != 0.0d) && (image.getWidth() != 0) && (image.getHeight() != 0.0d)){
 
 			// Update image transform scale
 			if (imageFitMethod.get() == FIT_COMPLETE) {
 				double sx = this.getWidth() / image.getWidth() ;
 				double sy = this.getHeight() / image.getHeight();
 
-				transform.setMxx(sx);
-				transform.setMyy(sy);
-
-				this.scale.set(sx);
+				viewTransform.setMxx(sx);
+				viewTransform.setMyy(sy);
 
 				setNeedRefresh(true);
 
 			} else if (imageFitMethod.get() == FIT_WIDTH) {
 				double scale = this.getWidth() / image.getWidth() ;			
-				transform.setMxx(scale);
-				transform.setMyy(scale);
-
-				this.scale.set(scale);
+				viewTransform.setMxx(scale);
+				viewTransform.setMyy(scale);
 
 				setNeedRefresh(true);
 
 			} else if (imageFitMethod.get() == FIT_HEIGHT) {
 				double scale = this.getHeight() / image.getHeight() ;			
-				transform.setMxx(scale);
-				transform.setMyy(scale);
-
-				this.scale.set(scale);
+				viewTransform.setMxx(scale);
+				viewTransform.setMyy(scale);
 
 			} else if (imageFitMethod.get() == FIT_AUTO) {
 				double sx = this.getWidth() / image.getWidth();
@@ -1160,10 +1331,9 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 				double scale = Math.min(sx, sy);
 
-				transform.setMxx(scale);
-				transform.setMyy(scale);
+				viewTransform.setMxx(scale);
+				viewTransform.setMyy(scale);
 
-				this.scale.set(scale);
 				setNeedRefresh(true);
 			}
 
@@ -1171,6 +1341,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 				refresh();
 			}
 		}
+		 */
 	}
 
 	/**
@@ -1185,7 +1356,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			refreshQueue.put(task);
 		}
 	}
-	
+
 	/**
 	 * Refresh the GUI components
 	 */
@@ -1211,7 +1382,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 					getGraphicsContext2D().clearRect(0, 0, getWidth(), getHeight());
 				}
 
-				getGraphicsContext2D().setTransform(transform);
+				getGraphicsContext2D().setTransform(viewTransform);
 
 				// Draw the image
 				if (image != null) {
@@ -1231,7 +1402,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 							for(JImageFeature feature : displayingFeatures){
 
 								if (feature.isStateDisplaying()) {
-									feature.draw(getGraphicsContext2D(), transform);
+									feature.draw(getGraphicsContext2D(), viewTransform);
 								}
 							}
 						}
@@ -1243,28 +1414,28 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 				// Draw the selection shape (shape is expressed within canvas referential)
 				if (selectionShape != null) {
-					
+
 					if (selectionShape instanceof Rectangle) {
 
 						Rectangle rectangle = (Rectangle)selectionShape;
-						
+
 						if (selectionShapeFill != null) {
 							getGraphicsContext2D().setFill(selectionShapeFill);
 							getGraphicsContext2D().fillRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
 						}
-						
+
 						if (selectionShapeStroke != null) {
 							getGraphicsContext2D().setStroke(selectionShapeStroke);
 							getGraphicsContext2D().strokeRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
 						}
-						
+
 					}
-					
-					
+
+
 					getGraphicsContext2D().setFill(originalFillPaint);
 					getGraphicsContext2D().setStroke(originalStrokePaint);
 				}
-				
+
 				// Process queued refresh task
 				while(!refreshQueue.isEmpty()) {
 					try {
@@ -1273,7 +1444,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 						Common.logger.log(Level.WARNING, "Cannot run task: "+e.getMessage(), e);
 					}
 				}
-				
+
 				needRefresh.set(false);
 			}
 
@@ -1300,44 +1471,50 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 		}
 	}
 
-	/**
-	 * Translate the current view from the given vector. The vector is expressed within the canvas referential.
-	 * This method add the given vector to the existing translation. The reset of the translation can be done by calling {@link #setTranslation(Point2D)}.
-	 * @param vector the translation vector, expressed within the canvas referential
-	 * @see #setTranslation(Point2D)
-	 * @see #setTranslation(Point2D)
-	 */
-	public void translate(Point2D vector) {
-		
-		double tx = transform.getTx();
-		double ty = transform.getTy();
-		
-		if ((tx - vector.getX() <= 0)&&((tx - vector.getX()) >= (-getImage().getWidth()*scale.get() + getWidth()))){
-			tx -= vector.getX();
-		} else if ((tx > 0)&&(vector.getX() > 0)){
-			tx -= vector.getX();
-		} else if ((tx) < (-getImage().getWidth()*scale.get() + getWidth()) && (vector.getY() < 0)){
-			tx -= vector.getX();
-		}
-
-		if ((ty - vector.getY() <= 0)&&((ty - vector.getY()) >= (-getImage().getHeight()*scale.get() + getHeight()))){
-			ty -= vector.getY();
-		} else if ((ty > 0)&&(vector.getY() > 0)){
-			ty -= vector.getY();
-		} else if ((ty) < (-getImage().getHeight()*scale.get() + getHeight()) && (vector.getY() < 0)){
-			ty -= vector.getY();
-		}
-
-		transform.setTx(tx);
-		transform.setTy(ty);
-		
-		setNeedRefresh(true);
-	}
-	
 	public void select(Shape shape) {
-		// TODO implement select(Shape)
-		shape.getTransforms().add(transform);
-		
-		shape.intersect(shape, shape);
+
+		try {
+			shape.getTransforms().add(viewTransform.createInverse());
+
+			for (JImageFeatureLayer layer : layers) {
+
+				if (layer.isStateDisplaying()) {
+
+					List<JImageFeature> features = layer.getImageFeatures();
+
+					if (features != null) {
+						for(JImageFeature feature : features){
+
+							if ((feature.isStateSelectable())){
+								if (feature.inside(shape)){
+									feature.setStateSelected(true);
+								} else {
+									feature.setStateSelected(false);
+								}
+							}
+						}
+					}
+				}
+			}
+		} catch (NonInvertibleTransformException e) {
+			Common.logger.log(Level.SEVERE, "Cannot select: "+e.getMessage(), e);
+		}
+	}
+
+	/**
+	 * Update the view transform according to the transformation components.
+	 */
+	private void viewTransformUpdate() {
+		viewTransform.setToIdentity();
+
+		viewTransform.append(viewRotation);
+		viewTransform.append(viewScale);
+		viewTransform.append(viewTranslation);
+
+		setNeedRefresh(true);
+
+		if (autoRepaint.get()){
+			refresh();
+		}
 	}
 }
