@@ -20,6 +20,9 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.geometry.BoundingBox;
+import javafx.geometry.Bounds;
+import javafx.geometry.Insets;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
@@ -184,8 +187,14 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * The margin to use when translating the image to avoid a edge of the image to be fixed to the edge of the canvas.
 	 * This margin is expressed within the view referential.
 	 */
-	private DoubleProperty imageMargin;
+	//private DoubleProperty imageMargin;
 
+	/**
+	 * The insets to use to avoid the displayed content to be aligned on the canvas edges. 
+	 * This can be usefull if the edges of the displayed image has to be accessible for pointing, drawing, ...
+	 */
+	private Insets viewInsets;
+	
 	/**
 	 * The layers that are displayed within the canvas.
 	 */
@@ -409,8 +418,8 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 		this.viewScale = new Scale();
 
 		this.viewTranslation = new Translate();
-
-		this.imageMargin = new SimpleDoubleProperty(20.0d);
+		
+		this.viewInsets = new Insets(20.0d, 20.0d, 20.0d, 20.0d);
 		
 		this.cursorPosition = new SimpleObjectProperty<Point2D>();
 
@@ -462,7 +471,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			this.image = image;
 
 			if (autoFit.get()) {
-				fit();
+				viewFit();
 			}
 
 			setNeedRefresh(true);
@@ -491,6 +500,35 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 		return imageFitMethod.get();
 	}
 
+	/**
+	 * Get the bounding box of the image within the view referential. The bounds can be greater / smaller than the view bounds.
+	 * @return the bounding box of the image within the view referential
+	 */
+	public Bounds getImageBoundsInView() {
+		
+		if (this.image == null) {
+			return new BoundingBox(0.0d, 0.0d, 0.0d, 0.0d);
+		}
+		
+		// Compute image bounds according to the current rotation and scale
+		Point2D imageUpperLeftInView  = this.viewTransform.transform(new Point2D(0, 0));
+		Point2D imageLowerLeftInView  = this.viewTransform.transform(new Point2D(0, this.image.getHeight()));
+		Point2D imageUpperRightInView = this.viewTransform.transform(new Point2D(this.image.getWidth(), 0));
+		Point2D imageLowerRightInView = this.viewTransform.transform(new Point2D(this.image.getWidth(), this.image.getHeight()));
+
+		Point2D boundsMin = new Point2D(Math.min(Math.min(imageUpperLeftInView.getX(), imageLowerLeftInView.getX()), 
+													Math.min(imageUpperRightInView.getX(), imageLowerRightInView.getX())),
+										Math.min(Math.min(imageUpperLeftInView.getY(), imageLowerLeftInView.getY()), 
+													Math.min(imageUpperRightInView.getY(), imageLowerRightInView.getY())));
+
+		Point2D boundsMax = new Point2D(Math.max(Math.max(imageUpperLeftInView.getX(), imageLowerLeftInView.getX()), 
+													Math.max(imageUpperRightInView.getX(), imageLowerRightInView.getX())),
+										Math.max(Math.max(imageUpperLeftInView.getY(), imageLowerLeftInView.getY()), 
+													Math.max(imageUpperRightInView.getY(), imageLowerRightInView.getY())));
+		
+		return new BoundingBox(boundsMin.getX(), boundsMin.getY(), boundsMax.getX() - boundsMin.getX(), boundsMax.getY() - boundsMin.getY());
+	}
+	
 	/**
 	 * Set the image fit method. Possible return values are {@link #FIT_NONE}, {@link #FIT_COMPLETE}, {@link #FIT_WIDTH}, {@link #FIT_HEIGHT} or {@link #FIT_AUTO}.
 	 * @param method the image fit method
@@ -522,38 +560,27 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	public Point2D getCursorPosition() {
 		return cursorPosition.get();
 	}
-
+	
 	/**
-	 * Get the property that describes margin (in pixel) that the displayed image as to respect from the canvas borders. 
-	 * Defining such a margin is useful for avoiding the edge of the image to be on the edge of the canvas.
-	 * This margin is expressed within image referential.
+	 * Get the insets (in pixels) that the displayed image as to respect from the canvas borders. 
+	 * Defining such insets is useful for avoiding the edge of the image to be on the edge of the canvas.
+	 * This insets are expressed in pixels within view referential.
 	 * @return the margin that the displayed image as to respect from the canvas borders
+	 * @see #setViewInsets(Insets)
 	 */
-	public DoubleProperty getImageMarginProperty() {
-		return this.imageMargin;
+	public Insets getViewInsets() {
+		return viewInsets;
 	}
 	
 	/**
-	 * Get the margin (in pixels) that the displayed image as to respect from the canvas borders. 
-	 * Defining such a margin is useful for avoiding the edge of the image to be on the edge of the canvas.
-	 * This margin is expressed within image referential.
-	 * @return the margin that the displayed image as to respect from the canvas borders
-	 * @see #setImageMargin(double)
-	 * @see #getImageMarginProperty()
+	 * Set the insets (in pixels) that the displayed image as to respect from the canvas borders. 
+	 * Defining such insets is useful for avoiding the edge of the image to be on the edge of the canvas.
+	 * These insets are expressed in pixels within view referential.
+	 * @param insets the insets that the displayed image as to respect from the canvas borders
+	 * @see #getViewInsets()
 	 */
-	public double getImageMargin() {
-		return imageMargin.get();
-	}
-	
-	/**
-	 * Set the margin (in pixels) that the displayed image as to respect from the canvas borders. 
-	 * Defining such a margin is useful for avoiding the edge of the image to be on the edge of the canvas.
-	 * This margin is expressed within image referential.
-	 * @param margin the margin that the displayed image as to respect from the canvas borders
-	 * @see #getImageMargin()
-	 */
-	public void setImageMargin(double margin) {
-		this.imageMargin.set(margin);
+	public void setViewInsets(Insets insets) {
+		this.viewInsets = insets;
 	}
 	
 	/**
@@ -616,19 +643,26 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	}
 
 	/**
-	 * Set the rotation to apply to the view. For a cumulative rotation, use {@link #rotate(double)} method.
+	 * Set the rotation to apply to the view. For a cumulative rotation, use {@link #viewRotate(double)} method.
 	 * @param angle the rotation angle, expressed in degree (°)
 	 * @see #getRotation()
 	 * @see #setTranslation(Point2D)
 	 * @see #setScale(double)
-	 * @see #rotate(double)
+	 * @see #viewRotate(double)
 	 */
 	public void setRotation(double angle) {
+
+		// TODO solve rotation update after translation
+		
 		if ((viewRotation.getAngle() != angle) && (Double.isFinite(angle) && (image != null))){
 
 			// The rotation is made around the image center.
-			viewRotation.setPivotX(image.getWidth() / 2.0d);
-			viewRotation.setPivotY(image.getHeight() / 2.0d);
+            Point2D pivot = new Point2D((image.getWidth() / 2.0d) + viewTranslation.getX(), (image.getHeight() / 2.0d) + viewTranslation.getY());
+            
+            System.out.println("Pivot: "+pivot);
+            
+			viewRotation.setPivotX(pivot.getX());
+			viewRotation.setPivotY(pivot.getY());
 
 			viewRotation.setAngle(angle);
 
@@ -655,7 +689,22 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 */
 	public void setScale(double scale){
 
+		// TODO Integrate scale pivot
+		
 		if ((viewScale.getX() != scale) || (viewScale.getY() != scale)) {
+
+			try {
+
+				Point2D pivot = new Point2D(((image.getWidth() / 2.0d)-viewTranslation.getX())*scale, ((image.getHeight() / 2.0d)-viewTranslation.getX())*scale);
+
+				//viewScale.setPivotX(pivot.getX());
+				//viewScale.setPivotY(pivot.getY());
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			viewScale.setX(scale);
 			viewScale.setY(scale);
 
@@ -675,21 +724,35 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	}
 
 	/**
-	 * Set the translation to apply to the view.
-	 * For a cumulative translation, use {@link #translate(Point2D)} method.
+	 * Set the translation to apply to the view. The <code>translation</code> is expressed within view referential in pixels (px).
+	 * For a cumulative translation, use {@link #viewTranslate(Point2D)} method.
 	 * @param translation the translation to apply to the view as a {@link Point2D 2D point}.
 	 * @see #getTranslation()
 	 * @see #setRotation(double)
 	 * @see #setScale(double)
-	 * @see #translate(Point2D)
+	 * @see #viewTranslate(Point2D)
 	 */
 	public void setTranslation(Point2D translation){
+		
 		if ((translation != null) && ((viewTranslation.getX() != translation.getX()) || ((viewTranslation.getY() != translation.getY())))){
 
-			viewTranslation.setX(translation.getX());
-			viewTranslation.setY(translation.getY());
+			try {
 
-			viewTransformUpdate();
+				// Express the input translation (given within view referential) into image referential
+				Affine transform = new Affine();
+				transform.append(viewScale);
+				transform.append(viewRotation);
+
+				Point2D translationVectorImage = transform.inverseTransform(translation.getX(), translation.getY());
+
+				viewTranslation.setX(translationVectorImage.getX());
+				viewTranslation.setY(translationVectorImage.getY());
+
+				viewTransformUpdate();
+				
+			} catch (Exception e) {
+				Common.logger.log(Level.SEVERE, "Cannot invert view rotation / scale: "+e.getMessage(), e);
+			}	
 		}
 	}
 
@@ -697,78 +760,68 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * Rotate the current view by the given angle. The angle has to be expressed in degree (°).
 	 * This method add the new rotation angle to the current one. If a reset of the rotation is needed, the method has to be used.
 	 * @param angle the rotation angle, expressed in degree (°)
-	 * @see #translate(Point2D)
+	 * @see #viewTranslate(Point2D)
 	 */
-	public void rotate(double angle) {
+	public void viewRotate(double angle) {
 
-		this.viewTransform.appendRotation(angle, this.getWidth()/2.0d, this.getHeight()/2.0d);
-
-		setNeedRefresh(true);
+		if (angle != 0.0d) {
+			setRotation(viewRotation.getAngle()+angle);
+		}
 	}
 
 	/**
-	 * Translate the current view by the given vector. The vector is expressed within the canvas referential.
+	 * Translate the current view by the given vector. The vector is expressed within the view referential.
 	 * This method substract the given vector from the existing translation. The reset of the translation can be done by calling {@link #setTranslation(Point2D)}.
-	 * @param vector the translation vector, expressed within the canvas referential
+	 * @param vector the translation vector, expressed within the view referential
 	 * @see #setTranslation(Point2D)
 	 */
-	public void translate(Point2D vector) {
+	public void viewTranslate(Point2D vector) {
 
 		if ((this.image != null) && (this.viewTransform != null)) {
-			
-			// The translation within the image referential.
-			Point2D translationImage = new Point2D(vector.getX()/viewScale.getX(), vector.getY()/viewScale.getY());
 
-			double margin = this.imageMargin.get()/viewScale.getX();
-			
-			// Compute image bounds according to the current rotation and scale
-			Point2D imageUpperLeftInView  = viewTransform.transform(new Point2D(0 - margin, 0 - margin));
-			Point2D imageLowerLeftInView  = viewTransform.transform(new Point2D(0 - margin, this.image.getHeight() + margin));
-			Point2D imageUpperRightInView = viewTransform.transform(new Point2D(this.image.getWidth()+ margin, 0 - margin));
-			Point2D imageLowerRightInView = viewTransform.transform(new Point2D(this.image.getHeight()+ margin, this.image.getHeight()+ margin));
-
-			Point2D boundsMin = new Point2D(Math.min(Math.min(imageUpperLeftInView.getX(), imageLowerLeftInView.getX()), 
-													 Math.min(imageUpperRightInView.getX(), imageLowerRightInView.getX())),
-											Math.min(Math.min(imageUpperLeftInView.getY(), imageLowerLeftInView.getY()), 
-													 Math.min(imageUpperRightInView.getY(), imageLowerRightInView.getY())));
-
-			Point2D boundsMax = new Point2D(Math.max(Math.max(imageUpperLeftInView.getX(), imageLowerLeftInView.getX()), 
-													 Math.max(imageUpperRightInView.getX(), imageLowerRightInView.getX())),
-											Math.max(Math.max(imageUpperLeftInView.getY(), imageLowerLeftInView.getY()), 
-													 Math.max(imageUpperRightInView.getY(), imageLowerRightInView.getY())));
+			Bounds bounds = this.getImageBoundsInView();
 
 			double boundedTranslationX = 0.0d;
 			
 			double boundedTranslationY = 0.0d;
 			
 			// Handling X translation
-			if (translationImage.getX() < 0.0d) {
+			if (vector.getX() < 0.0d) {
 				
-				boundedTranslationX = Math.min(Math.max(getWidth() - boundsMax.getX(), translationImage.getX()),
-    										   Math.max(-boundsMin.getX(), translationImage.getX()));
+				boundedTranslationX = Math.min(Math.max(getWidth() - bounds.getMaxX() - this.viewInsets.getRight(), vector.getX()),
+    										   Math.max(-bounds.getMinX() + this.viewInsets.getLeft(), vector.getX()));
 				
-			} else if (translationImage.getX() > 0.0d) {
+			} else if (vector.getX() > 0.0d) {
 				
-				boundedTranslationX = Math.max(Math.min(getWidth() - boundsMax.getX(), translationImage.getX()),
-                        					   Math.min(-boundsMin.getX(), translationImage.getX()));
+				boundedTranslationX = Math.max(Math.min(getWidth() - bounds.getMaxX() - this.viewInsets.getRight(), vector.getX()),
+                        					   Math.min(-bounds.getMinX() + this.viewInsets.getLeft(), vector.getX()));
 			}
 
 			// Handling Y translation
-			if (translationImage.getY() < 0.0d) {
+			if (vector.getY() < 0.0d) {
 				
-				boundedTranslationY = Math.min(Math.max(getHeight() - boundsMax.getY(), translationImage.getY()),
-    										   Math.max(-boundsMin.getY(), translationImage.getY()));
+				boundedTranslationY = Math.min(Math.max(getHeight() - bounds.getMaxY() - this.viewInsets.getBottom(), vector.getY()),
+    										   Math.max(-bounds.getMinY() + this.viewInsets.getTop(), vector.getY()));
 				
-			} else if (translationImage.getY() > 0.0d){
+			} else if (vector.getY() > 0.0d){
 				
-				boundedTranslationY = Math.max(Math.min(getHeight() - boundsMax.getY(), translationImage.getY()),
-                        					   Math.min(-boundsMin.getY(), translationImage.getY()));
+				boundedTranslationY = Math.max(Math.min(getHeight() - bounds.getMaxY() - this.viewInsets.getBottom(), vector.getY()),
+                        					   Math.min(-bounds.getMinY() + this.viewInsets.getTop(), vector.getY()));
 
 			}
 			
 			// Update the translation only if the parameter have been changed.
-			if ((boundedTranslationX != 0) || (boundedTranslationY != 0.0d)){				
-				setTranslation(new Point2D(viewTranslation.getX()+boundedTranslationX, viewTranslation.getY()+boundedTranslationY));
+			if ((boundedTranslationX != 0) || (boundedTranslationY != 0.0d)){	
+				
+				/// Express the current translation within the view referential
+				Affine transform = new Affine();
+				transform.append(viewScale);
+				transform.append(viewRotation);
+				
+				Point2D currentTranslationInView = transform.transform(new Point2D(viewTranslation.getX(), viewTranslation.getY()));
+
+				// Combine the current translation and the new one
+				setTranslation(new Point2D(currentTranslationInView.getX()+boundedTranslationX, currentTranslationInView.getY()+boundedTranslationY));
 			}
 		}
 	}
@@ -1087,7 +1140,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 				setNeedRefresh(true);
 
 				if (autoFit.get()) {
-					fit();
+					viewFit();
 				}
 
 				if (autoRepaint.get()){
@@ -1104,7 +1157,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 				setNeedRefresh(true);
 
 				if (autoFit.get()) {
-					fit();
+					viewFit();
 				}
 
 				if (autoRepaint.get()){
@@ -1203,7 +1256,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 						if (controlPrimaryActive.get()){
 
-							translate(cursorMove);
+							viewTranslate(cursorMove);
 
 							if (autoRepaint.get()){
 								refresh();
@@ -1214,7 +1267,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 						// Allow translation using secondary control
 						if (controlSecondaryActive.get()){								
-							translate(cursorMove);
+							viewTranslate(cursorMove);
 						}
 
 						if (controlPrimaryActive.get()) {
@@ -1299,49 +1352,73 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * Fit the image view according to the active {@link #getImageFitMethod() fit method}.
 	 * @see #getImageFitMethod()
 	 */
-	public void fit() {
-		/*
+	public void viewFit() {
+
 		if ((image != null) && (this.getWidth() != 0.0d) && (this.getHeight() != 0.0d) && (image.getWidth() != 0) && (image.getHeight() != 0.0d)){
+			
+			// Compute image bounds according to the current rotation and scale
+			Point2D imageUpperLeftInView  = this.viewRotation.transform(new Point2D(0, 0));
+			Point2D imageLowerLeftInView  = this.viewRotation.transform(new Point2D(0, this.image.getHeight()));
+			Point2D imageUpperRightInView = this.viewRotation.transform(new Point2D(this.image.getWidth(), 0));
+			Point2D imageLowerRightInView = this.viewRotation.transform(new Point2D(this.image.getWidth(), this.image.getHeight()));
+
+			Point2D boundsMin = new Point2D(Math.min(Math.min(imageUpperLeftInView.getX(), imageLowerLeftInView.getX()), 
+														Math.min(imageUpperRightInView.getX(), imageLowerRightInView.getX())),
+											Math.min(Math.min(imageUpperLeftInView.getY(), imageLowerLeftInView.getY()), 
+														Math.min(imageUpperRightInView.getY(), imageLowerRightInView.getY())));
+
+			Point2D boundsMax = new Point2D(Math.max(Math.max(imageUpperLeftInView.getX(), imageLowerLeftInView.getX()), 
+														Math.max(imageUpperRightInView.getX(), imageLowerRightInView.getX())),
+											Math.max(Math.max(imageUpperLeftInView.getY(), imageLowerLeftInView.getY()), 
+														Math.max(imageUpperRightInView.getY(), imageLowerRightInView.getY())));
+			
+			Bounds bounds = new BoundingBox(boundsMin.getX(), boundsMin.getY(), boundsMax.getX() - boundsMin.getX(), boundsMax.getY() - boundsMin.getY());
 
 			// Update image transform scale
 			if (imageFitMethod.get() == FIT_COMPLETE) {
-				double sx = this.getWidth() / image.getWidth() ;
-				double sy = this.getHeight() / image.getHeight();
+				double sx = (this.getWidth() - this.viewInsets.getLeft() - this.viewInsets.getRight()) / bounds.getWidth();
+				double sy = (this.getHeight() - this.viewInsets.getTop() - this.viewInsets.getBottom()) / bounds.getHeight();
 
-				viewTransform.setMxx(sx);
-				viewTransform.setMyy(sy);
-
-				setNeedRefresh(true);
+				viewScale.setX(sx);
+				viewScale.setY(sy);
 
 			} else if (imageFitMethod.get() == FIT_WIDTH) {
-				double scale = this.getWidth() / image.getWidth() ;			
-				viewTransform.setMxx(scale);
-				viewTransform.setMyy(scale);
-
-				setNeedRefresh(true);
+				double scale = (this.getWidth() - this.viewInsets.getLeft() - this.viewInsets.getRight()) / bounds.getWidth();
+				viewScale.setX(scale);
+				viewScale.setY(scale);
 
 			} else if (imageFitMethod.get() == FIT_HEIGHT) {
-				double scale = this.getHeight() / image.getHeight() ;			
-				viewTransform.setMxx(scale);
-				viewTransform.setMyy(scale);
+				double scale = (this.getHeight() - this.viewInsets.getTop() - this.viewInsets.getBottom()) / bounds.getHeight();		
+				viewScale.setX(scale);
+				viewScale.setY(scale);
 
 			} else if (imageFitMethod.get() == FIT_AUTO) {
-				double sx = this.getWidth() / image.getWidth();
-				double sy = this.getHeight() / image.getHeight();
+				double sx = (this.getWidth() - this.viewInsets.getLeft() - this.viewInsets.getRight()) / bounds.getWidth();
+				double sy = (this.getHeight() -this.viewInsets.getTop() - this.viewInsets.getBottom()) / bounds.getHeight();
 
 				double scale = Math.min(sx, sy);
 
-				viewTransform.setMxx(scale);
-				viewTransform.setMyy(scale);
-
-				setNeedRefresh(true);
+				viewScale.setX(scale);
+				viewScale.setY(scale);
 			}
 
-			if (autoRepaint.get()) {
-				refresh();
-			}
+			// Update translation
+			viewTranslation.setX(0);
+			viewTranslation.setY(0);
+			viewTranslation.setZ(0);
+			
+			viewTransform.setToIdentity();
+			viewTransform.append(this.viewScale);
+			viewTransform.append(this.viewRotation);
+			viewTransform.append(this.viewTranslation);
+			
+			
+			// Compute new image bounds
+			Point2D fittedBoundsMinV = new Point2D((-bounds.getMinX()*viewScale.getX()+this.viewInsets.getLeft()), (-bounds.getMinY()*viewScale.getY()+this.viewInsets.getTop()));
+
+			viewTranslate(fittedBoundsMinV);
+			
 		}
-		 */
 	}
 
 	/**
@@ -1507,8 +1584,8 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	private void viewTransformUpdate() {
 		viewTransform.setToIdentity();
 
-		viewTransform.append(viewRotation);
 		viewTransform.append(viewScale);
+		viewTransform.append(viewRotation);
 		viewTransform.append(viewTranslation);
 
 		setNeedRefresh(true);

@@ -1,17 +1,23 @@
 package org.jorigin.sample.jfx;
 
+import org.jorigin.Common;
 import org.jorigin.jfx.JImageCanvas;
 import org.jorigin.jfx.JImageFeature;
 import org.jorigin.jfx.JImageFeatureLayer;
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.BorderPane;
@@ -49,6 +55,10 @@ public class JImagePaneSample extends Application{
 
         canvas.setBackgroundPaint(Color.DARKGRAY);
 		
+        canvas.setAutoFit(false);
+        
+        canvas.viewRotate(35);	
+        
 		BorderPane centerPane = new BorderPane();
 		centerPane.setMinSize(0.0d, 0.0d);
 		
@@ -58,9 +68,69 @@ public class JImagePaneSample extends Application{
 		Label cursorPositionLB = new Label("Cursor position: -");
 		Label imageSizeLB = new Label("Image size: "+image.getWidth()+" x "+image.getHeight()+" px");
 		
+		// Handle Translation -- start
+		Button translationLeftBT = new Button("Left");
+		translationLeftBT.setOnAction((EventHandler<ActionEvent>) (e) -> {
+			canvas.viewTranslate(new Point2D(-10.0d, 0.0d));
+		});
+		
+		Button translationUpBT = new Button("Up");
+		translationUpBT.setOnAction((EventHandler<ActionEvent>) (e) -> {
+			canvas.viewTranslate(new Point2D(0.0d, -10.0d));
+		});
+		
+		Button translationDownBT = new Button("Down");
+		translationDownBT.setOnAction((EventHandler<ActionEvent>) (e) -> {
+			canvas.viewTranslate(new Point2D(0.0d, 10.0d));
+		});
+		
+		Button translationRightBT = new Button("Right");
+		translationRightBT.setOnAction((EventHandler<ActionEvent>) (e) -> {
+			canvas.viewTranslate(new Point2D(10.0d, 0.0d));
+		});
+		// Handle Translation -- end
+		
+		
+		// Handle rotation ----- start
+		Label rotationAngleLB = new Label("Rotation (°):");
+	    Slider rotationAngleSL = new Slider();
+	 
+        rotationAngleSL.setMin(0);
+        rotationAngleSL.setMax(360);
+        rotationAngleSL.setValue(canvas.getRotation());
+        
+        rotationAngleSL.setShowTickLabels(true);
+        rotationAngleSL.setShowTickMarks(true);
+        
+        rotationAngleSL.setBlockIncrement(10);
+		
+        rotationAngleSL.valueProperty().addListener((ChangeListener<Number>) (obs, oldValue, newValue) ->{
+            	canvas.setRotation(newValue.doubleValue());   
+            }
+         );
+        // Handle rotation ---- end
+        
+        // Handle Fit --- ----- start
+        Button fitBT = new Button("Fit");
+        fitBT.setOnAction((EventHandler<ActionEvent>) (e) -> {
+			canvas.viewFit();
+		});
+        
+        // Handle Fit --- ----- End
+        
 		bottomPane.getChildren().add(imageSizeLB);
 		bottomPane.getChildren().add(new Separator());
 		bottomPane.getChildren().add(cursorPositionLB);
+		bottomPane.getChildren().add(new Separator());
+		bottomPane.getChildren().add(rotationAngleLB);
+		bottomPane.getChildren().add(rotationAngleSL);
+		bottomPane.getChildren().add(new Separator());
+		bottomPane.getChildren().add(translationLeftBT);
+		bottomPane.getChildren().add(translationUpBT);
+		bottomPane.getChildren().add(translationDownBT);
+		bottomPane.getChildren().add(translationRightBT);
+		bottomPane.getChildren().add(new Separator());
+		bottomPane.getChildren().add(fitBT);
 		
 		centerPane.setCenter(canvas);
 		centerPane.setBottom(bottomPane);
@@ -101,8 +171,8 @@ public class JImagePaneSample extends Application{
 
 		canvas.addImageFeatureLayer(gridLayer);
 		
-		//canvas.rotate(45);	
-		//System.out.println("Rotation: "+canvas.getRotation());
+		
+		System.out.println("Rotation: "+canvas.getRotation());
 		
 		//canvas.setSelectionMode(JImageCanvas.MODE_SELECTION_RECTANGLE);
 	}
@@ -112,6 +182,7 @@ public class JImagePaneSample extends Application{
 	 * @param args the program arguments
 	 */
 	public static void main(String[] args) {
+		Common.init();
 		launch(args);
 	}
 }
