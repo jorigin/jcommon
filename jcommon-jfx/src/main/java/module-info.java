@@ -10,7 +10,7 @@ module org.jcommon.jfx {
 	exports org.jorigin.jfx.control;
 	exports org.jorigin.jfx.icon;
 	exports org.jorigin.jfx.thumbnail;
-	
+
 	requires transitive org.jcommon.core;
 	
 	requires transitive javafx.base;

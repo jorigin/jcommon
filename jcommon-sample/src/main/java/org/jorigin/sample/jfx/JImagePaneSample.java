@@ -7,7 +7,6 @@ import org.jorigin.jfx.JImageFeatureLayer;
 
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
@@ -19,12 +18,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.robot.Robot;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.transform.Affine;
@@ -44,21 +42,17 @@ public class JImagePaneSample extends Application{
 		
 		// Take a screenshot
 		Rectangle2D screenBounds = Screen.getPrimary().getBounds();
-		//Robot robot = new Robot();
-		//WritableImage image = robot.getScreenCapture(null, screenBounds);
-
+		
 		// load image
-		Image image = new Image(getClass().getResource("/image/landscape/mountain-lake.jpg").toExternalForm());
+		Image image = new Image(getClass().getResource("/image/landscape/mountain-lake-320x200.jpg").toExternalForm());
 		
 		// Create display
 		JImageCanvas canvas = new JImageCanvas(image);
 
         canvas.setBackgroundPaint(Color.DARKGRAY);
 		
-        canvas.setAutoFit(false);
-        
-        canvas.viewRotate(35);	
-        
+        canvas.setAutoFit(true);
+
 		BorderPane centerPane = new BorderPane();
 		centerPane.setMinSize(0.0d, 0.0d);
 		
@@ -108,6 +102,18 @@ public class JImagePaneSample extends Application{
             	canvas.setRotation(newValue.doubleValue());   
             }
          );
+        
+        Button rotationLeftBT = new Button("Rot left");
+        rotationLeftBT.setOnAction((EventHandler<ActionEvent>) (e) -> {
+			canvas.viewRotate(10);
+		});
+        
+        Button rotationRightBT = new Button("Rot right");
+        rotationRightBT.setOnAction((EventHandler<ActionEvent>) (e) -> {
+			//canvas.viewRotate(-10);
+        	canvas.setRotation(canvas.getRotation());
+		});
+        
         // Handle rotation ---- end
         
         // Handle Fit --- ----- start
@@ -129,6 +135,9 @@ public class JImagePaneSample extends Application{
 		bottomPane.getChildren().add(translationUpBT);
 		bottomPane.getChildren().add(translationDownBT);
 		bottomPane.getChildren().add(translationRightBT);
+		bottomPane.getChildren().add(new Separator());
+		bottomPane.getChildren().add(rotationLeftBT);
+		bottomPane.getChildren().add(rotationRightBT);
 		bottomPane.getChildren().add(new Separator());
 		bottomPane.getChildren().add(fitBT);
 		

@@ -39,6 +39,7 @@ import javafx.scene.transform.Affine;
 import javafx.scene.transform.NonInvertibleTransformException;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
+import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 
 /**
@@ -183,6 +184,13 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 */
 	private Translate viewTranslation;
 
+	/**
+	 * This property control if the clipping is active for translation. If the clipping is active,
+	 * translating the view using {@link #viewTranslate(Point2D)} will ensure that the image cannot exit the view 
+	 * according to the {@link #getViewInsets() view insets}.
+	 */
+	private BooleanProperty viewTranslationClipping;
+	
 	/**
 	 * The margin to use when translating the image to avoid a edge of the image to be fixed to the edge of the canvas.
 	 * This margin is expressed within the view referential.
@@ -419,6 +427,8 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 		this.viewTranslation = new Translate();
 		
+		this.viewTranslationClipping = new SimpleBooleanProperty(true);
+		
 		this.viewInsets = new Insets(20.0d, 20.0d, 20.0d, 20.0d);
 		
 		this.cursorPosition = new SimpleObjectProperty<Point2D>();
@@ -628,6 +638,42 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	}
 
 	/**
+	 * Get the property that control the use of clipping during a view translation. If the clipping is active,
+	 * translating the view using {@link #viewTranslate(Point2D)} will ensure that the image cannot exit the view 
+	 * according to the {@link #getViewInsets() view insets}.
+	 * @return the property that control the use of clipping during a view translation.
+	 * @see #isViewTranslationClipping()
+	 * @see #setViewTranslationClipping(boolean)
+	 */
+	public BooleanProperty getViewTranslationClippingProperty() {
+		return this.viewTranslationClipping;
+	}
+	
+	/**
+	 * Get if the translation clipping is active. If the clipping is active,
+	 * translating the view using {@link #viewTranslate(Point2D)} will ensure that the image cannot exit the view 
+	 * according to the {@link #getViewInsets() view insets}.
+	 * @return <code>true</code> if the clipping is active and <code>false</code> otherwise
+	 * @see #setViewTranslationClipping(boolean)
+	 * @see #getViewTranslationClippingProperty()
+	 */
+	public boolean isViewTranslationClipping() {
+		return this.viewTranslationClipping.get();
+	}
+	
+	/**
+	 * Set if the translation clipping has to be active. If the clipping is active,
+	 * translating the view using {@link #viewTranslate(Point2D)} will ensure that the image cannot exit the view 
+	 * according to the {@link #getViewInsets() view insets}.
+	 * @param clip <code>true</code> if the clipping has to be active and <code>false</code> otherwise
+	 * @see #isViewTranslationClipping()
+	 * @see #getViewTranslationClippingProperty()
+	 */
+	public void setViewTranslationClipping(boolean clip) {
+		this.viewTranslationClipping.set(clip);
+	}
+	
+	/**
 	 * Get the rotation applied to the view as an angle expressed in degree (°).
 	 * @return the rotation applied to the view as an angle expressed in degree (°).
 	 * @see #setRotation(double)
@@ -651,22 +697,46 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #viewRotate(double)
 	 */
 	public void setRotation(double angle) {
-
-		// TODO solve rotation update after translation
 		
-		if ((viewRotation.getAngle() != angle) && (Double.isFinite(angle) && (image != null))){
+		// TODO Add rotation pivot setting
+		
+		if ((viewRotation != null) && (viewRotation.getAngle() != angle) && (Double.isFinite(angle) && (image != null))){
+			
+			// Save the current translation component of the affine transform
+			Point2D tmpTranslation = new Point2D(viewTransform.getTx(), viewTransform.getTy());
+			
+			// Translate image center to origin
+			Affine tmpTransform = new Affine();
+			tmpTransform.append(viewScale);
+			tmpTransform.append(viewRotation);
 
-			// The rotation is made around the image center.
-            Point2D pivot = new Point2D((image.getWidth() / 2.0d) + viewTranslation.getX(), (image.getHeight() / 2.0d) + viewTranslation.getY());
-            
-            System.out.println("Pivot: "+pivot);
-            
-			viewRotation.setPivotX(pivot.getX());
-			viewRotation.setPivotY(pivot.getY());
+			try {
+				
+				
+				// 1. Set the new rotation angle
+				//    Ensure that the angle is between 180 / -180°
+				double normalizedAngle = angle - (Math.ceil((angle + 180)/360)-1)*360;           // (-180;180]:
+				
+				//    Set the new angle of rotation to its normalized value
+				viewRotation.setAngle(normalizedAngle);
+				
+				// 2. Restore original translation
+				tmpTransform.setToIdentity();       // temporary affine transform has to be recomputed has 
+				tmpTransform.append(viewScale);     // the rotation component has changed
+				tmpTransform.append(viewRotation);
+				
+				tmpTranslation = tmpTransform.inverseTransform(tmpTranslation);
+				
+				viewTranslation.setX(tmpTranslation.getX());
+				viewTranslation.setY(tmpTranslation.getY());
 
-			viewRotation.setAngle(angle);
-
-			viewTransformUpdate();
+				// 3. Update the global affine transform
+				viewTransformUpdate();
+				
+			} catch (NonInvertibleTransformException e) {
+				Common.logger.log(Level.SEVERE, "Cannot invert transformation: "+e.getMessage(), e);
+			}						
+			
 		}
 	}
 
@@ -689,21 +759,9 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 */
 	public void setScale(double scale){
 
-		// TODO Integrate scale pivot
+		// TODO Add scale pivot setting
 		
 		if ((viewScale.getX() != scale) || (viewScale.getY() != scale)) {
-
-			try {
-
-				Point2D pivot = new Point2D(((image.getWidth() / 2.0d)-viewTranslation.getX())*scale, ((image.getHeight() / 2.0d)-viewTranslation.getX())*scale);
-
-				//viewScale.setPivotX(pivot.getX());
-				//viewScale.setPivotY(pivot.getY());
-				
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			
 			viewScale.setX(scale);
 			viewScale.setY(scale);
@@ -733,7 +791,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #viewTranslate(Point2D)
 	 */
 	public void setTranslation(Point2D translation){
-		
+
 		if ((translation != null) && ((viewTranslation.getX() != translation.getX()) || ((viewTranslation.getY() != translation.getY())))){
 
 			try {
@@ -784,32 +842,39 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			double boundedTranslationX = 0.0d;
 			
 			double boundedTranslationY = 0.0d;
+	
+			boolean clipping = true;
 			
-			// Handling X translation
-			if (vector.getX() < 0.0d) {
-				
-				boundedTranslationX = Math.min(Math.max(getWidth() - bounds.getMaxX() - this.viewInsets.getRight(), vector.getX()),
-    										   Math.max(-bounds.getMinX() + this.viewInsets.getLeft(), vector.getX()));
-				
-			} else if (vector.getX() > 0.0d) {
-				
-				boundedTranslationX = Math.max(Math.min(getWidth() - bounds.getMaxX() - this.viewInsets.getRight(), vector.getX()),
-                        					   Math.min(-bounds.getMinX() + this.viewInsets.getLeft(), vector.getX()));
+			if (clipping) {
+				// Handling X translation
+				if (vector.getX() < 0.0d) {
+					
+					boundedTranslationX = Math.min(Math.max(getWidth() - bounds.getMaxX() - this.viewInsets.getRight(), vector.getX()),
+	    										   Math.max(-bounds.getMinX() + this.viewInsets.getLeft(), vector.getX()));
+					
+				} else if (vector.getX() > 0.0d) {
+					
+					boundedTranslationX = Math.max(Math.min(getWidth() - bounds.getMaxX() - this.viewInsets.getRight(), vector.getX()),
+	                        					   Math.min(-bounds.getMinX() + this.viewInsets.getLeft(), vector.getX()));
+				}
+
+				// Handling Y translation
+				if (vector.getY() < 0.0d) {
+					
+					boundedTranslationY = Math.min(Math.max(getHeight() - bounds.getMaxY() - this.viewInsets.getBottom(), vector.getY()),
+	    										   Math.max(-bounds.getMinY() + this.viewInsets.getTop(), vector.getY()));
+					
+				} else if (vector.getY() > 0.0d){
+					
+					boundedTranslationY = Math.max(Math.min(getHeight() - bounds.getMaxY() - this.viewInsets.getBottom(), vector.getY()),
+	                        					   Math.min(-bounds.getMinY() + this.viewInsets.getTop(), vector.getY()));
+
+				}
+			} else {
+				boundedTranslationX = vector.getX();
+				boundedTranslationY = vector.getY();
 			}
 
-			// Handling Y translation
-			if (vector.getY() < 0.0d) {
-				
-				boundedTranslationY = Math.min(Math.max(getHeight() - bounds.getMaxY() - this.viewInsets.getBottom(), vector.getY()),
-    										   Math.max(-bounds.getMinY() + this.viewInsets.getTop(), vector.getY()));
-				
-			} else if (vector.getY() > 0.0d){
-				
-				boundedTranslationY = Math.max(Math.min(getHeight() - bounds.getMaxY() - this.viewInsets.getBottom(), vector.getY()),
-                        					   Math.min(-bounds.getMinY() + this.viewInsets.getTop(), vector.getY()));
-
-			}
-			
 			// Update the translation only if the parameter have been changed.
 			if ((boundedTranslationX != 0) || (boundedTranslationY != 0.0d)){	
 				
@@ -1550,6 +1615,8 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 	public void select(Shape shape) {
 
+		// TODO implement selection
+		
 		try {
 			shape.getTransforms().add(viewTransform.createInverse());
 
@@ -1584,10 +1651,28 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	private void viewTransformUpdate() {
 		viewTransform.setToIdentity();
 
+		
 		viewTransform.append(viewScale);
 		viewTransform.append(viewRotation);
 		viewTransform.append(viewTranslation);
-
+/*
+		System.out.println("Scale");
+		System.out.println("  - x     : "+viewScale.getX());
+		System.out.println("  - y     : "+viewScale.getY());
+		System.out.println("  - Pivot : ("+viewScale.getPivotX()+", "+viewScale.getPivotY()+", "+viewScale.getPivotZ()+")");
+		System.out.println("Rotation");
+		System.out.println("  - Angle : "+viewRotation.getAngle());
+		System.out.println("  - Axis  : "+viewRotation.getAxis());
+		System.out.println("  - Pivot : ("+viewRotation.getPivotX()+", "+viewRotation.getPivotY()+", "+viewRotation.getPivotZ()+")");
+		System.out.println("Translation");
+		System.out.println("  - Vector : ("+viewTranslation.getX()+", "+viewTranslation.getY()+", "+viewTranslation.getZ()+")");
+		System.out.println("");
+		System.out.println("[ "+viewTransform.getMxx()+" "+viewTransform.getMxy()+" "+viewTransform.getMxz()+ " "+viewTransform.getTx()+" ]");
+		System.out.println("[ "+viewTransform.getMyx()+" "+viewTransform.getMyy()+" "+viewTransform.getMyz()+ " "+viewTransform.getTy()+" ]");
+		System.out.println("[ "+viewTransform.getMzx()+" "+viewTransform.getMzy()+" "+viewTransform.getMzz()+ " "+viewTransform.getTz()+" ]");
+		System.out.println("[ "+0.0d+" "+0.0d+" "+0.0d+ " "+1.0d+" ]");
+*/		
+		
 		setNeedRefresh(true);
 
 		if (autoRepaint.get()){
