@@ -694,7 +694,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 		// TODO Add rotation pivot setting
 		
 		if ((this.viewRotation != null) && (this.viewRotation.getAngle() != angle) && (Double.isFinite(angle) && (this.image != null))){
-			
+/*			
 			// 1. Set the new rotation angle
 			//    Ensure that the angle is between 180 / -180°
 			double normalizedAngle = angle - (Math.ceil((angle + 180)/360)-1)*360;           // (-180;180]:
@@ -702,21 +702,24 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			//    Set the new angle of rotation to its normalized value
 			//Point2D pivot = getViewCoordinate(getImage().getWidth()/2.0d, getImage().getHeight()/2.0d);
 			Point2D pivot = new Point2D(getImage().getWidth()/2.0d, getImage().getHeight()/2.0d);
+			
+			Point2D translation = new Point2D(this.viewTranslation.getTx(), this.viewTranslation.getTy());
+
 			this.viewRotation.setAngle(normalizedAngle);
-			this.viewRotation.setPivotX(pivot.getX());
-			this.viewRotation.setPivotY(pivot.getY());
+			this.viewRotation.setPivotX(translation.getX() + pivot.getX());
+			this.viewRotation.setPivotY(translation.getY() + pivot.getY());
 			
 			// 2. Update the global affine transform
 			viewTransformUpdate();
+*/			
 			
-/*			
 			// Save the current translation component of the affine transform
-			Point2D tmpTranslation = new Point2D(viewTransform.getTx(), viewTransform.getTy());
+			Point2D tmpTranslation = new Point2D(this.viewTransform.getTx(), this.viewTransform.getTy());
 			
 			// Translate image center to origin
 			Affine tmpTransform = new Affine();
-			tmpTransform.append(viewScale);
-			tmpTransform.append(viewRotation);
+			tmpTransform.append(this.viewScale);
+			tmpTransform.append(this.viewRotation);
 
 			try {
 				
@@ -726,17 +729,21 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 				double normalizedAngle = angle - (Math.ceil((angle + 180)/360)-1)*360;           // (-180;180]:
 				
 				//    Set the new angle of rotation to its normalized value
-				viewRotation.setAngle(normalizedAngle);
+				Point2D pivot = new Point2D(getImage().getWidth()/2.0d, getImage().getHeight()/2.0d);
+				
+				this.viewRotation.setAngle(normalizedAngle);
+				//this.viewRotation.setPivotX(pivot.getX());
+				//this.viewRotation.setPivotY(pivot.getY());
 				
 				// 2. Restore original translation
 				tmpTransform.setToIdentity();       // temporary affine transform has to be recomputed has 
-				tmpTransform.append(viewScale);     // the rotation component has changed
-				tmpTransform.append(viewRotation);
+				tmpTransform.append(this.viewScale);     // the rotation component has changed
+				tmpTransform.append(this.viewRotation);
 				
 				tmpTranslation = tmpTransform.inverseTransform(tmpTranslation);
 				
-				viewTranslation.setX(tmpTranslation.getX());
-				viewTranslation.setY(tmpTranslation.getY());
+				this.viewTranslation.setX(tmpTranslation.getX());
+				this.viewTranslation.setY(tmpTranslation.getY());
 
 				// 3. Update the global affine transform
 				viewTransformUpdate();
@@ -744,7 +751,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			} catch (NonInvertibleTransformException e) {
 				Common.logger.log(Level.SEVERE, "Cannot invert transformation: "+e.getMessage(), e);
 			}						
-*/			
+			
 		}
 	}
 
