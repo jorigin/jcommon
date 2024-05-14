@@ -715,11 +715,6 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			
 			// Save the current translation component of the affine transform
 			Point2D tmpTranslation = new Point2D(this.viewTransform.getTx(), this.viewTransform.getTy());
-			
-			// Translate image center to origin
-			Affine tmpTransform = new Affine();
-			tmpTransform.append(this.viewScale);
-			tmpTransform.append(this.viewRotation);
 
 			try {
 				
@@ -736,11 +731,19 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 				//this.viewRotation.setPivotY(pivot.getY());
 				
 				// 2. Restore original translation
+				Affine tmpTransform = new Affine();
 				tmpTransform.setToIdentity();       // temporary affine transform has to be recomputed has 
 				tmpTransform.append(this.viewScale);     // the rotation component has changed
 				tmpTransform.append(this.viewRotation);
 				
 				tmpTranslation = tmpTransform.inverseTransform(tmpTranslation);
+				
+				System.out.println("[Translation (x, y)]       "+this.viewTranslation.getX()+", "+this.viewTranslation.getY());
+				System.out.println("[Translation (Tx, Ty)]     "+this.viewTranslation.getTx()+", "+this.viewTranslation.getTy());
+				System.out.println("[Transform   (Tx, Ty)]     "+this.viewTransform.getTx()+", "+this.viewTransform.getTy());
+				System.out.println("[Inv Transform   (Tx, Ty)] "+tmpTranslation.getX()+", "+tmpTranslation.getY());
+				
+				System.out.println();
 				
 				this.viewTranslation.setX(tmpTranslation.getX());
 				this.viewTranslation.setY(tmpTranslation.getY());
