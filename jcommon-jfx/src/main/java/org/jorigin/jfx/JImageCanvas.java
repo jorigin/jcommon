@@ -695,6 +695,21 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 		
 		if ((viewRotation != null) && (viewRotation.getAngle() != angle) && (Double.isFinite(angle) && (image != null))){
 			
+			// 1. Set the new rotation angle
+			//    Ensure that the angle is between 180 / -180°
+			double normalizedAngle = angle - (Math.ceil((angle + 180)/360)-1)*360;           // (-180;180]:
+			
+			//    Set the new angle of rotation to its normalized value
+			//Point2D pivot = getViewCoordinate(getImage().getWidth()/2.0d, getImage().getHeight()/2.0d);
+			Point2D pivot = new Point2D(getImage().getWidth()/2.0d, getImage().getHeight()/2.0d);
+			viewRotation.setAngle(normalizedAngle);
+			viewRotation.setPivotX(pivot.getX());
+			viewRotation.setPivotY(pivot.getY());
+			
+			// 2. Update the global affine transform
+			viewTransformUpdate();
+			
+/*			
 			// Save the current translation component of the affine transform
 			Point2D tmpTranslation = new Point2D(viewTransform.getTx(), viewTransform.getTy());
 			
@@ -729,7 +744,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			} catch (NonInvertibleTransformException e) {
 				Common.logger.log(Level.SEVERE, "Cannot invert transformation: "+e.getMessage(), e);
 			}						
-			
+*/			
 		}
 	}
 
