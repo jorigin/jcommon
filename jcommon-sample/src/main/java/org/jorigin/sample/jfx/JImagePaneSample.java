@@ -183,7 +183,7 @@ public class JImagePaneSample extends Application{
 		
 		System.out.println("Rotation: "+canvas.getRotation());
 		
-		//canvas.setSelectionMode(JImageCanvas.MODE_SELECTION_RECTANGLE);
+		canvas.setSelectionMode(JImageCanvas.MODE_SELECTION_RECTANGLE);
 	}
 
 	/**

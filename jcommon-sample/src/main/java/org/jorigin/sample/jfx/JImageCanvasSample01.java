@@ -20,20 +20,19 @@ public class JImageCanvasSample01 extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
-		
+System.out.println(System.getProperty("user.dir"));
 		// Take a screenshot
 		Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 		
 		// load image
 		Image image = new Image(getClass().getResource("/image/landscape/mountain-lake-320x200.jpg").toExternalForm());
-		
+
 		// Create display
 		JImageCanvas canvas = new JImageCanvas(image);
 
-        canvas.setBackgroundPaint(Color.DARKGRAY);
+		canvas.setBackgroundPaint(Color.DARKGRAY);
 		
-        canvas.setAutoFit(false);
+		canvas.setAutoFit(false);
 
 		BorderPane centerPane = new BorderPane();
 		centerPane.setMinSize(0.0d, 0.0d);

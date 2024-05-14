@@ -39,7 +39,6 @@ import javafx.scene.transform.Affine;
 import javafx.scene.transform.NonInvertibleTransformException;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Scale;
-import javafx.scene.transform.Transform;
 import javafx.scene.transform.Translate;
 
 /**
@@ -53,12 +52,6 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * This name enable to identify the property when a {@link java.beans.PropertyChangeEvent property change event} is fired from this object.
 	 */
 	public static final String MODE_SELECTION_PROPERTY = "MODE_SELECTION";
-
-	/**
-	 * The image feature scale property name.
-	 * This name enable to identify the property when a {@link java.beans.PropertyChangeEvent property change event} is fired from this object.
-	 */
-	public static final String SCALE_PROPERTY          = "SCALE";
 
 	/**
 	 * No selection mode activated.
@@ -1613,6 +1606,10 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 		}
 	}
 
+	/**
+	 * Select the features that are inside the given {@link Shape shape}. The shape is expressed within view coordinates.
+	 * @param shape the selection {@link Shape shape}
+	 */
 	public void select(Shape shape) {
 
 		// TODO implement selection

@@ -15,85 +15,65 @@ import javafx.scene.layout.Background;
 // TODO Implements JTjumbnailStyle name font property
 //TODO Implements JTjumbnailStyle selected name font property
 public class JThumbnailStyle {
-	
-	/** The property that set the {@link JThumbnail} width. By default this property is set to {@link Double#NaN}. */
+
+	// The property that set the {@link JThumbnail} width. By default this property is set to {@link Double#NaN}.
 	private DoubleProperty thumbnailWidth = null;
 	
-	/** The property that set the {@link JThumbnail} height. By default this property is set to {@link Double#NaN}. */
+	// The property that set the {@link JThumbnail} height. By default this property is set to {@link Double#NaN}.
 	private DoubleProperty thumbnailHeight = null;
 	
-	/** 
-	 * The property that set the horizontal spacing between {@link JThumbnail} within the {@link JThumbnailPane}.
-	 * By default this property is set to {@link Double#NaN}.
-	 */
+	// The property that set the horizontal spacing between {@link JThumbnail} within the {@link JThumbnailPane}.
+	// By default this property is set to {@link Double#NaN}.
 	private DoubleProperty thumbnailHGap = null;
 	
-	/** 
-	 * The property that set the vertical spacing between {@link JThumbnail} within the {@link JThumbnailPane}.
-	 * By default this property is set to {@link Double#NaN}
-	 */
+	 // The property that set the vertical spacing between {@link JThumbnail} within the {@link JThumbnailPane}.
+	 // By default this property is set to {@link Double#NaN}
 	private DoubleProperty thumbnailVGap = null;
 	
-	/**
-	 * The property that set if {@link JThumbnail} name has to be displayed.
-	 * By default this property is set to <code>false</code>.
-	 */
-	private BooleanProperty thumbnailNameVisibility = null;
-	
-	/** 
-	 * The property that set the {@link JThumbnail} image background.
-	 * By default this property holds an {@link Background#EMPTY} background and thus, attached thumbnail use default settings.
-	 */
+	// The property that set if {@link JThumbnail} name has to be displayed.
+	// By default this property is set to <code>false</code>.
+	private BooleanProperty thumbnailNameVisibility = null;	
+
+	// The property that set the {@link JThumbnail} image background.
+	// By default this property holds an {@link Background#EMPTY} background and thus, attached thumbnail use default settings.
 	private ObjectProperty<Background> thumbnailImageBackground = null;
 	
-	/** 
-	 * The property that set the {@link JThumbnail} name background.
-	 * By default this property holds an {@link Background#EMPTY} background and thus, attached thumbnail use default settings.
-	 */
+	// The property that set the {@link JThumbnail} name background.
+	// By default this property holds an {@link Background#EMPTY} background and thus, attached thumbnail use default settings.
 	private ObjectProperty<Background> thumbnailNameBackground = null;
 	
-	/** 
-	 * The property that set the {@link JThumbnail} global background. 
-	 * @see #thumbnailFocusedBackground
-	 * @see #thumbnailSelectedBackground
-	 */
+	// The property that set the {@link JThumbnail} global background. 
+	// @see #thumbnailFocusedBackground
+	// @see #thumbnailSelectedBackground
 	private ObjectProperty<Background> thumbnailBackground = null;
 	
-	/** 
-	 * The property that set the {@link JThumbnailPane} background. 
-	 */
+	// The property that set the {@link JThumbnailPane} background. 
 	private ObjectProperty<Background> thumbnailPaneBackground = null;
 		
 //////////////////////////////////////////////////////////////////
 // FOCUSED STATE PROPERTIES
-	/** 
-	 * The property that set a focused {@link JThumbnail} global background. 
-	 * @see #thumbnailBackground
-	 * @see #thumbnailSelectedBackground
-	 */
+	 
+	// The property that set a focused {@link JThumbnail} global background. 
+	// @see #thumbnailBackground
+	// @see #thumbnailSelectedBackground
 	private ObjectProperty<Background> thumbnailFocusedBackground = null;
 //////////////////////////////////////////////////////////////////
 
 //////////////////////////////////////////////////////////////////
 // SELECTED STATE PROPERTIES
-	/** 
-	 * The property that set a selected {@link JThumbnail} global background.
-	 * By default, this property holds the {@link Background#EMPTY} value.
-	 * @see #thumbnailBackground
-	 * @see #thumbnailFocusedBackground
-	 */
+	
+	// The property that set a selected {@link JThumbnail} global background.
+	// By default, this property holds the {@link Background#EMPTY} value.
+	// @see #thumbnailBackground
+	// @see #thumbnailFocusedBackground
 	private ObjectProperty<Background> thumbnailSelectedBackground = null;
 	
-	/** 
-	 * The property that set the {@link JThumbnail} image background when it is selected.
-	 * By default, this property holds the {@link Background#EMPTY} value.
-	 */
+	// The property that set the {@link JThumbnail} image background when it is selected.
+	// By default, this property holds the {@link Background#EMPTY} value.
 	private ObjectProperty<Background> thumbnailSelectedImageBackground = null;
 	
-	/** 
-	 * The property that set the {@link JThumbnail} name background when it is selected.
-	 *  By default, this property holds the {@link Background#EMPTY} value.
-	 */
+	// The property that set the {@link JThumbnail} name background when it is selected.
+	//  By default, this property holds the {@link Background#EMPTY} value.
 	private ObjectProperty<Background> thumbnailSelectedNameBackground = null;
 //////////////////////////////////////////////////////////////////
 	

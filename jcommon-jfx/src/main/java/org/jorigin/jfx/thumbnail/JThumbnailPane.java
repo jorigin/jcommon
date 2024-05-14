@@ -42,15 +42,10 @@ public class JThumbnailPane<T> extends BorderPane{
 	/** The pane scroll */
 	private ScrollPane scrollPane = null;
 
-	/** The thumbnail pane style */
-	private ObjectProperty<JThumbnailStyle> style = null;
+	// The thumbnail pane style
+	private ObjectProperty<JThumbnailStyle> thumbnailStyle = null;
 
-	/**
-	 * The filter that will match the {@link JThumbnail thumbnails} that will be displayed in this JThumbnailPane according to their {@link JThumbnail#getThumbnailContent() content}.
-	 * thumbnails not matching the predicate will be hidden.
-	 * <code>Null</code> filter means "always true" predicate, all thumbnails will be matched.
-	 */
-	private ObjectProperty<Predicate<? super T>> filter = null;
+	private ObjectProperty<Predicate<? super T>> thumbnailFilter = null;
 
 	/**
 	 * This runner enable to handle multiple click mouse event.
@@ -75,7 +70,7 @@ public class JThumbnailPane<T> extends BorderPane{
 
 	/**
 	 * Create a new empty thumbnail pane.
-	 * @param style the {@ink JThumbnailParameters style} of the pane.
+	 * @param style the {@link JThumbnailStyle style} of the pane.
 	 */
 	public JThumbnailPane(JThumbnailStyle style) {
 		this(true, style);
@@ -198,9 +193,9 @@ public class JThumbnailPane<T> extends BorderPane{
 	 * Thumbnails that are not matching the predicate will be hidden.
 	 * @return the <code>filter</code> property
 	 */
-	public final ObjectProperty<Predicate<? super T>> filterProperty() {
-		if (filter == null) {
-			filter = new ObjectPropertyBase<Predicate<? super T>>() {
+	public final ObjectProperty<Predicate<? super T>> thumbnailFilterProperty() {
+		if (thumbnailFilter == null) {
+			thumbnailFilter = new ObjectPropertyBase<Predicate<? super T>>() {
 
 				@Override
 				protected void invalidated() {
@@ -219,7 +214,7 @@ public class JThumbnailPane<T> extends BorderPane{
 
 			};
 		}
-		return filter;
+		return thumbnailFilter;
 	}
 
 	/**
@@ -227,8 +222,8 @@ public class JThumbnailPane<T> extends BorderPane{
 	 * @return the <code>style</code> property
 	 */
 	public final ObjectProperty<JThumbnailStyle> thumbnailStyleProperty() {
-		if (style == null) {
-			style = new ObjectPropertyBase<JThumbnailStyle>() {
+		if (thumbnailStyle == null) {
+			thumbnailStyle = new ObjectPropertyBase<JThumbnailStyle>() {
 
 				@Override
 				protected void invalidated() {
@@ -247,7 +242,7 @@ public class JThumbnailPane<T> extends BorderPane{
 
 			};
 		}
-		return style;
+		return thumbnailStyle;
 	}
 
 	/**
@@ -334,7 +329,7 @@ public class JThumbnailPane<T> extends BorderPane{
 	public void setFilter(Predicate<? super T> predicate) {
 
 		// Setting this property value will trigger a call to filter() method.
-		filterProperty().set(predicate);
+		thumbnailFilterProperty().set(predicate);
 	}
 
 	/**
@@ -354,11 +349,11 @@ public class JThumbnailPane<T> extends BorderPane{
 	}
 
 	/**
-	 * Filter the thumbnail according the attached {@link #filter}.
+	 * Filter the thumbnail according the attached {@link #thumbnailFilter}.
 	 */
 	private void filter() {
-		if (this.filter != null) {
-			this.filteredThumbnails.setPredicate((t) -> {return this.filter.get().test(t.getThumbnailContent());});
+		if (this.thumbnailFilter != null) {
+			this.filteredThumbnails.setPredicate((t) -> {return this.thumbnailFilter.get().test(t.getThumbnailContent());});
 		} else {
 			this.filteredThumbnails.setPredicate(null);
 		}
@@ -417,7 +412,7 @@ public class JThumbnailPane<T> extends BorderPane{
 								
 								if (!thumbnail.isStateSelected()) {
 									
-									if ((filter == null) || filter.get().test(thumbnail.getThumbnailContent())) {
+									if ((thumbnailFilter == null) || thumbnailFilter.get().test(thumbnail.getThumbnailContent())) {
 										thumbnail.setStateSelected(true);
 										selectedThumbnails.add(thumbnail);
 										selectionLastThumbnail = thumbnail;
@@ -434,7 +429,7 @@ public class JThumbnailPane<T> extends BorderPane{
 									tmp = thumbnails.get(i);
 									if (!tmp.isStateSelected()) {
 										
-										if ((filter == null) || filter.get().test(tmp.getThumbnailContent())) {
+										if ((thumbnailFilter == null) || thumbnailFilter.get().test(tmp.getThumbnailContent())) {
 											tmp.setStateSelected(true);
 											selectedThumbnails.add(tmp);
 											selectionLastThumbnail = thumbnail;
@@ -459,7 +454,7 @@ public class JThumbnailPane<T> extends BorderPane{
 							// Select the thumbnail
 							} else {
 								
-								if ((filter == null) || filter.get().test(thumbnail.getThumbnailContent())) {
+								if ((thumbnailFilter == null) || thumbnailFilter.get().test(thumbnail.getThumbnailContent())) {
 									thumbnail.setStateSelected(true);
 									selectedThumbnails.add(thumbnail);
 									selectionLastThumbnail = thumbnail;
@@ -477,7 +472,7 @@ public class JThumbnailPane<T> extends BorderPane{
 							}						
 							selectedThumbnails.clear();
 							
-							if (!thumbnail.isStateSelected() && ((filter == null) || filter.get().test(thumbnail.getThumbnailContent()))) {
+							if (!thumbnail.isStateSelected() && ((thumbnailFilter == null) || thumbnailFilter.get().test(thumbnail.getThumbnailContent()))) {
 								thumbnail.setStateSelected(true);
 								selectedThumbnails.add(thumbnail);
 							}

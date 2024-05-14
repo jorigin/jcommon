@@ -2,6 +2,7 @@ package org.jorigin.jfx.icon;
 
 import java.lang.invoke.MethodHandles;
 import java.net.JarURLConnection;
+import java.net.URI;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,7 +20,7 @@ import javafx.stage.Screen;
  * @author Julien SEINTURIER, IVM Technologies / j.seinturier@ivm-technologies.com
  *
  */
-public class IconLoader {
+public final class IconLoader {
 
 	/** The logger to use */
 	private static Logger logger = Logger.getLogger(IconLoader.class.getName());
@@ -45,7 +46,7 @@ public class IconLoader {
 	public static int PATH_TYPE_EMBEDDED_JAR = 4;
 
 	/**
-	 * This flag identifies a zup type for the resource path.
+	 * This flag identifies a zip type for the resource path.
 	 */
 	public static int PATH_TYPE_EMBEDDED_ZIP = 4;
 
@@ -113,7 +114,7 @@ public class IconLoader {
 					String inputFile = iconDirectory+path;
 
 					try {
-						URL inputURL = new URL(inputFile);
+						URL inputURL = new URI(inputFile).toURL();
 
 						JarURLConnection conn = (JarURLConnection)inputURL.openConnection();
 

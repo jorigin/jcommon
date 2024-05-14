@@ -295,7 +295,7 @@ public class JImageFeatureLayer implements HandleSelection, HandleDisplay, Named
 	}
 
 	/**
-	 * Fire an {@link JImageFeatureLayerListener#onImageFeaturesAdded(JImageFeatureLayer, JImageFeature) onImageFeaturesAdded} callback on all registered {@link JImageFeatureLayerListener listener}.
+	 * Fire an {@link JImageFeatureLayerListener#onImageFeaturesAdded(JImageFeatureLayer, Collection) onImageFeaturesAdded} callback on all registered {@link JImageFeatureLayerListener listener}.
 	 * @param features the features involved with the callback
 	 */
 	protected void fireOnImageFeaturesAdded(Collection<JImageFeature> features) {
@@ -305,7 +305,7 @@ public class JImageFeatureLayer implements HandleSelection, HandleDisplay, Named
 	}
 
 	/**
-	 * Fire an {@link JImageFeatureLayerListener#onImageFeaturesRemoved(JImageFeatureLayer, JImageFeature) onImageFeaturesRemoved} callback on all registered {@link JImageFeatureLayerListener listener}.
+	 * Fire an {@link JImageFeatureLayerListener#onImageFeaturesRemoved(JImageFeatureLayer, Collection) onImageFeaturesRemoved} callback on all registered {@link JImageFeatureLayerListener listener}.
 	 * @param features the features involved with the callback
 	 */
 	protected void fireOnImageFeaturesRemoved(Collection<JImageFeature> features) {
