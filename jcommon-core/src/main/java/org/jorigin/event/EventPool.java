@@ -46,7 +46,7 @@ public class EventPool {
    * Construct a new event pool. This method creates the listener list.
    */
   public EventPool(){
-    idListenerList = new EventListenerList(); 
+    this.idListenerList = new EventListenerList(); 
   }
   
   /**
@@ -56,7 +56,7 @@ public class EventPool {
    * @param listener the listener to add.
    */
   public void addListener(AWTEventListener listener){
-    idListenerList.add(AWTEventListener.class, listener);    
+    this.idListenerList.add(AWTEventListener.class, listener);    
   }
 
   /**
@@ -66,7 +66,7 @@ public class EventPool {
    * @param listener the listener to remove.
    */
   public void removeListener(AWTEventListener listener){
-    idListenerList.remove(AWTEventListener.class, listener);   
+    this.idListenerList.remove(AWTEventListener.class, listener);   
   }
   
   /**
@@ -75,7 +75,7 @@ public class EventPool {
    * @param event the event to dispatch.
    */
   public void dispatchEvent(AWTEvent event){
-    Object[] listeners = idListenerList.getListenerList();
+    Object[] listeners = this.idListenerList.getListenerList();
     for (int i = listeners.length - 2; i >= 0; i -= 2) {
       if (listeners[i] == AWTEventListener.class) {
         ( (AWTEventListener) listeners[i + 1]).eventDispatched(event);

@@ -186,7 +186,7 @@ public class PluginToolkitEvent extends AWTEvent{
    * @return the message attached to this event.
    */
   public String getMessage(){
-    return message;
+    return this.message;
   }
   
   /**
@@ -194,7 +194,7 @@ public class PluginToolkitEvent extends AWTEvent{
    * @return the message attached to this event.
    */
   public double getProgress(){
-    return progress;
+    return this.progress;
   }
   
   /**
@@ -202,7 +202,7 @@ public class PluginToolkitEvent extends AWTEvent{
    * @return the plugin attached o this event.
    */
   public IPlugin getPlugin(){
-    return plugin;
+    return this.plugin;
   }
   
   /**
@@ -210,6 +210,6 @@ public class PluginToolkitEvent extends AWTEvent{
    * @return the size of the task within this event has been fired.
    */
   public double getTaskSize(){
-    return taskSize;
+    return this.taskSize;
   }
 }

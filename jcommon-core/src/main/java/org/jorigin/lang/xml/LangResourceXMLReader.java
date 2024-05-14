@@ -66,7 +66,7 @@ public class LangResourceXMLReader{
    */
   public LangResourceXMLReader(){
     super();
-    uri = null;
+    this.uri = null;
   }
 
   /**
@@ -112,7 +112,7 @@ public class LangResourceXMLReader{
    * @return <code>true</code> if the reader is currently working and <code>false</code> otherwise.
    */
   public boolean isWorking(){
-    return working;
+    return this.working;
   }
   //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
   //AA FIN ACCESSEURS                                                         AA
@@ -132,7 +132,7 @@ public class LangResourceXMLReader{
     XMLReader parser = null;
     LangResourceXMLFilter xmlFilterImpl = null;
 
-    working = true;
+    this.working = true;
 
     try {
       SAXParserFactory factory = SAXParserFactory.newInstance();
@@ -159,7 +159,7 @@ public class LangResourceXMLReader{
       throw new IOException(ex.getMessage() + "\nUnable to configure parser for " + uri, ex);
     }
 
-    working = false;
+    this.working = false;
     
     return contentHandler.getResources();
   }

@@ -97,29 +97,29 @@ public class GraphicsEnvironmentPanel extends JPanel{
       this.setGraphicsEnvironment(GraphicsEnvironment.getLocalGraphicsEnvironment());
     }
     
-    centerPoint         = this.ge.getCenterPoint();
-    maximumWindowBounds = this.ge.getMaximumWindowBounds();
+    this.centerPoint         = this.ge.getCenterPoint();
+    this.maximumWindowBounds = this.ge.getMaximumWindowBounds();
     
-    fonts = this.ge.getAllFonts();
+    this.fonts = this.ge.getAllFonts();
     
-    devices = this.ge.getScreenDevices();
+    this.devices = this.ge.getScreenDevices();
     
-    for(int i = 0; i < devices.length; i++){
-      Common.logger.log(Level.INFO, ""+devices[i].getIDstring());
-      Common.logger.log(Level.INFO, ""+devices[i].getType());
-      Common.logger.log(Level.INFO, ""+devices[i].getDisplayMode());
-      Common.logger.log(Level.INFO, ""+devices[i].getAvailableAcceleratedMemory());
+    for(int i = 0; i < this.devices.length; i++){
+      Common.logger.log(Level.INFO, ""+this.devices[i].getIDstring());
+      Common.logger.log(Level.INFO, ""+this.devices[i].getType());
+      Common.logger.log(Level.INFO, ""+this.devices[i].getDisplayMode());
+      Common.logger.log(Level.INFO, ""+this.devices[i].getAvailableAcceleratedMemory());
       
-      devices[i].isDisplayChangeSupported();
-      devices[i].isFullScreenSupported();
+      this.devices[i].isDisplayChangeSupported();
+      this.devices[i].isFullScreenSupported();
       
-      Common.logger.log(Level.INFO, ""+devices[i].getDisplayMode().getBitDepth());
-      Common.logger.log(Level.INFO, ""+devices[i].getDisplayMode().getHeight());
-      Common.logger.log(Level.INFO, ""+devices[i].getDisplayMode().getWidth());
-      Common.logger.log(Level.INFO, ""+devices[i].getDisplayMode().getRefreshRate());
+      Common.logger.log(Level.INFO, ""+this.devices[i].getDisplayMode().getBitDepth());
+      Common.logger.log(Level.INFO, ""+this.devices[i].getDisplayMode().getHeight());
+      Common.logger.log(Level.INFO, ""+this.devices[i].getDisplayMode().getWidth());
+      Common.logger.log(Level.INFO, ""+this.devices[i].getDisplayMode().getRefreshRate());
       
-      devices[i].isDisplayChangeSupported();
-      devices[i].isFullScreenSupported();
+      this.devices[i].isDisplayChangeSupported();
+      this.devices[i].isFullScreenSupported();
     }
     
     initGUI();
@@ -136,43 +136,19 @@ public class GraphicsEnvironmentPanel extends JPanel{
     Insets labelInsets = new Insets(3, 6, 3, 0);
     Insets fieldInsets = new Insets(3, 0, 3, 6);
     
-    centerPointLB = new JLabel(lr.getString("GRAPHICSENV_CENTER_POINT")+": ");
-    centerPointTF = new JTextField();
-    centerPointTF.setText(""+((int)centerPoint.getX())+", "+((int)centerPoint.getY()));
-    centerPointTF.setEditable(false);
+    this.centerPointLB = new JLabel(this.lr.getString("GRAPHICSENV_CENTER_POINT")+": ");
+    this.centerPointTF = new JTextField();
+    this.centerPointTF.setText(""+((int)this.centerPoint.getX())+", "+((int)this.centerPoint.getY()));
+    this.centerPointTF.setEditable(false);
     
-    maximumWindowBoundsLB = new JLabel(lr.getString("GRAPHICSENV_MAX_W_BOUNDS")+": ");
-    maximumWindowBoundsTF = new JTextField();
-    maximumWindowBoundsTF.setText(""+((int)maximumWindowBounds.getWidth())+"x"+((int)maximumWindowBounds.getHeight())+" px");
-    maximumWindowBoundsTF.setEditable(false);
+    this.maximumWindowBoundsLB = new JLabel(this.lr.getString("GRAPHICSENV_MAX_W_BOUNDS")+": ");
+    this.maximumWindowBoundsTF = new JTextField();
+    this.maximumWindowBoundsTF.setText(""+((int)this.maximumWindowBounds.getWidth())+"x"+((int)this.maximumWindowBounds.getHeight())+" px");
+    this.maximumWindowBoundsTF.setEditable(false);
     
-    geometryPN = new JPanel();
-    geometryPN.setBorder(BorderFactory.createTitledBorder(lr.getString("GRAPHICSENV_GEOM")));
-    geometryPN.setLayout(new GridBagLayout());
-    
-    c           = new GridBagConstraints();
-    c.gridx     = GridBagConstraints.RELATIVE;
-    c.gridy     = GridBagConstraints.RELATIVE;
-    c.gridheight= 1;
-    c.gridwidth = 1;
-    c.fill      = GridBagConstraints.NONE;
-    c.insets    = labelInsets;
-    c.weightx   = 0.0;
-    c.weighty   = 0.0;
-    c.anchor    = GridBagConstraints.NORTHEAST;
-    geometryPN.add(centerPointLB, c);
-    
-    c           = new GridBagConstraints();
-    c.gridx     = GridBagConstraints.RELATIVE;
-    c.gridy     = GridBagConstraints.RELATIVE;
-    c.gridheight= 1;
-    c.gridwidth = GridBagConstraints.REMAINDER;
-    c.fill      = GridBagConstraints.HORIZONTAL;
-    c.insets    = fieldInsets;
-    c.weightx   = 1.0;
-    c.weighty   = 0.0;
-    c.anchor    = GridBagConstraints.NORTHWEST;
-    geometryPN.add(centerPointTF, c);
+    this.geometryPN = new JPanel();
+    this.geometryPN.setBorder(BorderFactory.createTitledBorder(this.lr.getString("GRAPHICSENV_GEOM")));
+    this.geometryPN.setLayout(new GridBagLayout());
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -184,7 +160,7 @@ public class GraphicsEnvironmentPanel extends JPanel{
     c.weightx   = 0.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.NORTHEAST;
-    geometryPN.add(maximumWindowBoundsLB, c);
+    this.geometryPN.add(this.centerPointLB, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -196,10 +172,34 @@ public class GraphicsEnvironmentPanel extends JPanel{
     c.weightx   = 1.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.NORTHWEST;
-    geometryPN.add(maximumWindowBoundsTF, c);
+    this.geometryPN.add(this.centerPointTF, c);
     
-    fontsList = new JList<Font>(fonts);
-    fontsList.setCellRenderer(new DefaultListCellRenderer(){
+    c           = new GridBagConstraints();
+    c.gridx     = GridBagConstraints.RELATIVE;
+    c.gridy     = GridBagConstraints.RELATIVE;
+    c.gridheight= 1;
+    c.gridwidth = 1;
+    c.fill      = GridBagConstraints.NONE;
+    c.insets    = labelInsets;
+    c.weightx   = 0.0;
+    c.weighty   = 0.0;
+    c.anchor    = GridBagConstraints.NORTHEAST;
+    this.geometryPN.add(this.maximumWindowBoundsLB, c);
+    
+    c           = new GridBagConstraints();
+    c.gridx     = GridBagConstraints.RELATIVE;
+    c.gridy     = GridBagConstraints.RELATIVE;
+    c.gridheight= 1;
+    c.gridwidth = GridBagConstraints.REMAINDER;
+    c.fill      = GridBagConstraints.HORIZONTAL;
+    c.insets    = fieldInsets;
+    c.weightx   = 1.0;
+    c.weighty   = 0.0;
+    c.anchor    = GridBagConstraints.NORTHWEST;
+    this.geometryPN.add(this.maximumWindowBoundsTF, c);
+    
+    this.fontsList = new JList<Font>(this.fonts);
+    this.fontsList.setCellRenderer(new DefaultListCellRenderer(){
 
       private static final long serialVersionUID = Common.BUILD;
 
@@ -207,23 +207,23 @@ public class GraphicsEnvironmentPanel extends JPanel{
       public Component getListCellRendererComponent(JList<?> list, Object value,
           int index, boolean isSelected, boolean cellHasFocus) {
         Component comp = super.getListCellRendererComponent(list, ((Font)value).getName(), index, isSelected, cellHasFocus);
-        Font font = ((Font)value).deriveFont(displayedFontSize);
+        Font font = ((Font)value).deriveFont(GraphicsEnvironmentPanel.this.displayedFontSize);
         comp.setFont(font);
         return comp;
       }});
     
-    fontsListSP = new JScrollPane(fontsList);
+    this.fontsListSP = new JScrollPane(this.fontsList);
     
-    fontsPN = new JPanel();
-    fontsPN.setBorder(BorderFactory.createTitledBorder(lr.getString("GRAPHICSENV_FONTS")));
-    fontsPN.setLayout(new BorderLayout());
-    fontsPN.add(fontsListSP, BorderLayout.CENTER);
+    this.fontsPN = new JPanel();
+    this.fontsPN.setBorder(BorderFactory.createTitledBorder(this.lr.getString("GRAPHICSENV_FONTS")));
+    this.fontsPN.setLayout(new BorderLayout());
+    this.fontsPN.add(this.fontsListSP, BorderLayout.CENTER);
     
     
-    displayLB = new JLabel(lr.getString("GRAPHICSENV_DISPLAY_ID")+": ");
+    this.displayLB = new JLabel(this.lr.getString("GRAPHICSENV_DISPLAY_ID")+": ");
     
-    displayCB = new JComboBox<GraphicsDevice>(devices);
-    displayCB.setRenderer(new DefaultListCellRenderer(){
+    this.displayCB = new JComboBox<GraphicsDevice>(this.devices);
+    this.displayCB.setRenderer(new DefaultListCellRenderer(){
 
       private static final long serialVersionUID = Common.BUILD;
       
@@ -235,13 +235,13 @@ public class GraphicsEnvironmentPanel extends JPanel{
         
         switch(((GraphicsDevice)value).getType()){
           case GraphicsDevice.TYPE_IMAGE_BUFFER:
-            str+=" ("+lr.getString("GRAPHICSENV_DISPLAY_TYPE_IMAGE")+")";
+            str+=" ("+GraphicsEnvironmentPanel.this.lr.getString("GRAPHICSENV_DISPLAY_TYPE_IMAGE")+")";
             break;
           case GraphicsDevice.TYPE_PRINTER:
-            str+=" ("+lr.getString("GRAPHICSENV_DISPLAY_TYPE_PRINTER")+")";
+            str+=" ("+GraphicsEnvironmentPanel.this.lr.getString("GRAPHICSENV_DISPLAY_TYPE_PRINTER")+")";
             break;
           case GraphicsDevice.TYPE_RASTER_SCREEN:
-            str+=" ("+lr.getString("GRAPHICSENV_DISPLAY_TYPE_SCREEN")+")";
+            str+=" ("+GraphicsEnvironmentPanel.this.lr.getString("GRAPHICSENV_DISPLAY_TYPE_SCREEN")+")";
             break;
         }
         
@@ -252,11 +252,11 @@ public class GraphicsEnvironmentPanel extends JPanel{
     });
     
     
-    displayPN = new JPanel();
-    displayPN.setBorder(BorderFactory.createTitledBorder(lr.getString("GRAPHICSENV_DISPLAY")));
-    displayPN.setLayout(new BorderLayout());
-    displayPN.add(displayLB, BorderLayout.WEST);
-    displayPN.add(displayCB, BorderLayout.CENTER);
+    this.displayPN = new JPanel();
+    this.displayPN.setBorder(BorderFactory.createTitledBorder(this.lr.getString("GRAPHICSENV_DISPLAY")));
+    this.displayPN.setLayout(new BorderLayout());
+    this.displayPN.add(this.displayLB, BorderLayout.WEST);
+    this.displayPN.add(this.displayCB, BorderLayout.CENTER);
     
     setLayout(new GridBagLayout());
     
@@ -270,7 +270,7 @@ public class GraphicsEnvironmentPanel extends JPanel{
     c.weightx   = 1.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.NORTHEAST;
-    add(geometryPN, c);
+    add(this.geometryPN, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -282,7 +282,7 @@ public class GraphicsEnvironmentPanel extends JPanel{
     c.weightx   = 1.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.NORTHEAST;
-    add(displayPN, c);
+    add(this.displayPN, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -294,7 +294,7 @@ public class GraphicsEnvironmentPanel extends JPanel{
     c.weightx   = 1.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.NORTHEAST;
-    add(fontsPN, c); 
+    add(this.fontsPN, c); 
     
     
   }
@@ -319,6 +319,6 @@ public class GraphicsEnvironmentPanel extends JPanel{
    * @return the GraphicsEnvironment displayed
    */
   public GraphicsEnvironment getGraphicsEnvironment() {
-    return ge;
+    return this.ge;
   }
 }

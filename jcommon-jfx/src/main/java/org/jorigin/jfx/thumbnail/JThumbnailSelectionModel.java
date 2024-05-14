@@ -40,71 +40,71 @@ public class JThumbnailSelectionModel<T> extends MultipleSelectionModel<T>{
 		  this.items = items;
 		  
 		  if (items.size() > 0) {
-			  selectedIndices = FXCollections.observableList(new ArrayList<Integer>(items.size()));
-			  selectedItems = FXCollections.observableList(new ArrayList<T>(items.size()));
+			  this.selectedIndices = FXCollections.observableList(new ArrayList<Integer>(items.size()));
+			  this.selectedItems = FXCollections.observableList(new ArrayList<T>(items.size()));
 		  } else {
-			  selectedIndices = FXCollections.observableArrayList();
-			  selectedItems = FXCollections.observableArrayList();
+			  this.selectedIndices = FXCollections.observableArrayList();
+			  this.selectedItems = FXCollections.observableArrayList();
 		  }
 		} else {
 			this.items = new ArrayList<T>();
-			selectedIndices = FXCollections.observableArrayList();
-			selectedItems = FXCollections.observableArrayList();
+			this.selectedIndices = FXCollections.observableArrayList();
+			this.selectedItems = FXCollections.observableArrayList();
 		}
 	}
 	
 	@Override
 	public ObservableList<Integer> getSelectedIndices() {
-		return selectedIndices;
+		return this.selectedIndices;
 	}
 
 	@Override
 	public ObservableList<T> getSelectedItems() {
-		return selectedItems;
+		return this.selectedItems;
 	}
 
 	@Override
 	public void selectIndices(int index, int... indices) {
-		selectedIndices.clear();
-		selectedIndices.add(index);
+		this.selectedIndices.clear();
+		this.selectedIndices.add(index);
 		
 		for(int i = 0; i < indices.length; i++) {
-			selectedIndices.add(indices[i]);
+			this.selectedIndices.add(indices[i]);
 		}
 	}
 
 	@Override
 	public void selectAll() {
-		selectedIndices.clear();
-		selectedItems.clear();
+		this.selectedIndices.clear();
+		this.selectedItems.clear();
 		
-		if (items != null) {
-			for(int i = 0; i < items.size(); i++) {
-				selectedIndices.add(i);
-				selectedItems.add(items.get(i));
+		if (this.items != null) {
+			for(int i = 0; i < this.items.size(); i++) {
+				this.selectedIndices.add(i);
+				this.selectedItems.add(this.items.get(i));
 			}
 		}
 	}
 
 	@Override
 	public void selectFirst() {
-		selectedIndices.clear();
-		selectedItems.clear();
+		this.selectedIndices.clear();
+		this.selectedItems.clear();
 		
-		if ((items != null) && (items.size() > 0)){
-			selectedIndices.add(0);
-			selectedItems.add(items.get(0));
+		if ((this.items != null) && (this.items.size() > 0)){
+			this.selectedIndices.add(0);
+			this.selectedItems.add(this.items.get(0));
 		}
 	}
 
 	@Override
 	public void selectLast() {
-		selectedIndices.clear();
-		selectedItems.clear();
+		this.selectedIndices.clear();
+		this.selectedItems.clear();
 		
-		if ((items != null) && (items.size() > 0)){
-			selectedIndices.add(items.size() - 1);
-			selectedItems.add(items.get(items.size() - 1));
+		if ((this.items != null) && (this.items.size() > 0)){
+			this.selectedIndices.add(this.items.size() - 1);
+			this.selectedItems.add(this.items.get(this.items.size() - 1));
 		}
 	}
 
@@ -130,18 +130,18 @@ public class JThumbnailSelectionModel<T> extends MultipleSelectionModel<T>{
 
 	@Override
 	public void clearSelection() {
-		selectedIndices.clear();
-		selectedItems.clear();
+		this.selectedIndices.clear();
+		this.selectedItems.clear();
 	}
 
 	@Override
 	public boolean isSelected(int index) {
-		return selectedIndices.contains(index);
+		return this.selectedIndices.contains(index);
 	}
 
 	@Override
 	public boolean isEmpty() {
-		return selectedIndices.size() <= 0;
+		return this.selectedIndices.size() <= 0;
 	}
 
 	@Override

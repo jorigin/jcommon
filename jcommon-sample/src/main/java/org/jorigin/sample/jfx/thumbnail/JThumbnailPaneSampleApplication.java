@@ -66,8 +66,8 @@ public class JThumbnailPaneSampleApplication extends Application{
 		primaryStage.show();
 
 		// Load images in the background so the UI stays responsive.
-		for(int i = 0; i < thumbnailsCount; i++) {
-			thumbnailPane.addThumbnail(new JThumbnail<String>("name "+i, ""+i, createImage(imageWidth, imageHeight), parameters));
+		for(int i = 0; i < this.thumbnailsCount; i++) {
+			thumbnailPane.addThumbnail(new JThumbnail<String>("name "+i, ""+i, createImage(this.imageWidth, this.imageHeight), parameters));
 		}
 		
 		System.out.println("Applying filter (keeping thumbnails with pair names");

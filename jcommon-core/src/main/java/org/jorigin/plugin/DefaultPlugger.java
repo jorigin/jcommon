@@ -56,12 +56,12 @@ public class DefaultPlugger implements org.jorigin.plugin.IPlugger{
 
   @Override
   public Object getExensionPoint(String key) {
-    return extensionPoints.get(key);  
+    return this.extensionPoints.get(key);  
   }
 
   @Override
   public String[] getExtensionPointKeys() {
-    return extensionPoints.keySet().toArray(new String[extensionPoints.size()]);
+    return this.extensionPoints.keySet().toArray(new String[this.extensionPoints.size()]);
   }
   //IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   //II FIN IMPLEMENTATION                                  II
@@ -74,7 +74,7 @@ public class DefaultPlugger implements org.jorigin.plugin.IPlugger{
    * Create a new default plugger.
    */
   public DefaultPlugger(){
-    extensionPoints = new HashMap<String, Object>();
+    this.extensionPoints = new HashMap<String, Object>();
   }
   //CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
   //CC FIN CONSTRUCTEUR                                    CC

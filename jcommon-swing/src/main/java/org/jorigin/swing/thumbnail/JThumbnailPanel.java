@@ -147,13 +147,13 @@ public class JThumbnailPanel<T> extends JPanel {
     // L'index 0 doit être inférieur à l'index 1
     // L'index 0 doit être positif ou nul
     // L'index 1 ne doit pas être plus grand que la taille de la liste de labels
-    if ((index0 > index1)||(index0 < 0)||(index1 > labels.size())){
+    if ((index0 > index1)||(index0 < 0)||(index1 > this.labels.size())){
       return null;
     }
     
     // Recuperation des labels aux index demandés
-    l0 = labels.get(index0);
-    l1 = labels.get(index1);
+    l0 = this.labels.get(index0);
+    l1 = this.labels.get(index1);
     
     if ((l0 == null)||(l1 == null)){
       return null;
@@ -176,10 +176,10 @@ public class JThumbnailPanel<T> extends JPanel {
   public void setSelectedIndices(int[] indices){
     this.unselectAll();  
     
-    if ((indices != null)&&(labels != null)){
+    if ((indices != null)&&(this.labels != null)){
       for(int i = 0; i < indices.length; i++){
-        if ((indices[i] >= 0)&&(indices[i] < labels.size())){
-          select(labels.get(indices[i]));
+        if ((indices[i] >= 0)&&(indices[i] < this.labels.size())){
+          select(this.labels.get(indices[i]));
         }
       }
     }
@@ -197,12 +197,12 @@ public class JThumbnailPanel<T> extends JPanel {
     int index = 0;
     int i = 0;
     
-    if(selectedLabels.size() > 0){
-      indices = new int[selectedLabels.size()];
+    if(this.selectedLabels.size() > 0){
+      indices = new int[this.selectedLabels.size()];
       
-      iter = selectedLabels.iterator();
+      iter = this.selectedLabels.iterator();
       while(iter.hasNext()){
-        index = labels.indexOf(iter.next());
+        index = this.labels.indexOf(iter.next());
         indices[i] = index;
         i++;
       }
@@ -226,8 +226,8 @@ public class JThumbnailPanel<T> extends JPanel {
    */
   public int getSelectedIndex(){
     
-    if (selectedLabels.size() > 0){
-      return labels.indexOf(selectedLabels.get(0));
+    if (this.selectedLabels.size() > 0){
+      return this.labels.indexOf(this.selectedLabels.get(0));
     }
       
     return -1;
@@ -241,9 +241,9 @@ public class JThumbnailPanel<T> extends JPanel {
    */
   public void setSelectedIndex(int index){
   
-    if((index > 0)&&(index < labels.size())){
+    if((index > 0)&&(index < this.labels.size())){
       unselectAll();
-      select(labels.get(index));
+      select(this.labels.get(index));
     }
     
   }
@@ -259,7 +259,7 @@ public class JThumbnailPanel<T> extends JPanel {
     Iterator<JThumbnail<T>> iter = null;
     boolean found = false;
     
-    iter = labels.iterator();
+    iter = this.labels.iterator();
     while(iter.hasNext() && (!found)){
       label = iter.next();
       if (label == anObject){
@@ -287,7 +287,7 @@ public class JThumbnailPanel<T> extends JPanel {
    */
   public void setSelectedThumbnail(JThumbnail<T> label, boolean shouldScroll){
     
-    if (labels.contains(label)){
+    if (this.labels.contains(label)){
       
       unselectAll();
       
@@ -307,8 +307,8 @@ public class JThumbnailPanel<T> extends JPanel {
   public JThumbnail<T> getSelectedThumbnail(){
     
     
-    if (selectedLabels.size() > 0){
-      return selectedLabels.get(0);
+    if (this.selectedLabels.size() > 0){
+      return this.selectedLabels.get(0);
     }
     
     return null;
@@ -320,13 +320,13 @@ public class JThumbnailPanel<T> extends JPanel {
    */
   public List<JThumbnail<T>> getSelectedThumbnails(){
     
-    List<JThumbnail<T>> thumbnails = new ArrayList<JThumbnail<T>>(selectedLabels);
+    List<JThumbnail<T>> thumbnails = new ArrayList<JThumbnail<T>>(this.selectedLabels);
     
     Collections.sort(thumbnails, new Comparator<JThumbnail<T>>(){
       @Override
       public int compare(JThumbnail<T> o1, JThumbnail<T> o2) {
-        int i1 = labels.indexOf(o1);
-        int i2 =  labels.indexOf(o2);
+        int i1 = JThumbnailPanel.this.labels.indexOf(o1);
+        int i2 =  JThumbnailPanel.this.labels.indexOf(o2);
         
         if (i1 < i2){
           return 1;
@@ -347,14 +347,14 @@ public class JThumbnailPanel<T> extends JPanel {
   public Object[] getSelectedValues(){
     
     @SuppressWarnings("unchecked")
-    JThumbnail<T>[] labelsArray = selectedLabels.toArray(new JThumbnail[selectedLabels.size()]);
+    JThumbnail<T>[] labelsArray = this.selectedLabels.toArray(new JThumbnail[this.selectedLabels.size()]);
     Object[] values = null;
     
     Arrays.sort(labelsArray, new Comparator<JThumbnail<T>>(){
       @Override
       public int compare(JThumbnail<T> o1, JThumbnail<T> o2) {
-        int i1 = labels.indexOf(o1);
-        int i2 =  labels.indexOf(o2);
+        int i1 = JThumbnailPanel.this.labels.indexOf(o1);
+        int i2 =  JThumbnailPanel.this.labels.indexOf(o2);
         
         if (i1 < i2){
           return 1;
@@ -542,7 +542,7 @@ public class JThumbnailPanel<T> extends JPanel {
    * @return the thumb ratio.
    */
   public double getThumbRatio() {
-	    return thumbRatio;
+	    return this.thumbRatio;
 	  }
   
   /**
@@ -551,7 +551,7 @@ public class JThumbnailPanel<T> extends JPanel {
    * @see #getLabelWidth()
    */
   public void setLabelWidth(int width) {
-    labelWidth = width;
+    this.labelWidth = width;
   }
 
   /**
@@ -569,7 +569,7 @@ public class JThumbnailPanel<T> extends JPanel {
    * @see #getLabelHeight()
    */
   public void setLabelHeight(int height) {
-    labelHeight = height;
+    this.labelHeight = height;
   }
 
   /**
@@ -587,7 +587,7 @@ public class JThumbnailPanel<T> extends JPanel {
    * @see #getLabelMargin()
    */
   public void setLabelMargin(int margin) {
-    labelMargin = margin;
+    this.labelMargin = margin;
   }
 
   /**
@@ -605,7 +605,7 @@ public class JThumbnailPanel<T> extends JPanel {
    * @see #getLabelCount()
    */
   public void setLabelCount(int count) {
-    labelCount = count;
+    this.labelCount = count;
   }
 
   /**
@@ -682,11 +682,11 @@ public class JThumbnailPanel<T> extends JPanel {
     Insets insets        = new Insets(2,2,2,2);
     
     // Ajout du label à la liste des labels
-    if (labels.add(label)){
+    if (this.labels.add(label)){
       
       if (getLayout() instanceof GridBagLayout){
         // Ajout du label au composant graphique (JPanel)    
-        if ((labels.size() % labelPerLine) == 0){
+        if ((this.labels.size() % this.labelPerLine) == 0){
           c           = new GridBagConstraints ();
           c.gridx     = GridBagConstraints.RELATIVE;
           c.gridy     = GridBagConstraints.RELATIVE;
@@ -771,7 +771,7 @@ public class JThumbnailPanel<T> extends JPanel {
    */
   public boolean remove(JThumbnail<T> label){
 
-    if (labels.remove(label)){
+    if (this.labels.remove(label)){
       super.remove(label);
       this.setLabelCount(this.getLabelCount() - 1);
     } else {
@@ -794,7 +794,7 @@ public class JThumbnailPanel<T> extends JPanel {
    */
   public void select(JThumbnail<T> l) {
 
-    selectedLabels.add(l);
+    this.selectedLabels.add(l);
     l.setSelected(true);
 
     refresh();
@@ -805,7 +805,7 @@ public class JThumbnailPanel<T> extends JPanel {
    * @param l ActiveLabel the label to remove selected
    */
   public void unselect(JThumbnail<T> l) {
-    selectedLabels.remove(l);
+    this.selectedLabels.remove(l);
     l.setSelected(false);
     refresh();
   }
@@ -815,7 +815,7 @@ public class JThumbnailPanel<T> extends JPanel {
    * is called by this method
    */
   public void unselectAll() {
-    Iterator<JThumbnail<T>> iter = selectedLabels.iterator();
+    Iterator<JThumbnail<T>> iter = this.selectedLabels.iterator();
     
     JThumbnail<T> lr;
     while (iter.hasNext()) {
@@ -824,7 +824,7 @@ public class JThumbnailPanel<T> extends JPanel {
       lr.refresh();
     }
     
-    selectedLabels.clear();
+    this.selectedLabels.clear();
   }
 
   /**
@@ -849,7 +849,7 @@ public class JThumbnailPanel<T> extends JPanel {
    */
   public void scrollToIndices(int[] indices){
     //  Scroll automatique vers les composants correspondants
-    if ((indices != null) && (indices.length > 0) && (indices.length <= labels.size())){
+    if ((indices != null) && (indices.length > 0) && (indices.length <= this.labels.size())){
       Rectangle rect = this.getCellBounds(indices[0],
                                                  indices[indices.length - 1]);
     
@@ -869,10 +869,10 @@ public class JThumbnailPanel<T> extends JPanel {
     JThumbnail<T> label          = null;
     boolean found              = false;
     
-    if ((labels == null) || (labels.size() == 0)){
+    if ((this.labels == null) || (this.labels.size() == 0)){
       return null;
     } else {
-      iter = labels.iterator();
+      iter = this.labels.iterator();
       while(iter.hasNext() && (!found)){
 	label = iter.next();
 	if (label.getContent() == null){
@@ -902,7 +902,7 @@ public class JThumbnailPanel<T> extends JPanel {
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void fireThumbnailAdded(JThumbnailPanel<T> panel, JThumbnail<T> thumbnail){
-    Object[] listeners = idListenerList.getListenerList();
+    Object[] listeners = this.idListenerList.getListenerList();
     for (int i = listeners.length - 2; i >= 0; i -= 2) {
       if (listeners[i] == JThumbnailPanelListener.class) {
         ( (JThumbnailPanelListener) listeners[i + 1]).thumbnailAdded(panel, thumbnail);
@@ -917,7 +917,7 @@ public class JThumbnailPanel<T> extends JPanel {
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void fireThumbnailRemoved(JThumbnailPanel<T> panel, JThumbnail<T> thumbnail){
-    Object[] listeners = idListenerList.getListenerList();
+    Object[] listeners = this.idListenerList.getListenerList();
     for (int i = listeners.length - 2; i >= 0; i -= 2) {
       if (listeners[i] == JThumbnailPanelListener.class) {
         ( (JThumbnailPanelListener) listeners[i + 1]).thumbnailRemoved(panel, thumbnail);
@@ -932,7 +932,7 @@ public class JThumbnailPanel<T> extends JPanel {
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void fireThumbnailSelected(JThumbnailPanel<T> panel, JThumbnail<T> thumbnail){
-    Object[] listeners = idListenerList.getListenerList();
+    Object[] listeners = this.idListenerList.getListenerList();
     for (int i = listeners.length - 2; i >= 0; i -= 2) {
       if (listeners[i] == JThumbnailPanelListener.class) {
         ( (JThumbnailPanelListener) listeners[i + 1]).thumbnailSelected(panel, thumbnail);
@@ -947,7 +947,7 @@ public class JThumbnailPanel<T> extends JPanel {
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void fireThumbnailSelected(JThumbnailPanel<T> panel, List<JThumbnail<T>> thumbnails){
-    Object[] listeners = idListenerList.getListenerList();
+    Object[] listeners = this.idListenerList.getListenerList();
     for (int i = listeners.length - 2; i >= 0; i -= 2) {
       if (listeners[i] == JThumbnailPanelListener.class) {
         ( (JThumbnailPanelListener) listeners[i + 1]).thumbnailSelected(panel, thumbnails);
@@ -962,7 +962,7 @@ public class JThumbnailPanel<T> extends JPanel {
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void fireThumbnailActivated(JThumbnailPanel<T> panel, JThumbnail<T> thumbnail){
-    Object[] listeners = idListenerList.getListenerList();
+    Object[] listeners = this.idListenerList.getListenerList();
     for (int i = listeners.length - 2; i >= 0; i -= 2) {
       if (listeners[i] == JThumbnailPanelListener.class) {
         ( (JThumbnailPanelListener) listeners[i + 1]).thumbnailActivated(panel, thumbnail);
@@ -977,7 +977,7 @@ public class JThumbnailPanel<T> extends JPanel {
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void fireThumbnailEntered(JThumbnailPanel<T> panel, JThumbnail<T> thumbnail){
-    Object[] listeners = idListenerList.getListenerList();
+    Object[] listeners = this.idListenerList.getListenerList();
     for (int i = listeners.length - 2; i >= 0; i -= 2) {
       if (listeners[i] == JThumbnailPanelListener.class) {
         ( (JThumbnailPanelListener) listeners[i + 1]).thumbnailEntered(panel, thumbnail);
@@ -992,7 +992,7 @@ public class JThumbnailPanel<T> extends JPanel {
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void fireThumbnailExited(JThumbnailPanel<T> panel, JThumbnail<T> thumbnail){
-    Object[] listeners = idListenerList.getListenerList();
+    Object[] listeners = this.idListenerList.getListenerList();
     for (int i = listeners.length - 2; i >= 0; i -= 2) {
       if (listeners[i] == JThumbnailPanelListener.class) {
         ( (JThumbnailPanelListener) listeners[i + 1]).thumbnailExited(panel, thumbnail);
@@ -1007,7 +1007,7 @@ public class JThumbnailPanel<T> extends JPanel {
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
   protected void fireThumbnailNeedRefresh(JThumbnailPanel<T> panel, JThumbnail<T> thumbnail){
-    Object[] listeners = idListenerList.getListenerList();
+    Object[] listeners = this.idListenerList.getListenerList();
     for (int i = listeners.length - 2; i >= 0; i -= 2) {
       if (listeners[i] == JThumbnailPanelListener.class) {
         ( (JThumbnailPanelListener) listeners[i + 1]).thumbnailNeedRefresh(panel, thumbnail);
@@ -1020,7 +1020,7 @@ public class JThumbnailPanel<T> extends JPanel {
    * @param e the event to fire.
    */
   protected void fireEvent(TaskEvent e) {
-    Object[] listeners = idListenerList.getListenerList();
+    Object[] listeners = this.idListenerList.getListenerList();
     for (int i = listeners.length - 2; i >= 0; i -= 2) {
       if (listeners[i] == TaskListener.class) {
         ( (TaskListener) listeners[i + 1]).eventDispatched(e);
@@ -1033,7 +1033,7 @@ public class JThumbnailPanel<T> extends JPanel {
    * @param l ActiveThumbnailListener Listener added to the Active Thumbnail
    */
   public void addThumbnailPanelListener(JThumbnailPanelListener<T> l) {
-    idListenerList.add(JThumbnailPanelListener.class, l);
+    this.idListenerList.add(JThumbnailPanelListener.class, l);
   }
 
   /**
@@ -1041,7 +1041,7 @@ public class JThumbnailPanel<T> extends JPanel {
    * @param l ActiveThumbnailListener Active Listener to remove
    */
   public void removeThumbnailPanelListener(JThumbnailPanelListener<T> l) {
-    idListenerList.remove(JThumbnailPanelListener.class, l);
+    this.idListenerList.remove(JThumbnailPanelListener.class, l);
   }
 
   /**
@@ -1049,7 +1049,7 @@ public class JThumbnailPanel<T> extends JPanel {
    * @param l TaskListener Listener added to the object
    */
   public void addTaskListener(TaskListener l) {
-    idListenerList.add(TaskListener.class, l);
+    this.idListenerList.add(TaskListener.class, l);
   }
 
   /**
@@ -1057,7 +1057,7 @@ public class JThumbnailPanel<T> extends JPanel {
    * @param l TaskListener listener to remove
    */
   public void removeTaskListener(TaskListener l) {
-    idListenerList.remove(TaskListener.class, l);
+    this.idListenerList.remove(TaskListener.class, l);
   }  
   
   /**
@@ -1083,7 +1083,7 @@ public class JThumbnailPanel<T> extends JPanel {
     int start = -1;
     int end   = -1;
     
-    labelIndex = labels.indexOf(source);
+    labelIndex = this.labels.indexOf(source);
     
     switch (e.getID()){
       case MouseEvent.MOUSE_CLICKED:
@@ -1116,7 +1116,7 @@ public class JThumbnailPanel<T> extends JPanel {
               break;
               
             case ListSelectionModel.SINGLE_INTERVAL_SELECTION:
-              labelIndex = labels.indexOf(source);
+              labelIndex = this.labels.indexOf(source);
               // Verification que l'index de départ soit valide. Il peut être 
               // invalide si aucune valeur n'a été selectionnee.
               if (this.lastSelectedIndex < 0){
@@ -1127,21 +1127,21 @@ public class JThumbnailPanel<T> extends JPanel {
               start = -1;
               end   = -1;
               if (labelIndex > this.lastSelectedIndex){
-                start = lastSelectedIndex;
+                start = this.lastSelectedIndex;
                 end = labelIndex;
               } else {
                 start = labelIndex;
-                end = lastSelectedIndex;
+                end = this.lastSelectedIndex;
               }
               
               // Desélection des anciens label et selection de la nouvelle plage 
               unselectAll();
               for(int i = start; i<= end; i++){
-                select(labels.get(i));
+                select(this.labels.get(i));
               }
               
               this.lastSelectedIndex = labelIndex;
-              fireThumbnailSelected(this, selectedLabels);
+              fireThumbnailSelected(this, this.selectedLabels);
               break;
               
             case ListSelectionModel.MULTIPLE_INTERVAL_SELECTION:
@@ -1172,17 +1172,17 @@ public class JThumbnailPanel<T> extends JPanel {
                 start = -1;
                 end   = -1;
                 if (labelIndex > this.lastSelectedIndex){
-                  start = lastSelectedIndex;
+                  start = this.lastSelectedIndex;
                   end = labelIndex;
                 } else {
                   start = labelIndex;
-                  end = lastSelectedIndex;
+                  end = this.lastSelectedIndex;
                 }
                 
                 // Desélection des anciens label et selection de la nouvelle plage 
                 unselectAll();
                 for(int i = start; i<= end; i++){
-                  select(labels.get(i));
+                  select(this.labels.get(i));
                 }
                 
               // Selection de plusieurs plages de labels  
@@ -1197,25 +1197,25 @@ public class JThumbnailPanel<T> extends JPanel {
                 start = -1;
                 end   = -1;
                 if (labelIndex > this.lastSelectedIndex){
-                  start = lastSelectedIndex;
+                  start = this.lastSelectedIndex;
                   end = labelIndex;
                 } else {
                   start = labelIndex;
-                  end = lastSelectedIndex;
+                  end = this.lastSelectedIndex;
                 }
                 
                 // Selection de la nouvelle plage de label en faisant attention
                 // de ne pas selectionner deux fois les meme labels
                 for(int i = start; i<= end; i++){
-                  if (!selectedLabels.contains(source)){
-                    select(labels.get(i));
+                  if (!this.selectedLabels.contains(source)){
+                    select(this.labels.get(i));
                   }
                 }
                 
               }
               
               this.lastSelectedIndex = labelIndex;
-              fireThumbnailSelected(this, selectedLabels);
+              fireThumbnailSelected(this, this.selectedLabels);
               break;
           }
           

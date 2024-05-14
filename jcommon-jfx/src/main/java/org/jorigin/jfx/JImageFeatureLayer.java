@@ -32,7 +32,7 @@ public class JImageFeatureLayer implements HandleSelection, HandleDisplay, Named
 
 	@Override
 	public boolean isStateDisplaying() {
-		return displaying;
+		return this.displaying;
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class JImageFeatureLayer implements HandleSelection, HandleDisplay, Named
 
 	@Override
 	public boolean isStateDisplayable() {
-		return displayable;
+		return this.displayable;
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class JImageFeatureLayer implements HandleSelection, HandleDisplay, Named
 
 	@Override
 	public boolean isStateSelected() {
-		return selected;
+		return this.selected;
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class JImageFeatureLayer implements HandleSelection, HandleDisplay, Named
 
 	@Override
 	public boolean isStateSelectable() {
-		return selectable;
+		return this.selectable;
 	}
 
 	@Override
@@ -110,7 +110,7 @@ public class JImageFeatureLayer implements HandleSelection, HandleDisplay, Named
 			this.features = new LinkedList<JImageFeature>();
 		}
 
-		layerListeners = new LinkedList<JImageFeatureLayerListener>();
+		this.layerListeners = new LinkedList<JImageFeatureLayerListener>();
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class JImageFeatureLayer implements HandleSelection, HandleDisplay, Named
 	 * @see #setImageFeatures(Collection)
 	 */
 	public List<JImageFeature> getImageFeatures(){
-		return features;
+		return this.features;
 	}
 
 	/**
@@ -164,7 +164,7 @@ public class JImageFeatureLayer implements HandleSelection, HandleDisplay, Named
 			return false;
 		}
 
-		boolean b =  features.add(feature);
+		boolean b =  this.features.add(feature);
 
 		if (b) {
 			feature.setImageFeatureLayer(this);
@@ -208,7 +208,7 @@ public class JImageFeatureLayer implements HandleSelection, HandleDisplay, Named
 			return false;
 		}
 
-		boolean b =  features.remove(feature);
+		boolean b =  this.features.remove(feature);
 
 		if (b) {
 			feature.setImageFeatureLayer(null);
@@ -253,11 +253,11 @@ public class JImageFeatureLayer implements HandleSelection, HandleDisplay, Named
 			return false;
 		}
 
-		if (layerListeners.contains(listener)) {
+		if (this.layerListeners.contains(listener)) {
 			return false;
 		}
 
-		return layerListeners.add(listener);
+		return this.layerListeners.add(listener);
 	}
 
 	/**
@@ -271,7 +271,7 @@ public class JImageFeatureLayer implements HandleSelection, HandleDisplay, Named
 			return false;
 		}
 
-		return layerListeners.remove(listener);
+		return this.layerListeners.remove(listener);
 	}
 
 	/**
@@ -279,7 +279,7 @@ public class JImageFeatureLayer implements HandleSelection, HandleDisplay, Named
 	 * @param feature the feature involved with the callback
 	 */
 	protected void fireOnImageFeatureAdded(JImageFeature feature) {
-		for(JImageFeatureLayerListener listener : layerListeners) {
+		for(JImageFeatureLayerListener listener : this.layerListeners) {
 			listener.onImageFeatureAdded(this, feature);
 		}
 	}
@@ -289,7 +289,7 @@ public class JImageFeatureLayer implements HandleSelection, HandleDisplay, Named
 	 * @param feature the feature involved with the callback
 	 */
 	protected void fireOnImageFeatureRemoved(JImageFeature feature) {
-		for(JImageFeatureLayerListener listener : layerListeners) {
+		for(JImageFeatureLayerListener listener : this.layerListeners) {
 			listener.onImageFeatureRemoved(this, feature);
 		}
 	}
@@ -299,7 +299,7 @@ public class JImageFeatureLayer implements HandleSelection, HandleDisplay, Named
 	 * @param features the features involved with the callback
 	 */
 	protected void fireOnImageFeaturesAdded(Collection<JImageFeature> features) {
-		for(JImageFeatureLayerListener listener : layerListeners) {
+		for(JImageFeatureLayerListener listener : this.layerListeners) {
 			listener.onImageFeaturesAdded(this, features);
 		}
 	}
@@ -309,7 +309,7 @@ public class JImageFeatureLayer implements HandleSelection, HandleDisplay, Named
 	 * @param features the features involved with the callback
 	 */
 	protected void fireOnImageFeaturesRemoved(Collection<JImageFeature> features) {
-		for(JImageFeatureLayerListener listener : layerListeners) {
+		for(JImageFeatureLayerListener listener : this.layerListeners) {
 			listener.onImageFeaturesRemoved(this, features);
 		}
 	}
@@ -319,8 +319,8 @@ public class JImageFeatureLayer implements HandleSelection, HandleDisplay, Named
 	 * @param feature the modified feature (the one that call this method)
 	 */
 	public void onImageFeatureModified(JImageFeature feature) {
-		for(JImageFeatureLayerListener listener : layerListeners) {
-			listener.onImageFeatureModified(this, features);
+		for(JImageFeatureLayerListener listener : this.layerListeners) {
+			listener.onImageFeatureModified(this, this.features);
 		}
 	}
 }

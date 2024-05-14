@@ -46,22 +46,22 @@ public class SimpleDeviceInfo implements DeviceInfo{
 	
 	@Override
 	public String getDeviceModel() {
-		return model;
+		return this.model;
 	}
 
 	@Override
 	public String getDeviceManufacturer() {
-		return manufacturer;
+		return this.manufacturer;
 	}
 
 	@Override
 	public String getDeviceSerialNumber() {
-		return serialNumber;
+		return this.serialNumber;
 	}
 
 	@Override
 	public String getDeviceSpecificationURL() {
-		return specificationURL;
+		return this.specificationURL;
 	}
 
 }

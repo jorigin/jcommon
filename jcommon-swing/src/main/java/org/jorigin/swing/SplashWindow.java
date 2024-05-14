@@ -85,28 +85,28 @@ public class SplashWindow extends JWindow {
 		//initialise la valeur a laquelle le splash screen doit etre fermé
 
 		// Ajoute le panneau d'etat
-		state = new JLabel("");
-		state.setForeground(Color.white);
+		this.state = new JLabel("");
+		this.state.setForeground(Color.white);
 
 		//ajoute la progress bar
 		if (intProgressMaxValue > 0){
-			progressBar = new JProgressBar(0, intProgressMaxValue);
+			this.progressBar = new JProgressBar(0, intProgressMaxValue);
 			this.maxValue = intProgressMaxValue;
 		} else {
-			progressBar = new JProgressBar();
-			progressBar.setIndeterminate(true);
+			this.progressBar = new JProgressBar();
+			this.progressBar.setIndeterminate(true);
 			this.maxValue = 0;
 		}
 
 
-		southPanel = new JPanel();
-		southPanel.setBackground(Color.black);
-		southPanel.setLayout(new BorderLayout());
-		southPanel.add(state,       BorderLayout.NORTH);
-		southPanel.add(progressBar, BorderLayout.CENTER);
+		this.southPanel = new JPanel();
+		this.southPanel.setBackground(Color.black);
+		this.southPanel.setLayout(new BorderLayout());
+		this.southPanel.add(this.state,       BorderLayout.NORTH);
+		this.southPanel.add(this.progressBar, BorderLayout.CENTER);
 
 
-		getContentPane().add(southPanel, BorderLayout.SOUTH);
+		getContentPane().add(this.southPanel, BorderLayout.SOUTH);
 
 		// cree un label avec notre image
 		JLabel label = new JLabel(image);
@@ -142,11 +142,11 @@ public class SplashWindow extends JWindow {
 	public void setProgressMaxValue(int maxValue){;
 
 	if (maxValue > 0){
-		progressBar.setMaximum(maxValue);
-		progressBar.setIndeterminate(false);
+		this.progressBar.setMaximum(maxValue);
+		this.progressBar.setIndeterminate(false);
 	} else {
-		progressBar.setMaximum(0);
-		progressBar.setIndeterminate(true);
+		this.progressBar.setMaximum(0);
+		this.progressBar.setIndeterminate(true);
 	}
 	}
 
@@ -155,11 +155,11 @@ public class SplashWindow extends JWindow {
 	 * @param value the current value of the progress bar.
 	 */
 	public void setProgressValue(int value) {
-		progressBar.setValue(value);
+		this.progressBar.setValue(value);
 		//si est arrivé a la valeur max : ferme le splash screen en lancant le thread
-		if ((value >= maxValue) && (maxValue > 0)){
+		if ((value >= this.maxValue) && (this.maxValue > 0)){
 			try {
-				SwingUtilities.invokeAndWait(closerRunner);
+				SwingUtilities.invokeAndWait(this.closerRunner);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} catch (InvocationTargetException e) {

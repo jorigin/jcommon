@@ -268,7 +268,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 	@Override
 	public boolean isResizable() {
-		return resizableProperty.get();
+		return this.resizableProperty.get();
 	}
 
 	/**
@@ -277,7 +277,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #isResizable()
 	 */
 	public void setResizable(boolean resizable) {
-		resizableProperty.set(resizable);
+		this.resizableProperty.set(resizable);
 	}
 	// End of the overrides dedicated to the resize of the canvas.
 
@@ -287,7 +287,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			if (feature != null) {
 				setNeedRefresh(true);
 
-				if (autoRepaint.get() == true) {
+				if (this.autoRepaint.get() == true) {
 					refresh();
 				}
 			}
@@ -300,7 +300,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			if (feature != null) {
 				setNeedRefresh(true);
 
-				if (autoRepaint.get() == true) {
+				if (this.autoRepaint.get() == true) {
 					refresh();
 				}
 			}
@@ -313,7 +313,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			if (feature != null) {
 				setNeedRefresh(true);
 
-				if (autoRepaint.get() == true) {
+				if (this.autoRepaint.get() == true) {
 					refresh();
 				}
 			}
@@ -326,7 +326,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			if (features != null) {
 				setNeedRefresh(true);
 
-				if (autoRepaint.get() == true) {
+				if (this.autoRepaint.get() == true) {
 					refresh();
 				}
 			}
@@ -339,7 +339,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			if (features != null) {
 				setNeedRefresh(true);
 
-				if (autoRepaint.get() == true) {
+				if (this.autoRepaint.get() == true) {
 					refresh();
 				}
 			}
@@ -352,7 +352,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			if (features != null) {
 				setNeedRefresh(true);
 
-				if (autoRepaint.get() == true) {
+				if (this.autoRepaint.get() == true) {
 					refresh();
 				}
 			}
@@ -396,14 +396,14 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 			// Only perform update if the change is effective
 			if (!oldValue.equals(newValue)) {
-				selectionShape = null;
+				this.selectionShape = null;
 
 				if (newValue.intValue() == MODE_SELECTION_POINT) {
-					selectionShape = null;
+					this.selectionShape = null;
 				} else if (newValue.intValue() == MODE_SELECTION_RECTANGLE) {
-					selectionShape = new Rectangle();
+					this.selectionShape = new Rectangle();
 				} else if (newValue.intValue() == MODE_SELECTION_POLYGON) {
-					selectionShape = new Polygon();
+					this.selectionShape = new Polygon();
 				}
 			}
 		});
@@ -444,7 +444,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 		this.layers = new LinkedList<JImageFeatureLayer>();
 
-		refreshQueue = new SynchronousQueue<Runnable>();
+		this.refreshQueue = new SynchronousQueue<Runnable>();
 
 		if (image != null) {
 			setImage(image);
@@ -461,7 +461,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #setImage(Image)
 	 */
 	public Image getImage() {
-		return image;
+		return this.image;
 	}
 
 	/**
@@ -473,13 +473,13 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 		if (this.image != image) {
 			this.image = image;
 
-			if (autoFit.get()) {
+			if (this.autoFit.get()) {
 				viewFit();
 			}
 
 			setNeedRefresh(true);
 
-			if (autoRepaint.get()) {
+			if (this.autoRepaint.get()) {
 				refresh();
 			}
 		}
@@ -490,7 +490,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @return the image fit method property
 	 */
 	public IntegerProperty getImageFitMethodProperty() {
-		return imageFitMethod;
+		return this.imageFitMethod;
 	}
 	
 	/**
@@ -500,7 +500,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #getImageFitMethodProperty()
 	 */
 	public int getImageFitMethod() {
-		return imageFitMethod.get();
+		return this.imageFitMethod.get();
 	}
 
 	/**
@@ -543,7 +543,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			throw new IllegalArgumentException("Invalid fit method "+method+", expected values are FIT_NONE, FIT_COMPLETE, FIT_WIDTH, FIT_HEIGHT or FIT_AUTO.");
 		}
 
-		imageFitMethod.set(method);
+		this.imageFitMethod.set(method);
 
 	}
 
@@ -552,7 +552,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @return the cursor position property
 	 */
 	public ObjectProperty<Point2D> getCursorPositionProperty(){
-		return cursorPosition;
+		return this.cursorPosition;
 	}
 
 	/**
@@ -561,7 +561,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #getCursorPositionProperty()
 	 */
 	public Point2D getCursorPosition() {
-		return cursorPosition.get();
+		return this.cursorPosition.get();
 	}
 	
 	/**
@@ -572,7 +572,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #setViewInsets(Insets)
 	 */
 	public Insets getViewInsets() {
-		return viewInsets;
+		return this.viewInsets;
 	}
 	
 	/**
@@ -627,7 +627,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @return the current selection shape
 	 */
 	public Shape getSelectionShape() {
-		return selectionShape;
+		return this.selectionShape;
 	}
 
 	/**
@@ -674,8 +674,8 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #getScale()
 	 */
 	public double getRotation() {
-		if (viewRotation != null) {
-			return viewRotation.getAngle();
+		if (this.viewRotation != null) {
+			return this.viewRotation.getAngle();
 		}
 
 		return 0.0d;
@@ -693,7 +693,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 		
 		// TODO Add rotation pivot setting
 		
-		if ((viewRotation != null) && (viewRotation.getAngle() != angle) && (Double.isFinite(angle) && (image != null))){
+		if ((this.viewRotation != null) && (this.viewRotation.getAngle() != angle) && (Double.isFinite(angle) && (this.image != null))){
 			
 			// 1. Set the new rotation angle
 			//    Ensure that the angle is between 180 / -180°
@@ -702,9 +702,9 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			//    Set the new angle of rotation to its normalized value
 			//Point2D pivot = getViewCoordinate(getImage().getWidth()/2.0d, getImage().getHeight()/2.0d);
 			Point2D pivot = new Point2D(getImage().getWidth()/2.0d, getImage().getHeight()/2.0d);
-			viewRotation.setAngle(normalizedAngle);
-			viewRotation.setPivotX(pivot.getX());
-			viewRotation.setPivotY(pivot.getY());
+			this.viewRotation.setAngle(normalizedAngle);
+			this.viewRotation.setPivotX(pivot.getX());
+			this.viewRotation.setPivotY(pivot.getY());
 			
 			// 2. Update the global affine transform
 			viewTransformUpdate();
@@ -756,7 +756,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #getTranslation()
 	 */
 	public double getScale(){
-		return viewScale.getX();
+		return this.viewScale.getX();
 	}
 
 	/**
@@ -769,10 +769,10 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 		// TODO Add scale pivot setting
 		
-		if ((viewScale.getX() != scale) || (viewScale.getY() != scale)) {
+		if ((this.viewScale.getX() != scale) || (this.viewScale.getY() != scale)) {
 			
-			viewScale.setX(scale);
-			viewScale.setY(scale);
+			this.viewScale.setX(scale);
+			this.viewScale.setY(scale);
 
 			viewTransformUpdate();
 		}
@@ -786,7 +786,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #getScale()
 	 */
 	public Point2D getTranslation(){
-		return new Point2D(viewTranslation.getTx(), viewTranslation.getTy());
+		return new Point2D(this.viewTranslation.getTx(), this.viewTranslation.getTy());
 	}
 
 	/**
@@ -800,19 +800,19 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 */
 	public void setTranslation(Point2D translation){
 
-		if ((translation != null) && ((viewTranslation.getX() != translation.getX()) || ((viewTranslation.getY() != translation.getY())))){
+		if ((translation != null) && ((this.viewTranslation.getX() != translation.getX()) || ((this.viewTranslation.getY() != translation.getY())))){
 
 			try {
 
 				// Express the input translation (given within view referential) into image referential
 				Affine transform = new Affine();
-				transform.append(viewScale);
-				transform.append(viewRotation);
+				transform.append(this.viewScale);
+				transform.append(this.viewRotation);
 
 				Point2D translationVectorImage = transform.inverseTransform(translation.getX(), translation.getY());
 
-				viewTranslation.setX(translationVectorImage.getX());
-				viewTranslation.setY(translationVectorImage.getY());
+				this.viewTranslation.setX(translationVectorImage.getX());
+				this.viewTranslation.setY(translationVectorImage.getY());
 
 				viewTransformUpdate();
 				
@@ -831,7 +831,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	public void viewRotate(double angle) {
 
 		if (angle != 0.0d) {
-			setRotation(viewRotation.getAngle()+angle);
+			setRotation(this.viewRotation.getAngle()+angle);
 		}
 	}
 
@@ -888,10 +888,10 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 				
 				/// Express the current translation within the view referential
 				Affine transform = new Affine();
-				transform.append(viewScale);
-				transform.append(viewRotation);
+				transform.append(this.viewScale);
+				transform.append(this.viewRotation);
 				
-				Point2D currentTranslationInView = transform.transform(new Point2D(viewTranslation.getX(), viewTranslation.getY()));
+				Point2D currentTranslationInView = transform.transform(new Point2D(this.viewTranslation.getX(), this.viewTranslation.getY()));
 
 				// Combine the current translation and the new one
 				setTranslation(new Point2D(currentTranslationInView.getX()+boundedTranslationX, currentTranslationInView.getY()+boundedTranslationY));
@@ -906,7 +906,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #setAutoFit(boolean)
 	 */
 	public boolean isAutoFit() {
-		return autoFit.get();
+		return this.autoFit.get();
 	}
 
 	/**
@@ -934,7 +934,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #setAutoRefresh(boolean)
 	 */
 	public boolean isAutoRefresh() {
-		return autoRepaint.get();
+		return this.autoRepaint.get();
 	}
 
 	/**
@@ -991,7 +991,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #getRefreshNeededProperty()
 	 */
 	public boolean isRefreshNeeded() {
-		return needRefresh.get();
+		return this.needRefresh.get();
 	}
 
 	/**
@@ -1000,7 +1000,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #isRefreshNeeded()
 	 */
 	public final BooleanProperty getRefreshNeededProperty() {
-		return needRefresh;
+		return this.needRefresh;
 	}
 
 	/**
@@ -1010,7 +1010,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #getBackgroundPaintProperty()
 	 */
 	public Paint getBackgroundPaint() {
-		return backgroundPaint.get();
+		return this.backgroundPaint.get();
 	}
 
 	/**
@@ -1053,14 +1053,14 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #getViewCoordinate(Point2D)
 	 */
 	public Point2D getImageCoordinate(Point2D point){
-		if ((image != null) && (point != null)){
+		if ((this.image != null) && (point != null)){
 			if ((point.getX() >= 0) && (point.getX() < getWidth()) && (point.getY() >= 0) && (point.getY() < getHeight())){
 				Point2D dest = new Point2D(0, 0);
 
 				try {
-					dest = viewTransform.inverseTransform(point);
+					dest = this.viewTransform.inverseTransform(point);
 
-					if ((dest.getX() < 0)||(dest.getX() >= image.getWidth() - 1) || (dest.getY() < 0)||(dest.getY() >= image.getHeight() - 1)){
+					if ((dest.getX() < 0)||(dest.getX() >= this.image.getWidth() - 1) || (dest.getY() < 0)||(dest.getY() >= this.image.getHeight() - 1)){
 						dest = null;
 					}
 
@@ -1085,12 +1085,12 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #getImageCoordinate(double, double)
 	 */
 	public Point2D getViewCoordinate(Point2D point){
-		if ((image != null) && (point != null)){
-			if (viewTransform != null) {
+		if ((this.image != null) && (point != null)){
+			if (this.viewTransform != null) {
 
 				Point2D dest = new Point2D(0, 0);
 
-				dest = viewTransform.transform(point);
+				dest = this.viewTransform.transform(point);
 
 				return dest;
 			} else {
@@ -1121,7 +1121,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @see #setLayerDisplayed(String, boolean)
 	 */
 	public boolean isLayerDisplayed(String layer) {
-		for(JImageFeatureLayer l : layers) {
+		for(JImageFeatureLayer l : this.layers) {
 			if (l.getName().equals(layer)) {
 				return l.isStateDisplaying();
 			}
@@ -1136,7 +1136,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * @param displayed <code>true</code> if the layer has to be displayed and <code>false</code> otherwise.
 	 */
 	public void setLayerDisplayed(String layer, boolean displayed) {
-		for(JImageFeatureLayer l : layers) {
+		for(JImageFeatureLayer l : this.layers) {
 			if (l.getName().equals(layer)) {
 				l.setStateDisplaying(displayed);
 			}
@@ -1154,11 +1154,11 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			return false;
 		}
 
-		if (layers.contains(layer)) {
+		if (this.layers.contains(layer)) {
 			return false;
 		}
 
-		boolean b = layers.add(layer);
+		boolean b = this.layers.add(layer);
 
 		if (b) {
 
@@ -1166,7 +1166,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 			setNeedRefresh(true);
 
-			if (autoRepaint.get()){
+			if (this.autoRepaint.get()){
 				refresh();
 			}
 		}
@@ -1185,7 +1185,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			return false;
 		}
 
-		boolean b = layers.remove(layer);
+		boolean b = this.layers.remove(layer);
 
 		if (b) {
 
@@ -1193,7 +1193,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 			setNeedRefresh(true);
 
-			if (autoRepaint.get()){
+			if (this.autoRepaint.get()){
 				refresh();
 			}
 		}
@@ -1212,11 +1212,11 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				setNeedRefresh(true);
 
-				if (autoFit.get()) {
+				if (JImageCanvas.this.autoFit.get()) {
 					viewFit();
 				}
 
-				if (autoRepaint.get()){
+				if (JImageCanvas.this.autoRepaint.get()){
 					refresh();
 				}
 			}
@@ -1229,11 +1229,11 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
 				setNeedRefresh(true);
 
-				if (autoFit.get()) {
+				if (JImageCanvas.this.autoFit.get()) {
 					viewFit();
 				}
 
-				if (autoRepaint.get()){
+				if (JImageCanvas.this.autoRepaint.get()){
 					refresh();
 				}
 			}
@@ -1245,8 +1245,8 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 			@Override
 			public void handle(MouseEvent event) {
-				if (listeningControls.get()) {
-					cursorPosition.set(new Point2D(event.getX(), event.getY()));
+				if (JImageCanvas.this.listeningControls.get()) {
+					JImageCanvas.this.cursorPosition.set(new Point2D(event.getX(), event.getY()));
 				}
 			}
 
@@ -1255,24 +1255,24 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 		setOnMousePressed((EventHandler<MouseEvent>)(event) ->{
 
 			if (event.getButton() == MouseButton.PRIMARY) {
-				controlPrimaryActive.set(true);
+				this.controlPrimaryActive.set(true);
 
 				// The canvas is within selection mode
-				if ((selectionMode.get() | MODE_SELECTION_ACTIVE_MASK) != 0) {
-					selectionOrigin = cursorPosition.get();
+				if ((this.selectionMode.get() | MODE_SELECTION_ACTIVE_MASK) != 0) {
+					this.selectionOrigin = this.cursorPosition.get();
 
-					if (selectionMode.get() == MODE_SELECTION_POINT) {
-						selectionShape = null;
-					} else if (selectionMode.get() == MODE_SELECTION_RECTANGLE) {
-						selectionShape = new Rectangle();
-					} else if (selectionMode.get() == MODE_SELECTION_POLYGON) {
-						selectionShape = new Polygon();
+					if (this.selectionMode.get() == MODE_SELECTION_POINT) {
+						this.selectionShape = null;
+					} else if (this.selectionMode.get() == MODE_SELECTION_RECTANGLE) {
+						this.selectionShape = new Rectangle();
+					} else if (this.selectionMode.get() == MODE_SELECTION_POLYGON) {
+						this.selectionShape = new Polygon();
 					}
 				}
 			}
 
 			if (event.getButton() == MouseButton.SECONDARY) {
-				controlSecondaryActive.set(true);
+				this.controlSecondaryActive.set(true);
 			}
 		});
 
@@ -1283,29 +1283,29 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			if (event.getButton() == MouseButton.PRIMARY) {
 
 				// Process to selection on underlying features
-				if ((selectionMode.get() | MODE_SELECTION_ACTIVE_MASK) != 0) {
-					if (selectionShape != null) {
-						select(selectionShape);
+				if ((this.selectionMode.get() | MODE_SELECTION_ACTIVE_MASK) != 0) {
+					if (this.selectionShape != null) {
+						select(this.selectionShape);
 					}
 				}
 
 
-				if (selectionShape != null) {
-					selectionShape = null;
+				if (this.selectionShape != null) {
+					this.selectionShape = null;
 					refreshNeeded = true;
 				}
-				selectionOrigin = null;
+				this.selectionOrigin = null;
 
-				controlPrimaryActive.set(false);
+				this.controlPrimaryActive.set(false);
 			}
 
 			if (event.getButton() == MouseButton.SECONDARY) {
-				controlSecondaryActive.set(false);
+				this.controlSecondaryActive.set(false);
 			}
 
 			setNeedRefresh(refreshNeeded);
 
-			if (autoRepaint.get()){
+			if (this.autoRepaint.get()){
 				refresh();
 			}
 		});
@@ -1317,40 +1317,40 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			@Override
 			public void handle(MouseEvent event) {
 
-				if (listeningControls.get()) {
+				if (JImageCanvas.this.listeningControls.get()) {
 
 					// Using temporary cursor position as it is needed by following code but 
 					// we do not want cursorPosition property to be changed now.						
 					Point2D tmpCursorPosition = new Point2D(event.getX(), event.getY());
 
-					Point2D cursorMove = tmpCursorPosition.subtract(cursorPosition.get());
+					Point2D cursorMove = tmpCursorPosition.subtract(JImageCanvas.this.cursorPosition.get());
 
-					if ((selectionMode.get() == MODE_SELECTION_NONE) || (selectionMode.get() == MODE_SELECTION_POINT)){
+					if ((JImageCanvas.this.selectionMode.get() == MODE_SELECTION_NONE) || (JImageCanvas.this.selectionMode.get() == MODE_SELECTION_POINT)){
 
-						if (controlPrimaryActive.get()){
+						if (JImageCanvas.this.controlPrimaryActive.get()){
 
 							viewTranslate(cursorMove);
 
-							if (autoRepaint.get()){
+							if (JImageCanvas.this.autoRepaint.get()){
 								refresh();
 							}
 						}
 
-					} else if ((selectionMode.get() & MODE_SELECTION_RECTANGLE) == MODE_SELECTION_RECTANGLE){
+					} else if ((JImageCanvas.this.selectionMode.get() & MODE_SELECTION_RECTANGLE) == MODE_SELECTION_RECTANGLE){
 
 						// Allow translation using secondary control
-						if (controlSecondaryActive.get()){								
+						if (JImageCanvas.this.controlSecondaryActive.get()){								
 							viewTranslate(cursorMove);
 						}
 
-						if (controlPrimaryActive.get()) {
+						if (JImageCanvas.this.controlPrimaryActive.get()) {
 
-							if (selectionShape != null) {
-								Point2D upperLeft  = new Point2D(Math.max(0, Math.min(selectionOrigin.getX(), tmpCursorPosition.getX())), Math.max(0, Math.min(selectionOrigin.getY(), tmpCursorPosition.getY())));
+							if (JImageCanvas.this.selectionShape != null) {
+								Point2D upperLeft  = new Point2D(Math.max(0, Math.min(JImageCanvas.this.selectionOrigin.getX(), tmpCursorPosition.getX())), Math.max(0, Math.min(JImageCanvas.this.selectionOrigin.getY(), tmpCursorPosition.getY())));
 
-								Point2D lowerRight = new Point2D(Math.min(getWidth(), Math.max(selectionOrigin.getX(), tmpCursorPosition.getX())), Math.min(getHeight(), Math.max(selectionOrigin.getY(), tmpCursorPosition.getY())));
+								Point2D lowerRight = new Point2D(Math.min(getWidth(), Math.max(JImageCanvas.this.selectionOrigin.getX(), tmpCursorPosition.getX())), Math.min(getHeight(), Math.max(JImageCanvas.this.selectionOrigin.getY(), tmpCursorPosition.getY())));
 
-								Rectangle rectangle = ((Rectangle)selectionShape);
+								Rectangle rectangle = ((Rectangle)JImageCanvas.this.selectionShape);
 
 								rectangle.setX(upperLeft.getX());
 								rectangle.setY(upperLeft.getY());
@@ -1361,18 +1361,18 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 							}
 						}
 
-						if (autoRepaint.get()){
+						if (JImageCanvas.this.autoRepaint.get()){
 							refresh();
 						}
 
-					} else if ((selectionMode.get() & MODE_SELECTION_POLYGON) == MODE_SELECTION_POLYGON){
+					} else if ((JImageCanvas.this.selectionMode.get() & MODE_SELECTION_POLYGON) == MODE_SELECTION_POLYGON){
 						// TODO implements free shape selection
 					} else {
 
 					}
 
 					// Update the cursor position and fire property changes 
-					cursorPosition.set(tmpCursorPosition);
+					JImageCanvas.this.cursorPosition.set(tmpCursorPosition);
 				}
 			}
 
@@ -1382,7 +1382,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 			@Override
 			public void handle(MouseEvent event) {
-				if (listeningControls.get()) {
+				if (JImageCanvas.this.listeningControls.get()) {
 					//controlPrimaryActive.set(false);
 					//controlSecondaryActive.set(false);					
 				}
@@ -1395,7 +1395,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 			@Override
 			public void handle(ZoomEvent event) {
-				if (listeningControls.get()) {
+				if (JImageCanvas.this.listeningControls.get()) {
 					setScale(event.getTotalZoomFactor());
 				}
 			}});
@@ -1404,15 +1404,15 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 			@Override
 			public void handle(ScrollEvent event) {
-				if (listeningControls.get()) {
+				if (JImageCanvas.this.listeningControls.get()) {
 
 					double delta = event.getDeltaY();
 
 					if (delta > 0) {
-						setScale(getScale() + zoomFactor.get());
+						setScale(getScale() + JImageCanvas.this.zoomFactor.get());
 					} else {
-						if ((getScale() - zoomFactor.get()) > 0.0d) {
-							setScale(getScale() - zoomFactor.get());
+						if ((getScale() - JImageCanvas.this.zoomFactor.get()) > 0.0d) {
+							setScale(getScale() - JImageCanvas.this.zoomFactor.get());
 						}
 					}
 				}
@@ -1427,7 +1427,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 */
 	public void viewFit() {
 
-		if ((image != null) && (this.getWidth() != 0.0d) && (this.getHeight() != 0.0d) && (image.getWidth() != 0) && (image.getHeight() != 0.0d)){
+		if ((this.image != null) && (this.getWidth() != 0.0d) && (this.getHeight() != 0.0d) && (this.image.getWidth() != 0) && (this.image.getHeight() != 0.0d)){
 			
 			// Compute image bounds according to the current rotation and scale
 			Point2D imageUpperLeftInView  = this.viewRotation.transform(new Point2D(0, 0));
@@ -1448,46 +1448,46 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 			Bounds bounds = new BoundingBox(boundsMin.getX(), boundsMin.getY(), boundsMax.getX() - boundsMin.getX(), boundsMax.getY() - boundsMin.getY());
 
 			// Update image transform scale
-			if (imageFitMethod.get() == FIT_COMPLETE) {
+			if (this.imageFitMethod.get() == FIT_COMPLETE) {
 				double sx = (this.getWidth() - this.viewInsets.getLeft() - this.viewInsets.getRight()) / bounds.getWidth();
 				double sy = (this.getHeight() - this.viewInsets.getTop() - this.viewInsets.getBottom()) / bounds.getHeight();
 
-				viewScale.setX(sx);
-				viewScale.setY(sy);
+				this.viewScale.setX(sx);
+				this.viewScale.setY(sy);
 
-			} else if (imageFitMethod.get() == FIT_WIDTH) {
+			} else if (this.imageFitMethod.get() == FIT_WIDTH) {
 				double scale = (this.getWidth() - this.viewInsets.getLeft() - this.viewInsets.getRight()) / bounds.getWidth();
-				viewScale.setX(scale);
-				viewScale.setY(scale);
+				this.viewScale.setX(scale);
+				this.viewScale.setY(scale);
 
-			} else if (imageFitMethod.get() == FIT_HEIGHT) {
+			} else if (this.imageFitMethod.get() == FIT_HEIGHT) {
 				double scale = (this.getHeight() - this.viewInsets.getTop() - this.viewInsets.getBottom()) / bounds.getHeight();		
-				viewScale.setX(scale);
-				viewScale.setY(scale);
+				this.viewScale.setX(scale);
+				this.viewScale.setY(scale);
 
-			} else if (imageFitMethod.get() == FIT_AUTO) {
+			} else if (this.imageFitMethod.get() == FIT_AUTO) {
 				double sx = (this.getWidth() - this.viewInsets.getLeft() - this.viewInsets.getRight()) / bounds.getWidth();
 				double sy = (this.getHeight() -this.viewInsets.getTop() - this.viewInsets.getBottom()) / bounds.getHeight();
 
 				double scale = Math.min(sx, sy);
 
-				viewScale.setX(scale);
-				viewScale.setY(scale);
+				this.viewScale.setX(scale);
+				this.viewScale.setY(scale);
 			}
 
 			// Update translation
-			viewTranslation.setX(0);
-			viewTranslation.setY(0);
-			viewTranslation.setZ(0);
+			this.viewTranslation.setX(0);
+			this.viewTranslation.setY(0);
+			this.viewTranslation.setZ(0);
 			
-			viewTransform.setToIdentity();
-			viewTransform.append(this.viewScale);
-			viewTransform.append(this.viewRotation);
-			viewTransform.append(this.viewTranslation);
+			this.viewTransform.setToIdentity();
+			this.viewTransform.append(this.viewScale);
+			this.viewTransform.append(this.viewRotation);
+			this.viewTransform.append(this.viewTranslation);
 			
 			
 			// Compute new image bounds
-			Point2D fittedBoundsMinV = new Point2D((-bounds.getMinX()*viewScale.getX()+this.viewInsets.getLeft()), (-bounds.getMinY()*viewScale.getY()+this.viewInsets.getTop()));
+			Point2D fittedBoundsMinV = new Point2D((-bounds.getMinX()*this.viewScale.getX()+this.viewInsets.getLeft()), (-bounds.getMinY()*this.viewScale.getY()+this.viewInsets.getTop()));
 
 			viewTranslate(fittedBoundsMinV);
 			
@@ -1503,7 +1503,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 */
 	public void refreshEnqueue(Runnable task) throws InterruptedException{
 		if (task != null) {
-			refreshQueue.put(task);
+			this.refreshQueue.put(task);
 		}
 	}
 
@@ -1513,9 +1513,9 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	public void refresh() {
 
 		try{
-			refreshLock.tryAcquire();
+			this.refreshLock.tryAcquire();
 
-			if (needRefresh.get()) {
+			if (this.needRefresh.get()) {
 
 				//System.out.println("[JImageCanvas][refresh()] "+java.lang.Thread.currentThread());
 
@@ -1524,25 +1524,25 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 				final Affine originalTransform = getGraphicsContext2D().getTransform();
 
-				if (backgroundPaint.get() != null) {
-					getGraphicsContext2D().setFill(backgroundPaint.get());
+				if (this.backgroundPaint.get() != null) {
+					getGraphicsContext2D().setFill(this.backgroundPaint.get());
 					getGraphicsContext2D().fillRect(0, 0, getWidth(), getHeight());
 					getGraphicsContext2D().setFill(originalFillPaint);
 				} else {
 					getGraphicsContext2D().clearRect(0, 0, getWidth(), getHeight());
 				}
 
-				getGraphicsContext2D().setTransform(viewTransform);
+				getGraphicsContext2D().setTransform(this.viewTransform);
 
 				// Draw the image
-				if (image != null) {
-					getGraphicsContext2D().drawImage(image, 0, 0);
+				if (this.image != null) {
+					getGraphicsContext2D().drawImage(this.image, 0, 0);
 				}
 
 				// Draw the layers
 				// Draw image features
 
-				for (JImageFeatureLayer layer : layers) {
+				for (JImageFeatureLayer layer : this.layers) {
 
 					if (layer.isStateDisplaying()) {
 
@@ -1552,7 +1552,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 							for(JImageFeature feature : displayingFeatures){
 
 								if (feature.isStateDisplaying()) {
-									feature.draw(getGraphicsContext2D(), viewTransform);
+									feature.draw(getGraphicsContext2D(), this.viewTransform);
 								}
 							}
 						}
@@ -1563,19 +1563,19 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 				getGraphicsContext2D().setTransform(originalTransform);
 
 				// Draw the selection shape (shape is expressed within canvas referential)
-				if (selectionShape != null) {
+				if (this.selectionShape != null) {
 
-					if (selectionShape instanceof Rectangle) {
+					if (this.selectionShape instanceof Rectangle) {
 
-						Rectangle rectangle = (Rectangle)selectionShape;
+						Rectangle rectangle = (Rectangle)this.selectionShape;
 
-						if (selectionShapeFill != null) {
-							getGraphicsContext2D().setFill(selectionShapeFill);
+						if (this.selectionShapeFill != null) {
+							getGraphicsContext2D().setFill(this.selectionShapeFill);
 							getGraphicsContext2D().fillRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
 						}
 
-						if (selectionShapeStroke != null) {
-							getGraphicsContext2D().setStroke(selectionShapeStroke);
+						if (this.selectionShapeStroke != null) {
+							getGraphicsContext2D().setStroke(this.selectionShapeStroke);
 							getGraphicsContext2D().strokeRect(rectangle.getX(), rectangle.getY(), rectangle.getWidth(), rectangle.getHeight());
 						}
 
@@ -1587,20 +1587,20 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 				}
 
 				// Process queued refresh task
-				while(!refreshQueue.isEmpty()) {
+				while(!this.refreshQueue.isEmpty()) {
 					try {
-						refreshQueue.take().run();
+						this.refreshQueue.take().run();
 					} catch (InterruptedException e) {
 						Common.logger.log(Level.WARNING, "Cannot run task: "+e.getMessage(), e);
 					}
 				}
 
-				needRefresh.set(false);
+				this.needRefresh.set(false);
 			}
 
 
 		} finally {
-			refreshLock.release();
+			this.refreshLock.release();
 		}
 
 
@@ -1612,12 +1612,12 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 */
 	private void setNeedRefresh(boolean value) {
 		try {
-			refreshLock.acquire();
-			needRefresh.set(value);
+			this.refreshLock.acquire();
+			this.needRefresh.set(value);
 		} catch (InterruptedException e) {
 
 		} finally {
-			refreshLock.release();
+			this.refreshLock.release();
 		}
 	}
 
@@ -1630,9 +1630,9 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 		// TODO implement selection
 		
 		try {
-			shape.getTransforms().add(viewTransform.createInverse());
+			shape.getTransforms().add(this.viewTransform.createInverse());
 
-			for (JImageFeatureLayer layer : layers) {
+			for (JImageFeatureLayer layer : this.layers) {
 
 				if (layer.isStateDisplaying()) {
 
@@ -1661,12 +1661,12 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * Update the view transform according to the transformation components.
 	 */
 	private void viewTransformUpdate() {
-		viewTransform.setToIdentity();
+		this.viewTransform.setToIdentity();
 
 		
-		viewTransform.append(viewScale);
-		viewTransform.append(viewRotation);
-		viewTransform.append(viewTranslation);
+		this.viewTransform.append(this.viewScale);
+		this.viewTransform.append(this.viewRotation);
+		this.viewTransform.append(this.viewTranslation);
 /*
 		System.out.println("Scale");
 		System.out.println("  - x     : "+viewScale.getX());
@@ -1687,7 +1687,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 		
 		setNeedRefresh(true);
 
-		if (autoRepaint.get()){
+		if (this.autoRepaint.get()){
 			refresh();
 		}
 	}

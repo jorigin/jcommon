@@ -152,7 +152,7 @@ public class JRenderingHintsPanel extends JPanel {
       hints = new RenderingHints(RenderingHints.KEY_COLOR_RENDERING, RenderingHints.VALUE_COLOR_RENDER_DEFAULT);
     }
 
-    showBorder = showTitle;
+    this.showBorder = showTitle;
     
     initGUI();
     refreshGUI();
@@ -175,7 +175,7 @@ public class JRenderingHintsPanel extends JPanel {
     Insets fieldInsets = new Insets(3, 0, 3, 6);
     
     
-    isListening = false;
+    this.isListening = false;
     
     ItemListener itemListener = new ItemListener(){
 
@@ -186,38 +186,38 @@ public class JRenderingHintsPanel extends JPanel {
       
     };
     
-    alphaInterpolationLB       = new JLabel(lr.getString("GUI_RH_ALPHA_INTERPOLATION_LB")+": ");
-    alphaInterpolationLB.setToolTipText(lr.getString("GUI_RH_ALPHA_INTERPOLATION_TIP"));
+    this.alphaInterpolationLB       = new JLabel(this.lr.getString("GUI_RH_ALPHA_INTERPOLATION_LB")+": ");
+    this.alphaInterpolationLB.setToolTipText(this.lr.getString("GUI_RH_ALPHA_INTERPOLATION_TIP"));
     
-    antiAliasingLB             = new JLabel(lr.getString("GUI_RH_ANTIALIASING_LB")+": ");
-    antiAliasingLB.setToolTipText(lr.getString("GUI_RH_ANTIALIASING_TIP"));
+    this.antiAliasingLB             = new JLabel(this.lr.getString("GUI_RH_ANTIALIASING_LB")+": ");
+    this.antiAliasingLB.setToolTipText(this.lr.getString("GUI_RH_ANTIALIASING_TIP"));
     
-    colorRenderingLB           = new JLabel(lr.getString("GUI_RH_COLOR_RENDERING_LB")+": ");
-    colorRenderingLB.setToolTipText(lr.getString("GUI_RH_COLOR_RENDERING_TIP"));
+    this.colorRenderingLB           = new JLabel(this.lr.getString("GUI_RH_COLOR_RENDERING_LB")+": ");
+    this.colorRenderingLB.setToolTipText(this.lr.getString("GUI_RH_COLOR_RENDERING_TIP"));
     
-    ditheringLB                = new JLabel(lr.getString("GUI_RH_DITHERING_LB")+": ");
-    ditheringLB.setToolTipText(lr.getString("GUI_RH_DITHERING_TIP"));
+    this.ditheringLB                = new JLabel(this.lr.getString("GUI_RH_DITHERING_LB")+": ");
+    this.ditheringLB.setToolTipText(this.lr.getString("GUI_RH_DITHERING_TIP"));
     
-    fractionalLB               = new JLabel(lr.getString("GUI_RH_FRACTIONALMETRICS_LB")+": ");
-    fractionalLB.setToolTipText(lr.getString("GUI_RH_FRACTIONALMETRICS_TIP"));
+    this.fractionalLB               = new JLabel(this.lr.getString("GUI_RH_FRACTIONALMETRICS_LB")+": ");
+    this.fractionalLB.setToolTipText(this.lr.getString("GUI_RH_FRACTIONALMETRICS_TIP"));
     
-    interpolationLB            = new JLabel(lr.getString("GUI_RH_INTERPOLATION_LB")+": ");
-    interpolationLB.setToolTipText(lr.getString("GUI_RH_INTERPOLATION_TIP"));
+    this.interpolationLB            = new JLabel(this.lr.getString("GUI_RH_INTERPOLATION_LB")+": ");
+    this.interpolationLB.setToolTipText(this.lr.getString("GUI_RH_INTERPOLATION_TIP"));
     
-    renderingLB                = new JLabel(lr.getString("GUI_RH_RENDERING_LB")+": ");
-    renderingLB.setToolTipText(lr.getString("GUI_RH_RENDERING_TIP"));
+    this.renderingLB                = new JLabel(this.lr.getString("GUI_RH_RENDERING_LB")+": ");
+    this.renderingLB.setToolTipText(this.lr.getString("GUI_RH_RENDERING_TIP"));
     
-    strokeControlLB            = new JLabel(lr.getString("GUI_RH_STROKE_CONTROL_LB")+": ");
-    strokeControlLB.setToolTipText(lr.getString("GUI_RH_STROKE_CONTROL_TIP"));
+    this.strokeControlLB            = new JLabel(this.lr.getString("GUI_RH_STROKE_CONTROL_LB")+": ");
+    this.strokeControlLB.setToolTipText(this.lr.getString("GUI_RH_STROKE_CONTROL_TIP"));
     
-    textAntiAliasingLB         = new JLabel(lr.getString("GUI_RH_TEXT_ANTIALIASING_LB")+": ");
-    textAntiAliasingLB.setToolTipText(lr.getString("GUI_RH_TEXT_ANTIALIASING_TIP"));
+    this.textAntiAliasingLB         = new JLabel(this.lr.getString("GUI_RH_TEXT_ANTIALIASING_LB")+": ");
+    this.textAntiAliasingLB.setToolTipText(this.lr.getString("GUI_RH_TEXT_ANTIALIASING_TIP"));
     
-    textLCDContrastLB          = new JLabel(lr.getString("GUI_RH_TEXT_LCD_CONTRAST_LB")+": ");
-    textLCDContrastLB.setToolTipText(lr.getString("GUI_RH_TEXT_LCD_CONTRAST_TIP"));
+    this.textLCDContrastLB          = new JLabel(this.lr.getString("GUI_RH_TEXT_LCD_CONTRAST_LB")+": ");
+    this.textLCDContrastLB.setToolTipText(this.lr.getString("GUI_RH_TEXT_LCD_CONTRAST_TIP"));
     
-    alphaInterpolationCB = new JComboBox<Object>(alphaInterpolationValues);
-    alphaInterpolationCB.setRenderer(new DefaultListCellRenderer(){
+    this.alphaInterpolationCB = new JComboBox<Object>(this.alphaInterpolationValues);
+    this.alphaInterpolationCB.setRenderer(new DefaultListCellRenderer(){
       /**
        * 
        */
@@ -232,11 +232,11 @@ public class JRenderingHintsPanel extends JPanel {
     
     if (value != null){
       if (value.equals(RenderingHints.VALUE_ALPHA_INTERPOLATION_DEFAULT)){
-        label.setText(lr.getString("GUI_RH_VALUE_DEFAULT_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_DEFAULT_LB"));
       } else if (value.equals(RenderingHints.VALUE_ALPHA_INTERPOLATION_SPEED)){
-        label.setText(lr.getString("GUI_RH_VALUE_SPEED_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_SPEED_LB"));
       } else if (value.equals(RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY)){
-        label.setText(lr.getString("GUI_RH_VALUE_QUALITY_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_QUALITY_LB"));
       }
     }
     
@@ -244,10 +244,10 @@ public class JRenderingHintsPanel extends JPanel {
     
       }
     });
-    alphaInterpolationCB.addItemListener(itemListener);
+    this.alphaInterpolationCB.addItemListener(itemListener);
     
-    antiAliasingCB = new JComboBox<Object>(antiAliasingValues);
-    antiAliasingCB.setRenderer(new DefaultListCellRenderer(){
+    this.antiAliasingCB = new JComboBox<Object>(this.antiAliasingValues);
+    this.antiAliasingCB.setRenderer(new DefaultListCellRenderer(){
       /**
        * 
        */
@@ -262,11 +262,11 @@ public class JRenderingHintsPanel extends JPanel {
     
     if (value != null){
       if (value.equals(RenderingHints.VALUE_ANTIALIAS_DEFAULT)){
-        label.setText(lr.getString("GUI_RH_VALUE_DEFAULT_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_DEFAULT_LB"));
       } else if (value.equals(RenderingHints.VALUE_ANTIALIAS_OFF)){
-        label.setText(lr.getString("GUI_RH_VALUE_OFF_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_OFF_LB"));
       } else if (value.equals(RenderingHints.VALUE_ANTIALIAS_ON)){
-        label.setText(lr.getString("GUI_RH_VALUE_ON_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_ON_LB"));
       }
     }
 
@@ -274,10 +274,10 @@ public class JRenderingHintsPanel extends JPanel {
 
       }
     });
-    antiAliasingCB.addItemListener(itemListener);
+    this.antiAliasingCB.addItemListener(itemListener);
     
-    colorRenderingCB   = new JComboBox<Object>(colorRenderingValues);
-    colorRenderingCB.setRenderer(new DefaultListCellRenderer(){
+    this.colorRenderingCB   = new JComboBox<Object>(this.colorRenderingValues);
+    this.colorRenderingCB.setRenderer(new DefaultListCellRenderer(){
       /**
        * 
        */
@@ -291,11 +291,11 @@ public class JRenderingHintsPanel extends JPanel {
 
     if (value != null){
       if (value.equals(RenderingHints.VALUE_COLOR_RENDER_DEFAULT)){
-        label.setText(lr.getString("GUI_RH_VALUE_DEFAULT_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_DEFAULT_LB"));
       } else if (value.equals(RenderingHints.VALUE_COLOR_RENDER_SPEED)){
-        label.setText(lr.getString("GUI_RH_VALUE_OFF_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_OFF_LB"));
       } else if (value.equals(RenderingHints.VALUE_COLOR_RENDER_QUALITY)){
-        label.setText(lr.getString("GUI_RH_VALUE_ON_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_ON_LB"));
       }
     }
 
@@ -303,10 +303,10 @@ public class JRenderingHintsPanel extends JPanel {
 
       }
     });
-    colorRenderingCB.addItemListener(itemListener);
+    this.colorRenderingCB.addItemListener(itemListener);
 
-    ditheringCB        = new JComboBox<Object>(ditheringValues);
-    ditheringCB.setRenderer(new DefaultListCellRenderer(){
+    this.ditheringCB        = new JComboBox<Object>(this.ditheringValues);
+    this.ditheringCB.setRenderer(new DefaultListCellRenderer(){
       /**
        * 
        */
@@ -320,11 +320,11 @@ public class JRenderingHintsPanel extends JPanel {
 
     if (value != null){
       if (value.equals(RenderingHints.VALUE_DITHER_DEFAULT)){
-        label.setText(lr.getString("GUI_RH_VALUE_DEFAULT_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_DEFAULT_LB"));
       } else if (value.equals(RenderingHints.VALUE_DITHER_DISABLE)){
-        label.setText(lr.getString("GUI_RH_VALUE_OFF_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_OFF_LB"));
       } else if (value.equals(RenderingHints.VALUE_DITHER_ENABLE)){
-        label.setText(lr.getString("GUI_RH_VALUE_ON_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_ON_LB"));
       }
     }
 
@@ -332,10 +332,10 @@ public class JRenderingHintsPanel extends JPanel {
 
       }
     });
-    ditheringCB.addItemListener(itemListener);
+    this.ditheringCB.addItemListener(itemListener);
     
-    fractionalCB       = new JComboBox<Object>(fractionalMetricsValues);
-    fractionalCB.setRenderer(new DefaultListCellRenderer(){
+    this.fractionalCB       = new JComboBox<Object>(this.fractionalMetricsValues);
+    this.fractionalCB.setRenderer(new DefaultListCellRenderer(){
       /**
        * 
        */
@@ -349,11 +349,11 @@ public class JRenderingHintsPanel extends JPanel {
 
     if (value != null){
       if (value.equals(RenderingHints.VALUE_FRACTIONALMETRICS_DEFAULT)){
-        label.setText(lr.getString("GUI_RH_VALUE_DEFAULT_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_DEFAULT_LB"));
       } else if (value.equals(RenderingHints.VALUE_FRACTIONALMETRICS_OFF)){
-        label.setText(lr.getString("GUI_RH_VALUE_OFF_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_OFF_LB"));
       } else if (value.equals(RenderingHints.VALUE_FRACTIONALMETRICS_ON)){
-        label.setText(lr.getString("GUI_RH_VALUE_ON_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_ON_LB"));
       }
     }
 
@@ -361,10 +361,10 @@ public class JRenderingHintsPanel extends JPanel {
 
       }
     });
-    fractionalCB.addItemListener(itemListener);
+    this.fractionalCB.addItemListener(itemListener);
     
-    interpolationCB    = new JComboBox<Object>(interpolationValues);
-    interpolationCB.setRenderer(new DefaultListCellRenderer(){
+    this.interpolationCB    = new JComboBox<Object>(this.interpolationValues);
+    this.interpolationCB.setRenderer(new DefaultListCellRenderer(){
       /**
        * 
        */
@@ -378,11 +378,11 @@ public class JRenderingHintsPanel extends JPanel {
 
     if (value != null){
       if (value.equals(RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR)){
-        label.setText(lr.getString("GUI_RH_VALUE_NEAREST_NEIGHBOUR_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_NEAREST_NEIGHBOUR_LB"));
       } else if (value.equals(RenderingHints.VALUE_INTERPOLATION_BILINEAR)){
-        label.setText(lr.getString("GUI_RH_VALUE_BILINEAR_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_BILINEAR_LB"));
       } else if (value.equals(RenderingHints.VALUE_INTERPOLATION_BICUBIC)){
-        label.setText(lr.getString("GUI_RH_VALUE_BICUBIC_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_BICUBIC_LB"));
       }
     }
 
@@ -390,10 +390,10 @@ public class JRenderingHintsPanel extends JPanel {
 
       }
     });
-    interpolationCB.addItemListener(itemListener);
+    this.interpolationCB.addItemListener(itemListener);
     
-    renderingCB        = new JComboBox<Object>(renderingValues);
-    renderingCB.setRenderer(new DefaultListCellRenderer(){
+    this.renderingCB        = new JComboBox<Object>(this.renderingValues);
+    this.renderingCB.setRenderer(new DefaultListCellRenderer(){
       /**
        * 
        */
@@ -407,11 +407,11 @@ public class JRenderingHintsPanel extends JPanel {
 
     if (value != null){
       if (value.equals(RenderingHints.VALUE_RENDER_DEFAULT)){
-        label.setText(lr.getString("GUI_RH_VALUE_DEFAULT_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_DEFAULT_LB"));
       } else if (value.equals(RenderingHints.VALUE_RENDER_SPEED)){
-        label.setText(lr.getString("GUI_RH_VALUE_SPEED_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_SPEED_LB"));
       } else if (value.equals(RenderingHints.VALUE_RENDER_QUALITY)){
-        label.setText(lr.getString("GUI_RH_VALUE_QUALITY_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_QUALITY_LB"));
       }
     }
 
@@ -419,10 +419,10 @@ public class JRenderingHintsPanel extends JPanel {
 
       }
     });
-    renderingCB.addItemListener(itemListener);
+    this.renderingCB.addItemListener(itemListener);
     
-    strokeControlCB    = new JComboBox<Object>(strokeControlValues);
-    strokeControlCB.setRenderer(new DefaultListCellRenderer(){
+    this.strokeControlCB    = new JComboBox<Object>(this.strokeControlValues);
+    this.strokeControlCB.setRenderer(new DefaultListCellRenderer(){
       /**
        * 
        */
@@ -436,11 +436,11 @@ public class JRenderingHintsPanel extends JPanel {
 
     if (value != null){
       if (value.equals(RenderingHints.VALUE_STROKE_DEFAULT)){
-        label.setText(lr.getString("GUI_RH_VALUE_DEFAULT_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_DEFAULT_LB"));
       } else if (value.equals(RenderingHints.VALUE_STROKE_PURE)){
-        label.setText(lr.getString("GUI_RH_VALUE_PURE_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_PURE_LB"));
       } else if (value.equals(RenderingHints.VALUE_STROKE_NORMALIZE)){
-        label.setText(lr.getString("GUI_RH_VALUE_NORMALIZE_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_NORMALIZE_LB"));
       }
     }
 
@@ -448,10 +448,10 @@ public class JRenderingHintsPanel extends JPanel {
 
       }
     });
-    strokeControlCB.addItemListener(itemListener);
+    this.strokeControlCB.addItemListener(itemListener);
     
-    textAntiAliasingCB = new JComboBox<Object>(textAntiAliasingValues);
-    textAntiAliasingCB.setRenderer(new DefaultListCellRenderer(){
+    this.textAntiAliasingCB = new JComboBox<Object>(this.textAntiAliasingValues);
+    this.textAntiAliasingCB.setRenderer(new DefaultListCellRenderer(){
       /**
        * 
        */
@@ -465,21 +465,21 @@ public class JRenderingHintsPanel extends JPanel {
 
     if (value != null){
       if (value.equals(RenderingHints.VALUE_TEXT_ANTIALIAS_DEFAULT)){
-        label.setText(lr.getString("GUI_RH_VALUE_DEFAULT_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_DEFAULT_LB"));
       } else if (value.equals(RenderingHints.VALUE_TEXT_ANTIALIAS_GASP)){
-        label.setText(lr.getString("GUI_RH_VALUE_TEXT_ANTIALIAS_GASP_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_TEXT_ANTIALIAS_GASP_LB"));
       } else if (value.equals(RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HBGR)){
-        label.setText(lr.getString("GUI_RH_VALUE_TEXT_ANTIALIAS_LCD_HBGR_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_TEXT_ANTIALIAS_LCD_HBGR_LB"));
       } else if (value.equals(RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_HRGB)){
-        label.setText(lr.getString("GUI_RH_VALUE_TEXT_ANTIALIAS_LCD_HRGB_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_TEXT_ANTIALIAS_LCD_HRGB_LB"));
       } else if (value.equals(RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_VBGR)){
-        label.setText(lr.getString("GUI_RH_VALUE_TEXT_ANTIALIAS_LCD_VBGR_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_TEXT_ANTIALIAS_LCD_VBGR_LB"));
       } else if (value.equals(RenderingHints.VALUE_TEXT_ANTIALIAS_LCD_VRGB)){
-        label.setText(lr.getString("GUI_RH_VALUE_TEXT_ANTIALIAS_LCD_VRGB_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_TEXT_ANTIALIAS_LCD_VRGB_LB"));
       } else if (value.equals(RenderingHints.VALUE_TEXT_ANTIALIAS_OFF)){
-        label.setText(lr.getString("GUI_RH_VALUE_OFF_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_OFF_LB"));
       } else if (value.equals(RenderingHints.VALUE_TEXT_ANTIALIAS_ON)){
-        label.setText(lr.getString("GUI_RH_VALUE_ON_LB"));
+        label.setText(JRenderingHintsPanel.this.lr.getString("GUI_RH_VALUE_ON_LB"));
       }
     }
 
@@ -487,7 +487,7 @@ public class JRenderingHintsPanel extends JPanel {
 
       }
     });
-    textAntiAliasingCB.addItemListener(itemListener);
+    this.textAntiAliasingCB.addItemListener(itemListener);
 /*    
     int contrastValue = 140;
     if (hints.keySet().contains(RenderingHints.KEY_TEXT_LCD_CONTRAST)){
@@ -498,8 +498,8 @@ public class JRenderingHintsPanel extends JPanel {
         100, //min
         250, //max
         1);//step
-    textLCDContrastSI  = new JSpinner(sopacmodel);
-    textLCDContrastSI.addChangeListener(new ChangeListener(){
+    this.textLCDContrastSI  = new JSpinner(sopacmodel);
+    this.textLCDContrastSI.addChangeListener(new ChangeListener(){
 
       @Override
       public void stateChanged(ChangeEvent e) {
@@ -519,7 +519,7 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 0.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.EAST;
-    add(renderingLB, c);
+    add(this.renderingLB, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -531,7 +531,7 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 1.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.WEST;
-    add(renderingCB, c);
+    add(this.renderingCB, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -543,7 +543,7 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 0.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.EAST;
-    add(colorRenderingLB, c);
+    add(this.colorRenderingLB, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -555,7 +555,7 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 1.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.WEST;
-    add(colorRenderingCB, c);
+    add(this.colorRenderingCB, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -567,7 +567,7 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 0.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.EAST;
-    add(interpolationLB, c);
+    add(this.interpolationLB, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -579,7 +579,7 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 1.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.WEST;
-    add(interpolationCB, c);
+    add(this.interpolationCB, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -591,7 +591,7 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 0.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.EAST;
-    add(alphaInterpolationLB, c);
+    add(this.alphaInterpolationLB, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -603,7 +603,7 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 1.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.WEST;
-    add(alphaInterpolationCB, c);
+    add(this.alphaInterpolationCB, c);
 
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -615,7 +615,7 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 0.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.EAST;
-    add(antiAliasingLB, c);
+    add(this.antiAliasingLB, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -627,7 +627,7 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 1.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.WEST;
-    add(antiAliasingCB, c);
+    add(this.antiAliasingCB, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -639,7 +639,7 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 0.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.EAST;
-    add(ditheringLB, c);
+    add(this.ditheringLB, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -651,7 +651,7 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 1.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.WEST;
-    add(ditheringCB, c);
+    add(this.ditheringCB, c);
      
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -663,7 +663,7 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 0.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.EAST;
-    add(fractionalLB, c);
+    add(this.fractionalLB, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -675,7 +675,7 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 1.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.WEST;
-    add(fractionalCB, c);
+    add(this.fractionalCB, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -687,7 +687,7 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 0.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.EAST;
-    add(strokeControlLB, c);
+    add(this.strokeControlLB, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -699,7 +699,7 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 1.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.WEST;
-    add(strokeControlCB, c);
+    add(this.strokeControlCB, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -711,7 +711,7 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 0.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.EAST;
-    add(textAntiAliasingLB, c);
+    add(this.textAntiAliasingLB, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -723,7 +723,7 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 1.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.WEST;
-    add(textAntiAliasingCB, c);
+    add(this.textAntiAliasingCB, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -735,7 +735,7 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 0.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.EAST;
-    add(textLCDContrastLB, c);
+    add(this.textLCDContrastLB, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -747,14 +747,14 @@ public class JRenderingHintsPanel extends JPanel {
     c.weightx   = 1.0;
     c.weighty   = 0.0;
     c.anchor    = GridBagConstraints.WEST;
-    add(textLCDContrastSI, c);
+    add(this.textLCDContrastSI, c);
     
     
-    if (showBorder){
-      setBorder(BorderFactory.createTitledBorder(lr.getString("GUI_RH_ID")));
+    if (this.showBorder){
+      setBorder(BorderFactory.createTitledBorder(this.lr.getString("GUI_RH_ID")));
     }
     
-    isListening = true;
+    this.isListening = true;
     
   }
   
@@ -762,27 +762,27 @@ public class JRenderingHintsPanel extends JPanel {
    * Refresh the GUI
    */
   public void refreshGUI(){
-    isListening = false;
+    this.isListening = false;
     
-    if (hints != null){
-      renderingCB.setSelectedItem(hints.get(RenderingHints.KEY_RENDERING));
-      colorRenderingCB.setSelectedItem(hints.get(RenderingHints.KEY_COLOR_RENDERING));
-      interpolationCB.setSelectedItem(hints.get(RenderingHints.KEY_INTERPOLATION));
-      alphaInterpolationCB.setSelectedItem(hints.get(RenderingHints.KEY_ALPHA_INTERPOLATION));
-      antiAliasingCB.setSelectedItem(hints.get(RenderingHints.KEY_ANTIALIASING));
-      ditheringCB.setSelectedItem(hints.get(RenderingHints.KEY_DITHERING));
-      fractionalCB.setSelectedItem(hints.get(RenderingHints.KEY_FRACTIONALMETRICS));
-      strokeControlCB.setSelectedItem(hints.get(RenderingHints.KEY_STROKE_CONTROL));
-      textAntiAliasingCB.setSelectedItem(hints.get(RenderingHints.KEY_TEXT_ANTIALIASING));
+    if (this.hints != null){
+      this.renderingCB.setSelectedItem(this.hints.get(RenderingHints.KEY_RENDERING));
+      this.colorRenderingCB.setSelectedItem(this.hints.get(RenderingHints.KEY_COLOR_RENDERING));
+      this.interpolationCB.setSelectedItem(this.hints.get(RenderingHints.KEY_INTERPOLATION));
+      this.alphaInterpolationCB.setSelectedItem(this.hints.get(RenderingHints.KEY_ALPHA_INTERPOLATION));
+      this.antiAliasingCB.setSelectedItem(this.hints.get(RenderingHints.KEY_ANTIALIASING));
+      this.ditheringCB.setSelectedItem(this.hints.get(RenderingHints.KEY_DITHERING));
+      this.fractionalCB.setSelectedItem(this.hints.get(RenderingHints.KEY_FRACTIONALMETRICS));
+      this.strokeControlCB.setSelectedItem(this.hints.get(RenderingHints.KEY_STROKE_CONTROL));
+      this.textAntiAliasingCB.setSelectedItem(this.hints.get(RenderingHints.KEY_TEXT_ANTIALIASING));
       
-      if (hints.get(RenderingHints.KEY_TEXT_LCD_CONTRAST) != null){
-    textLCDContrastSI.setValue(hints.get(RenderingHints.KEY_TEXT_LCD_CONTRAST));
+      if (this.hints.get(RenderingHints.KEY_TEXT_LCD_CONTRAST) != null){
+    this.textLCDContrastSI.setValue(this.hints.get(RenderingHints.KEY_TEXT_LCD_CONTRAST));
       } else {
-    textLCDContrastSI.setValue(140);
+    this.textLCDContrastSI.setValue(140);
       }
       
     }
-    isListening = true;
+    this.isListening = true;
   }
 //IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 //II FIN INITIALISATION                                       II
@@ -797,25 +797,25 @@ public class JRenderingHintsPanel extends JPanel {
    * @param e the item event to process.
    */
   protected void processItemEvent(ItemEvent e){
-    if (isListening){
-      if (e.getSource() == alphaInterpolationCB){
-    hints.put(RenderingHints.KEY_ALPHA_INTERPOLATION, alphaInterpolationCB.getSelectedItem());
-      } else if (e.getSource() == antiAliasingCB){
-    hints.put(RenderingHints.KEY_ANTIALIASING, antiAliasingCB.getSelectedItem());
-      } else if (e.getSource() == colorRenderingCB){
-    hints.put(RenderingHints.KEY_COLOR_RENDERING, colorRenderingCB.getSelectedItem());
-      } else if (e.getSource() == ditheringCB){
-    hints.put(RenderingHints.KEY_DITHERING, ditheringCB.getSelectedItem());
-      } else if (e.getSource() == fractionalCB){
-    hints.put(RenderingHints.KEY_FRACTIONALMETRICS, fractionalCB.getSelectedItem());
-      } else if (e.getSource() == interpolationCB){
-    hints.put(RenderingHints.KEY_INTERPOLATION, interpolationCB.getSelectedItem());
-      } else if (e.getSource() == renderingCB){
-    hints.put(RenderingHints.KEY_RENDERING, renderingCB.getSelectedItem());
-      } else if (e.getSource() == strokeControlCB){
-    hints.put(RenderingHints.KEY_STROKE_CONTROL, strokeControlCB.getSelectedItem());
-      } else if (e.getSource() == textAntiAliasingCB){
-    hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, textAntiAliasingCB.getSelectedItem());
+    if (this.isListening){
+      if (e.getSource() == this.alphaInterpolationCB){
+    this.hints.put(RenderingHints.KEY_ALPHA_INTERPOLATION, this.alphaInterpolationCB.getSelectedItem());
+      } else if (e.getSource() == this.antiAliasingCB){
+    this.hints.put(RenderingHints.KEY_ANTIALIASING, this.antiAliasingCB.getSelectedItem());
+      } else if (e.getSource() == this.colorRenderingCB){
+    this.hints.put(RenderingHints.KEY_COLOR_RENDERING, this.colorRenderingCB.getSelectedItem());
+      } else if (e.getSource() == this.ditheringCB){
+    this.hints.put(RenderingHints.KEY_DITHERING, this.ditheringCB.getSelectedItem());
+      } else if (e.getSource() == this.fractionalCB){
+    this.hints.put(RenderingHints.KEY_FRACTIONALMETRICS, this.fractionalCB.getSelectedItem());
+      } else if (e.getSource() == this.interpolationCB){
+    this.hints.put(RenderingHints.KEY_INTERPOLATION, this.interpolationCB.getSelectedItem());
+      } else if (e.getSource() == this.renderingCB){
+    this.hints.put(RenderingHints.KEY_RENDERING, this.renderingCB.getSelectedItem());
+      } else if (e.getSource() == this.strokeControlCB){
+    this.hints.put(RenderingHints.KEY_STROKE_CONTROL, this.strokeControlCB.getSelectedItem());
+      } else if (e.getSource() == this.textAntiAliasingCB){
+    this.hints.put(RenderingHints.KEY_TEXT_ANTIALIASING, this.textAntiAliasingCB.getSelectedItem());
       }
     }
   }
@@ -825,9 +825,9 @@ public class JRenderingHintsPanel extends JPanel {
    * @param e the change event to process.
    */
   protected void processChangeEvent(ChangeEvent e){
-    if (isListening){
-      if (e.getSource() == textLCDContrastSI){
-    hints.put(RenderingHints.KEY_TEXT_LCD_CONTRAST, textLCDContrastSI.getValue());
+    if (this.isListening){
+      if (e.getSource() == this.textLCDContrastSI){
+    this.hints.put(RenderingHints.KEY_TEXT_LCD_CONTRAST, this.textLCDContrastSI.getValue());
       }
     }
   }

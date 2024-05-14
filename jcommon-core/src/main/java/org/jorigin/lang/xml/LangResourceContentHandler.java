@@ -96,10 +96,10 @@ public class LangResourceContentHandler implements ContentHandler {
     
     if (localName.equals(ELEMENT_RESOURCE)) {
       
-      resources.put(key, value);
+      this.resources.put(this.key, this.value);
       
-      key = null;
-      value = null;
+      this.key = null;
+      this.value = null;
     }
   }
 
@@ -139,12 +139,12 @@ public class LangResourceContentHandler implements ContentHandler {
    
     
     if (localName.equals(ELEMENT_RESOURCES)) {
-      resources = new HashMap<String, String>();
+      this.resources = new HashMap<String, String>();
     }
     
     if (localName.equals(ELEMENT_RESOURCE)) {
-      key   = atts.getValue(ATTRIBUTE_KEY);
-      value = atts.getValue(ATTRIBUTE_VALUE);
+      this.key   = atts.getValue(ATTRIBUTE_KEY);
+      this.value = atts.getValue(ATTRIBUTE_VALUE);
     }
   }
 

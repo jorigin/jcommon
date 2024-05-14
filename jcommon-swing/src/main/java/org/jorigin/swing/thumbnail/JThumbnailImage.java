@@ -38,15 +38,15 @@ public class JThumbnailImage<T> extends JThumbnail<T> {
   public JThumbnailImage(String name, int width, int height, int margin, int ID, Image image, T content) {
     super(name, width, height, margin, ID);
 
-    imageLB = new JLabel();
+    this.imageLB = new JLabel();
     
     this.image = image;
     
-    icon = new ImageIcon(image);
+    this.icon = new ImageIcon(image);
 
-    super.thumbnailComponent = imageLB;
+    super.thumbnailComponent = this.imageLB;
     super.thumbnailPN.removeAll();
-    super.thumbnailPN.add(thumbnailComponent, BorderLayout.CENTER);
+    super.thumbnailPN.add(this.thumbnailComponent, BorderLayout.CENTER);
     
     this.content = content;
     
@@ -64,18 +64,18 @@ public class JThumbnailImage<T> extends JThumbnail<T> {
     
     super.refreshGUI();
     
-    if (icon != null){
+    if (this.icon != null){
             
-      if (icon.getImage() != null){
-        if ((thumbnailPN.getSize().getWidth() > 0) && (thumbnailPN.getSize().getWidth() != icon.getIconWidth())){
-          if (image != null){
-            icon = new ImageIcon(image.getScaledInstance((int)thumbnailPN.getSize().getWidth(), (int)thumbnailPN.getSize().getHeight(), Image.SCALE_FAST));
+      if (this.icon.getImage() != null){
+        if ((this.thumbnailPN.getSize().getWidth() > 0) && (this.thumbnailPN.getSize().getWidth() != this.icon.getIconWidth())){
+          if (this.image != null){
+            this.icon = new ImageIcon(this.image.getScaledInstance((int)this.thumbnailPN.getSize().getWidth(), (int)this.thumbnailPN.getSize().getHeight(), Image.SCALE_FAST));
             
-            imageLB.setIcon(icon);
-            imageLB.setSize(thumbnailPN.getSize());
-            imageLB.setPreferredSize(thumbnailPN.getSize());
-            imageLB.setMinimumSize(thumbnailPN.getSize());
-            imageLB.setMaximumSize(thumbnailPN.getSize());
+            this.imageLB.setIcon(this.icon);
+            this.imageLB.setSize(this.thumbnailPN.getSize());
+            this.imageLB.setPreferredSize(this.thumbnailPN.getSize());
+            this.imageLB.setMinimumSize(this.thumbnailPN.getSize());
+            this.imageLB.setMaximumSize(this.thumbnailPN.getSize());
           }
         }
       }

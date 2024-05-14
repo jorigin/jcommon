@@ -55,7 +55,7 @@ public class MouseClickFilter implements EventHandler<MouseEvent> {
      * @see #setMouseClickEventHandler(EventHandler)
      */
     public EventHandler<? super MouseEvent> getMouseClickEventHandler() {
-    	return handler;
+    	return this.handler;
     }
     
     /**
@@ -72,7 +72,7 @@ public class MouseClickFilter implements EventHandler<MouseEvent> {
      * @see #setClickDelay(long)
      */
     public long getClickDelay() {
-    	return clickDelay;
+    	return this.clickDelay;
     }
     
     /**
@@ -92,43 +92,43 @@ public class MouseClickFilter implements EventHandler<MouseEvent> {
 
 				long currentClickTime = System.currentTimeMillis();
 				
-				if (consecutiveClickCount == 0) {
+				if (this.consecutiveClickCount == 0) {
 
-					timer = new Runnable() {
+					this.timer = new Runnable() {
 
 						@Override
 						public void run() {
 							
-							while(timerRunning) {
+							while(MouseClickFilter.this.timerRunning) {
 
-								timerRunning = false;
+								MouseClickFilter.this.timerRunning = false;
 								
 								try {
-									Thread.sleep(clickDelay);
+									Thread.sleep(MouseClickFilter.this.clickDelay);
 								} catch (InterruptedException e) {
 								}
 							}
 
-							handler.handle(currentEvent);
-							consecutiveClickCount = 0;
+							MouseClickFilter.this.handler.handle(MouseClickFilter.this.currentEvent);
+							MouseClickFilter.this.consecutiveClickCount = 0;
 						}			    	
 				    };
 
-				    consecutiveClickCount = 1;
-				    timerRunning = true;
-				    CompletableFuture.runAsync(timer);
+				    this.consecutiveClickCount = 1;
+				    this.timerRunning = true;
+				    CompletableFuture.runAsync(this.timer);
 				} else {
 					// Multiple clicks suspected
-					if (currentClickTime - lastClickTime <= clickDelay) {
-						consecutiveClickCount += 1;
-						timerRunning = true;
+					if (currentClickTime - this.lastClickTime <= this.clickDelay) {
+						this.consecutiveClickCount += 1;
+						this.timerRunning = true;
 					}
 
 				}
 
 				this.currentEvent = e;
 				
-				lastClickTime = currentClickTime;
+				this.lastClickTime = currentClickTime;
     }
     
 }

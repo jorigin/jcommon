@@ -62,7 +62,7 @@ public class JTaskProgress extends JPanel {
    * @see #setLabelVisible(boolean)
    */
   public boolean isLabelVisible() {
-    return labelVisible;
+    return this.labelVisible;
   }
 
   /**
@@ -76,9 +76,9 @@ public class JTaskProgress extends JPanel {
       this.labelVisible = labelVisible;
       
       if (isLabelVisible()){
-        add(label, BorderLayout.NORTH);
+        add(this.label, BorderLayout.NORTH);
       } else {
-        remove(label);
+        remove(this.label);
       }
     }
   }
@@ -89,7 +89,7 @@ public class JTaskProgress extends JPanel {
    * @see #setProgressBarVisible(boolean)
    */
   public boolean isProgressBarVisible() {
-    return progressBarVisible;
+    return this.progressBarVisible;
   }
 
   /**
@@ -103,9 +103,9 @@ public class JTaskProgress extends JPanel {
       this.progressBarVisible = progressBarVisible;
       
       if (isProgressBarVisible()){
-        add(progressBar, BorderLayout.CENTER);
+        add(this.progressBar, BorderLayout.CENTER);
       } else {
-        remove(progressBar);
+        remove(this.progressBar);
       }
     }
     
@@ -117,7 +117,7 @@ public class JTaskProgress extends JPanel {
    * @return  the progress bar attached to this monitor.
    */
   public JProgressBar getProgressBar() {
-    return progressBar;
+    return this.progressBar;
   }
 
   /**
@@ -125,7 +125,7 @@ public class JTaskProgress extends JPanel {
    * @return the label of this monitor.
    */
   public JLabel getLabel() {
-    return label;
+    return this.label;
   }
   
   /**
@@ -135,11 +135,11 @@ public class JTaskProgress extends JPanel {
     setLayout(new BorderLayout());
     
     if (isLabelVisible()){
-      add(label, BorderLayout.NORTH);
+      add(this.label, BorderLayout.NORTH);
     }
     
     if (isProgressBarVisible()){
-      add(progressBar, BorderLayout.CENTER);
+      add(this.progressBar, BorderLayout.CENTER);
     }
   }
 }

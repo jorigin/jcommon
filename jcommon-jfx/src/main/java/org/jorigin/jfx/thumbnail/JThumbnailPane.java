@@ -87,27 +87,27 @@ public class JThumbnailPane<T> extends BorderPane{
 
 		getStyleClass().setAll("list-view");
 		
-		mouseClickFilter = new MouseClickFilter((e) -> {	
+		this.mouseClickFilter = new MouseClickFilter((e) -> {	
 			processMouseClickedEvent(e);
 		});
 		
-		thumbnails = FXCollections.observableArrayList();
-		filteredThumbnails = new FilteredList<JThumbnail<T>>(thumbnails);
-		selectedThumbnails = FXCollections.observableArrayList();
+		this.thumbnails = FXCollections.observableArrayList();
+		this.filteredThumbnails = new FilteredList<JThumbnail<T>>(this.thumbnails);
+		this.selectedThumbnails = FXCollections.observableArrayList();
 		
-		tilePane = new TilePane();
-		tilePane.setCache(true);
-		tilePane.setCacheHint(CacheHint.SPEED);
+		this.tilePane = new TilePane();
+		this.tilePane.setCache(true);
+		this.tilePane.setCacheHint(CacheHint.SPEED);
 
 		this.setOnMouseClicked((e) -> processMouseClickedEvent(e));
 		
 		if (scrollable) {
-			scrollPane = new ScrollPane();
-			scrollPane.setFitToWidth(true);
-			scrollPane.setContent(tilePane);
-			setCenter(scrollPane);
+			this.scrollPane = new ScrollPane();
+			this.scrollPane.setFitToWidth(true);
+			this.scrollPane.setContent(this.tilePane);
+			setCenter(this.scrollPane);
 		} else {
-			setCenter(tilePane);
+			setCenter(this.tilePane);
 		}
 
 		setStyle(style);
@@ -124,12 +124,12 @@ public class JThumbnailPane<T> extends BorderPane{
 		
 		if (handler != null) {
 			
-			if (activationHandlers == null) {
-				activationHandlers = FXCollections.observableArrayList();
+			if (this.activationHandlers == null) {
+				this.activationHandlers = FXCollections.observableArrayList();
 			}
 			
-			if (!activationHandlers.contains(handler)) {
-				ok = activationHandlers.add(handler);
+			if (!this.activationHandlers.contains(handler)) {
+				ok = this.activationHandlers.add(handler);
 			}
 		}
 		
@@ -144,8 +144,8 @@ public class JThumbnailPane<T> extends BorderPane{
 	 */
 	public boolean removeThumbnailActivationHandler(JThumbnailActivationHandler<T> handler) {
 		boolean ok = false;
-		if ((handler != null) && (activationHandlers != null)) {
-			ok = activationHandlers.remove(handler);
+		if ((handler != null) && (this.activationHandlers != null)) {
+			ok = this.activationHandlers.remove(handler);
 		}
 		return ok;
 	}
@@ -161,12 +161,12 @@ public class JThumbnailPane<T> extends BorderPane{
 		
 		if (handler != null) {
 			
-			if (selectionHandlers == null) {
-				selectionHandlers = FXCollections.observableArrayList();
+			if (this.selectionHandlers == null) {
+				this.selectionHandlers = FXCollections.observableArrayList();
 			}
 			
-			if (!selectionHandlers.contains(handler)) {
-				ok = selectionHandlers.add(handler);
+			if (!this.selectionHandlers.contains(handler)) {
+				ok = this.selectionHandlers.add(handler);
 			}
 		}
 		
@@ -181,8 +181,8 @@ public class JThumbnailPane<T> extends BorderPane{
 	 */
 	public boolean removeThumbnailSelectionHandler(JThumbnailSelectionHandler<T> handler) {
 		boolean ok = false;
-		if ((handler != null) && (selectionHandlers != null)) {
-			ok = selectionHandlers.remove(handler);
+		if ((handler != null) && (this.selectionHandlers != null)) {
+			ok = this.selectionHandlers.remove(handler);
 		}
 		return ok;
 	}
@@ -194,8 +194,8 @@ public class JThumbnailPane<T> extends BorderPane{
 	 * @return the <code>filter</code> property
 	 */
 	public final ObjectProperty<Predicate<? super T>> thumbnailFilterProperty() {
-		if (thumbnailFilter == null) {
-			thumbnailFilter = new ObjectPropertyBase<Predicate<? super T>>() {
+		if (this.thumbnailFilter == null) {
+			this.thumbnailFilter = new ObjectPropertyBase<Predicate<? super T>>() {
 
 				@Override
 				protected void invalidated() {
@@ -214,7 +214,7 @@ public class JThumbnailPane<T> extends BorderPane{
 
 			};
 		}
-		return thumbnailFilter;
+		return this.thumbnailFilter;
 	}
 
 	/**
@@ -222,8 +222,8 @@ public class JThumbnailPane<T> extends BorderPane{
 	 * @return the <code>style</code> property
 	 */
 	public final ObjectProperty<JThumbnailStyle> thumbnailStyleProperty() {
-		if (thumbnailStyle == null) {
-			thumbnailStyle = new ObjectPropertyBase<JThumbnailStyle>() {
+		if (this.thumbnailStyle == null) {
+			this.thumbnailStyle = new ObjectPropertyBase<JThumbnailStyle>() {
 
 				@Override
 				protected void invalidated() {
@@ -242,7 +242,7 @@ public class JThumbnailPane<T> extends BorderPane{
 
 			};
 		}
-		return thumbnailStyle;
+		return this.thumbnailStyle;
 	}
 
 	/**
@@ -251,16 +251,16 @@ public class JThumbnailPane<T> extends BorderPane{
 	 * @return <code>true</code> if the thumbnail is successfully added and <code>false</code> otherwise
 	 */
 	public boolean addThumbnail(JThumbnail<T> thumbnail) {
-		boolean ok = thumbnails.add(thumbnail);		
+		boolean ok = this.thumbnails.add(thumbnail);		
 
 		if (ok) {
 
-			thumbnail.addEventFilter(MouseEvent.MOUSE_CLICKED, mouseClickFilter);
+			thumbnail.addEventFilter(MouseEvent.MOUSE_CLICKED, this.mouseClickFilter);
 
 			if (!Platform.isFxApplicationThread()) {
-				Platform.runLater(() -> tilePane.getChildren().add(thumbnail));
+				Platform.runLater(() -> this.tilePane.getChildren().add(thumbnail));
 			} else {
-				tilePane.getChildren().add(thumbnail);
+				this.tilePane.getChildren().add(thumbnail);
 			}
 		}
 
@@ -274,14 +274,14 @@ public class JThumbnailPane<T> extends BorderPane{
 	 */
 	public boolean removeThumbnail(JThumbnail<T> thumbnail) {
 
-		int index = thumbnails.indexOf(thumbnail);
+		int index = this.thumbnails.indexOf(thumbnail);
 
-		boolean ok = (thumbnails.remove(index) != null);	
+		boolean ok = (this.thumbnails.remove(index) != null);	
 
 		if (ok) {
 
-			Platform.runLater(() -> tilePane.getChildren().remove(thumbnail));
-			thumbnail.removeEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickFilter);
+			Platform.runLater(() -> this.tilePane.getChildren().remove(thumbnail));
+			thumbnail.removeEventHandler(MouseEvent.MOUSE_CLICKED, this.mouseClickFilter);
 		}
 
 		return ok;
@@ -293,20 +293,20 @@ public class JThumbnailPane<T> extends BorderPane{
 	 */
 	public void setStyle(JThumbnailStyle style) {
 
-		tilePane.hgapProperty().unbind();
-		tilePane.vgapProperty().unbind();
-		tilePane.backgroundProperty().unbind();
+		this.tilePane.hgapProperty().unbind();
+		this.tilePane.vgapProperty().unbind();
+		this.tilePane.backgroundProperty().unbind();
 
 		thumbnailStyleProperty().set(style);
 
 		if (thumbnailStyleProperty().get() != null) {
-			tilePane.hgapProperty().bind(thumbnailStyleProperty().get().thumbnailHGapProperty());
-			tilePane.vgapProperty().bind(thumbnailStyleProperty().get().thumbnailVGapProperty());
+			this.tilePane.hgapProperty().bind(thumbnailStyleProperty().get().thumbnailHGapProperty());
+			this.tilePane.vgapProperty().bind(thumbnailStyleProperty().get().thumbnailVGapProperty());
 
-			tilePane.backgroundProperty().bind(thumbnailStyleProperty().get().thumbnailPaneBackgroundProperty());
+			this.tilePane.backgroundProperty().bind(thumbnailStyleProperty().get().thumbnailPaneBackgroundProperty());
 		}
 
-		for(JThumbnail<?> thumbnail : thumbnails) {
+		for(JThumbnail<?> thumbnail : this.thumbnails) {
 			thumbnail.setThumbnailStyle(thumbnailStyleProperty().get());
 		}
 	}
@@ -337,12 +337,12 @@ public class JThumbnailPane<T> extends BorderPane{
 	 */
 	protected void update() {
 
-		for (JThumbnail<?> t : filteredThumbnails.getSource()) {
+		for (JThumbnail<?> t : this.filteredThumbnails.getSource()) {
 			t.setVisible(false);
 			t.setManaged(false);
 		}
 
-		for (JThumbnail<?> t : filteredThumbnails) {
+		for (JThumbnail<?> t : this.filteredThumbnails) {
 			t.setVisible(true);
 			t.setManaged(true);
 		}
@@ -366,8 +366,8 @@ public class JThumbnailPane<T> extends BorderPane{
 	 * @param thumbnail the activated thumbnail
 	 */
 	private void fireActivation(JThumbnail<T> thumbnail) {
-		if (activationHandlers != null) {
-			for(JThumbnailActivationHandler<T> h : activationHandlers) {
+		if (this.activationHandlers != null) {
+			for(JThumbnailActivationHandler<T> h : this.activationHandlers) {
 				h.handle(this, thumbnail);
 			}
 		}
@@ -378,8 +378,8 @@ public class JThumbnailPane<T> extends BorderPane{
 	 * @param thumbnails the selected thumbnails
 	 */
 	private void fireSelection(List<JThumbnail<T>> thumbnails) {
-		if (activationHandlers != null) {
-			for(JThumbnailSelectionHandler<T> h : selectionHandlers) {
+		if (this.activationHandlers != null) {
+			for(JThumbnailSelectionHandler<T> h : this.selectionHandlers) {
 				h.handle(this, thumbnails);
 			}
 		}
@@ -408,36 +408,36 @@ public class JThumbnailPane<T> extends BorderPane{
 
 						// Simple Range selection
 						} else if(e.isShiftDown()) {
-							if (selectionLastThumbnail == null) {
+							if (this.selectionLastThumbnail == null) {
 								
 								if (!thumbnail.isStateSelected()) {
 									
-									if ((thumbnailFilter == null) || thumbnailFilter.get().test(thumbnail.getThumbnailContent())) {
+									if ((this.thumbnailFilter == null) || this.thumbnailFilter.get().test(thumbnail.getThumbnailContent())) {
 										thumbnail.setStateSelected(true);
-										selectedThumbnails.add(thumbnail);
-										selectionLastThumbnail = thumbnail;
+										this.selectedThumbnails.add(thumbnail);
+										this.selectionLastThumbnail = thumbnail;
 										
-										fireSelection(selectedThumbnails);
+										fireSelection(this.selectedThumbnails);
 									}
 								}
 							} else {
-								int index1 = thumbnails.indexOf(selectionLastThumbnail);
-								int index2 = thumbnails.indexOf(thumbnail);
+								int index1 = this.thumbnails.indexOf(this.selectionLastThumbnail);
+								int index2 = this.thumbnails.indexOf(thumbnail);
 
 								JThumbnail<T> tmp = null;
 								for(int i = Math.min(index1, index2); i <= Math.max(index1, index2); i++) {
-									tmp = thumbnails.get(i);
+									tmp = this.thumbnails.get(i);
 									if (!tmp.isStateSelected()) {
 										
-										if ((thumbnailFilter == null) || thumbnailFilter.get().test(tmp.getThumbnailContent())) {
+										if ((this.thumbnailFilter == null) || this.thumbnailFilter.get().test(tmp.getThumbnailContent())) {
 											tmp.setStateSelected(true);
-											selectedThumbnails.add(tmp);
-											selectionLastThumbnail = thumbnail;
+											this.selectedThumbnails.add(tmp);
+											this.selectionLastThumbnail = thumbnail;
 										}
 										
 									}
 								}
-								fireSelection(selectedThumbnails);
+								fireSelection(this.selectedThumbnails);
 							}
 
 						// Additive selection / unselection
@@ -446,20 +446,20 @@ public class JThumbnailPane<T> extends BorderPane{
 							// Unselect the thumbnail
 							if (thumbnail.isStateSelected()) {
 								thumbnail.setStateSelected(false);
-								selectedThumbnails.remove(thumbnail);
-								selectionLastThumbnail = null;
+								this.selectedThumbnails.remove(thumbnail);
+								this.selectionLastThumbnail = null;
 								
-								fireSelection(selectedThumbnails);
+								fireSelection(this.selectedThumbnails);
 								
 							// Select the thumbnail
 							} else {
 								
-								if ((thumbnailFilter == null) || thumbnailFilter.get().test(thumbnail.getThumbnailContent())) {
+								if ((this.thumbnailFilter == null) || this.thumbnailFilter.get().test(thumbnail.getThumbnailContent())) {
 									thumbnail.setStateSelected(true);
-									selectedThumbnails.add(thumbnail);
-									selectionLastThumbnail = thumbnail;
+									this.selectedThumbnails.add(thumbnail);
+									this.selectionLastThumbnail = thumbnail;
 									
-									fireSelection(selectedThumbnails);
+									fireSelection(this.selectedThumbnails);
 								}
 							}
 
@@ -467,19 +467,19 @@ public class JThumbnailPane<T> extends BorderPane{
 						// Simple selection
 						} else {
 							
-							for(JThumbnail<?> t : selectedThumbnails) {
+							for(JThumbnail<?> t : this.selectedThumbnails) {
 								t.setStateSelected(false);
 							}						
-							selectedThumbnails.clear();
+							this.selectedThumbnails.clear();
 							
-							if (!thumbnail.isStateSelected() && ((thumbnailFilter == null) || thumbnailFilter.get().test(thumbnail.getThumbnailContent()))) {
+							if (!thumbnail.isStateSelected() && ((this.thumbnailFilter == null) || this.thumbnailFilter.get().test(thumbnail.getThumbnailContent()))) {
 								thumbnail.setStateSelected(true);
-								selectedThumbnails.add(thumbnail);
+								this.selectedThumbnails.add(thumbnail);
 							}
 							
-							selectionLastThumbnail = thumbnail;
+							this.selectionLastThumbnail = thumbnail;
 							
-							fireSelection(selectedThumbnails);
+							fireSelection(this.selectedThumbnails);
 						}
 					}
 				}

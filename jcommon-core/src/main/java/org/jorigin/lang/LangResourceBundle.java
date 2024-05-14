@@ -75,34 +75,34 @@ public class LangResourceBundle extends ResourceBundle{
   
   @Override
   public boolean containsKey(String key){
-    return resource.getKeySet().contains(key);
+    return this.resource.getKeySet().contains(key);
   }
   
   
   @Override
   public Enumeration<String> getKeys(){
-    Vector<String> v = new Vector<String>(resource.getKeySet());
+    Vector<String> v = new Vector<String>(this.resource.getKeySet());
     return v.elements();
   }
   
   @Override
   public Locale getLocale(){
-    return resource.getLocale();
+    return this.resource.getLocale();
   }
   
   @Override
   protected Object handleGetObject(String key){
-    return resource.getResource(key);
+    return this.resource.getResource(key);
   }
   
   @Override
   protected Set<String>  handleKeySet(){
-    return resource.getKeySet();
+    return this.resource.getKeySet();
   }
   
   @Override
   public Set<String> keySet(){
-    return resource.getKeySet();
+    return this.resource.getKeySet();
   }
   
   @Override

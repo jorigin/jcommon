@@ -195,7 +195,7 @@ public class JDesktopPane extends javax.swing.JDesktopPane {
    * Organize the Internal frames following the default method
    */
   public void organize(){
-    organize(organizeMethod);
+    organize(this.organizeMethod);
   }
 
   /**
@@ -329,7 +329,7 @@ public class JDesktopPane extends javax.swing.JDesktopPane {
     
     frameDimension   = frame.getSize();
     
-    switch(fitMethod){
+    switch(this.fitMethod){
       case FIT_NONE:
         break;
       case FIT_CENTER:

@@ -82,25 +82,25 @@ public class JThumbnailStyle {
 	 */
 	public JThumbnailStyle() {
 
-		thumbnailWidth = new SimpleDoubleProperty(this, "thumbnail_width", Double.NaN);
-		thumbnailHeight = new SimpleDoubleProperty(this, "thumbnail_height", Double.NaN);
+		this.thumbnailWidth = new SimpleDoubleProperty(this, "thumbnail_width", Double.NaN);
+		this.thumbnailHeight = new SimpleDoubleProperty(this, "thumbnail_height", Double.NaN);
 		
-		thumbnailNameVisibility = new SimpleBooleanProperty(this, "thumbnail_name_visibility", Boolean.TRUE);
+		this.thumbnailNameVisibility = new SimpleBooleanProperty(this, "thumbnail_name_visibility", Boolean.TRUE);
 		
-		thumbnailImageBackground = new SimpleObjectProperty<Background>(this, "thumbnail_image_background", Background.EMPTY);
-		thumbnailNameBackground = new SimpleObjectProperty<Background>(this, "thumbnail_name_background", Background.EMPTY);
-		thumbnailBackground = new SimpleObjectProperty<Background>(this, "thumbnail_background", Background.EMPTY);
+		this.thumbnailImageBackground = new SimpleObjectProperty<Background>(this, "thumbnail_image_background", Background.EMPTY);
+		this.thumbnailNameBackground = new SimpleObjectProperty<Background>(this, "thumbnail_name_background", Background.EMPTY);
+		this.thumbnailBackground = new SimpleObjectProperty<Background>(this, "thumbnail_background", Background.EMPTY);
 
-		thumbnailFocusedBackground = new SimpleObjectProperty<Background>(this, "thumbnail_focused", Background.EMPTY);
+		this.thumbnailFocusedBackground = new SimpleObjectProperty<Background>(this, "thumbnail_focused", Background.EMPTY);
 		
-		thumbnailSelectedImageBackground = new SimpleObjectProperty<Background>(this, "thumbnail_selected_image_background", Background.EMPTY);
-		thumbnailSelectedNameBackground = new SimpleObjectProperty<Background>(this, "thumbnail_selected_name_background", Background.EMPTY);
-		thumbnailSelectedBackground = new SimpleObjectProperty<Background>(this, "thumbnail_selected_background", Background.EMPTY);
+		this.thumbnailSelectedImageBackground = new SimpleObjectProperty<Background>(this, "thumbnail_selected_image_background", Background.EMPTY);
+		this.thumbnailSelectedNameBackground = new SimpleObjectProperty<Background>(this, "thumbnail_selected_name_background", Background.EMPTY);
+		this.thumbnailSelectedBackground = new SimpleObjectProperty<Background>(this, "thumbnail_selected_background", Background.EMPTY);
 		
-		thumbnailHGap = new SimpleDoubleProperty(this, "thumbnail_hgap", Double.NaN);
-		thumbnailVGap = new SimpleDoubleProperty(this, "thumbnail_vgap", Double.NaN);
+		this.thumbnailHGap = new SimpleDoubleProperty(this, "thumbnail_hgap", Double.NaN);
+		this.thumbnailVGap = new SimpleDoubleProperty(this, "thumbnail_vgap", Double.NaN);
 		
-		thumbnailPaneBackground = new SimpleObjectProperty<Background>(this, "thumbnail_pane_background", Background.EMPTY);
+		this.thumbnailPaneBackground = new SimpleObjectProperty<Background>(this, "thumbnail_pane_background", Background.EMPTY);
 	}
 	
 	/**
@@ -110,7 +110,7 @@ public class JThumbnailStyle {
 	 * @see #setThumbnailWidth(double)
 	 */
 	public DoubleProperty thumbnailWidthProperty() {
-		return thumbnailWidth;
+		return this.thumbnailWidth;
 	}
 	
 	/**
@@ -120,7 +120,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailWidthProperty()
 	 */
 	public double getThumbnailWidth() {
-		return thumbnailWidth.getValue().doubleValue();
+		return this.thumbnailWidth.getValue().doubleValue();
 	}
 	
 	/**
@@ -130,7 +130,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailWidthProperty()
 	 */
 	public void setThumbnailWidth(double value) {
-		thumbnailWidth.set(value);
+		this.thumbnailWidth.set(value);
 	}
 	
 	/**
@@ -141,7 +141,7 @@ public class JThumbnailStyle {
 	 * @see #setThumbnailHeight(double)
 	 */
 	public DoubleProperty thumbnailHeightProperty() {
-		return thumbnailHeight;
+		return this.thumbnailHeight;
 	}
 	
 	/**
@@ -151,7 +151,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailHeightProperty()
 	 */
 	public double getThumbnailHeight() {
-		return thumbnailHeight.getValue().doubleValue();
+		return this.thumbnailHeight.getValue().doubleValue();
 	}
 	
 	/**
@@ -161,7 +161,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailWidthProperty()
 	 */
 	public void setThumbnailHeight(double value) {
-		thumbnailHeight.set(value);
+		this.thumbnailHeight.set(value);
 	}
 	
 	/**
@@ -171,7 +171,7 @@ public class JThumbnailStyle {
 	 * @see #setThumbnailImageBackground(Background)
 	 */
 	public ObjectProperty<Background> thumbnailImageBackgroundProperty(){
-		return thumbnailImageBackground;
+		return this.thumbnailImageBackground;
 	}
 	
 	/**
@@ -181,7 +181,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailImageBackgroundProperty()
 	 */
 	public Background getThumbnailImageBackground() {
-		return thumbnailImageBackground.get();
+		return this.thumbnailImageBackground.get();
 	}
 	
 	/**
@@ -191,7 +191,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailImageBackground
 	 */
 	public void setThumbnailImageBackground(Background background) {
-		thumbnailImageBackground.set(background);
+		this.thumbnailImageBackground.set(background);
 	}
 	
 	/**
@@ -201,7 +201,7 @@ public class JThumbnailStyle {
 	 * @see #setThumbnailNameBackground(Background)
 	 */
 	public ObjectProperty<Background> thumbnailNameBackgroundProperty(){
-		return thumbnailNameBackground;
+		return this.thumbnailNameBackground;
 	}
 
 	/**
@@ -211,7 +211,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailNameBackgroundProperty()
 	 */
 	public Background getThumbnailNameBackground() {
-		return thumbnailNameBackground.get();
+		return this.thumbnailNameBackground.get();
 	}
 	
 	/**
@@ -221,7 +221,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailNameBackground
 	 */
 	public void setThumbnailNameBackground(Background background) {
-		thumbnailNameBackground.set(background);
+		this.thumbnailNameBackground.set(background);
 	}
 	
 	/**
@@ -231,7 +231,7 @@ public class JThumbnailStyle {
 	 * @see #setThumbnailBackground(Background)
 	 */
 	public ObjectProperty<Background> thumbnailBackgroundProperty(){
-		return thumbnailBackground;
+		return this.thumbnailBackground;
 	}
 	
 	/**
@@ -241,7 +241,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailBackground
 	 */
 	public Background getThumbnailBackground() {
-		return thumbnailBackground.get();
+		return this.thumbnailBackground.get();
 	}
 	
 	/**
@@ -251,7 +251,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailBackground
 	 */
 	public void setThumbnailBackground(Background background) {
-		thumbnailBackground.set(background);
+		this.thumbnailBackground.set(background);
 	}
 	
 	/**
@@ -261,7 +261,7 @@ public class JThumbnailStyle {
 	 * @see #setThumbnailFocusedBackground(Background)
 	 */
 	public ObjectProperty<Background> thumbnailFocusedBackgroundProperty(){
-		return thumbnailFocusedBackground;
+		return this.thumbnailFocusedBackground;
 	}
 	
 	/**
@@ -271,7 +271,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailFocusedBackground
 	 */
 	public Background getThumbnailFocusedBackground() {
-		return thumbnailFocusedBackground.get();
+		return this.thumbnailFocusedBackground.get();
 	}
 	
 	/**
@@ -281,7 +281,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailFocusedBackground
 	 */
 	public void setThumbnailFocusedBackground(Background background) {
-		thumbnailFocusedBackground.set(background);
+		this.thumbnailFocusedBackground.set(background);
 	}
 	
 	/**
@@ -291,7 +291,7 @@ public class JThumbnailStyle {
 	 * @see #setThumbnailSelectedImageBackground(Background)
 	 */
 	public ObjectProperty<Background> thumbnailSelectedImageBackgroundProperty(){
-		return thumbnailSelectedImageBackground;
+		return this.thumbnailSelectedImageBackground;
 	}
 	
 	/**
@@ -301,7 +301,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailSelectedImageBackgroundProperty()
 	 */
 	public Background getThumbnailSelectedImageBackground() {
-		return thumbnailSelectedImageBackground.get();
+		return this.thumbnailSelectedImageBackground.get();
 	}
 	
 	/**
@@ -311,7 +311,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailSelectedImageBackground
 	 */
 	public void setThumbnailSelectedImageBackground(Background background) {
-		thumbnailSelectedImageBackground.set(background);
+		this.thumbnailSelectedImageBackground.set(background);
 	}
 	
 	/**
@@ -321,7 +321,7 @@ public class JThumbnailStyle {
 	 * @see #setThumbnailSelectedBackground(Background)
 	 */
 	public ObjectProperty<Background> thumbnailSelectedBackgroundProperty(){
-		return thumbnailSelectedBackground;
+		return this.thumbnailSelectedBackground;
 	}
 	
 	/**
@@ -331,7 +331,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailSelectedBackground
 	 */
 	public Background getThumbnailSelectedBackground() {
-		return thumbnailSelectedBackground.get();
+		return this.thumbnailSelectedBackground.get();
 	}
 	
 	/**
@@ -341,7 +341,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailSelectedBackground
 	 */
 	public void setThumbnailSelectedBackground(Background background) {
-		thumbnailSelectedBackground.set(background);
+		this.thumbnailSelectedBackground.set(background);
 	}
 	
 	/**
@@ -352,7 +352,7 @@ public class JThumbnailStyle {
 	 * @see #setThumbnailHGap(double)
 	 */
 	public DoubleProperty thumbnailHGapProperty() {
-		return thumbnailHGap;
+		return this.thumbnailHGap;
 	}
 	
 	/**
@@ -362,7 +362,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailHGapProperty()
 	 */
 	public double getThumbnailHGap() {
-		return thumbnailHGap.getValue().doubleValue();
+		return this.thumbnailHGap.getValue().doubleValue();
 	}
 	
 	/**
@@ -372,7 +372,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailHGap
 	 */
 	public void setThumbnailHGap(double value) {
-		thumbnailHGap.set(value);
+		this.thumbnailHGap.set(value);
 	}
 
 	/**
@@ -383,7 +383,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailVGap
 	 */
 	public DoubleProperty thumbnailVGapProperty() {
-		return thumbnailVGap;
+		return this.thumbnailVGap;
 	}
 	
 	/**
@@ -393,7 +393,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailVGap
 	 */
 	public double getThumbnailVGap() {
-		return thumbnailVGap.getValue().doubleValue();
+		return this.thumbnailVGap.getValue().doubleValue();
 	}
 	
 	/**
@@ -403,7 +403,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailVGap
 	 */
 	public void setThumbnailVGap(double value) {
-		thumbnailVGap.set(value);
+		this.thumbnailVGap.set(value);
 	}
 	
 	/**
@@ -413,7 +413,7 @@ public class JThumbnailStyle {
 	 * @see #setThumbnailPaneBackground(Background)
 	 */
 	public ObjectProperty<Background> thumbnailPaneBackgroundProperty(){
-		return thumbnailPaneBackground;
+		return this.thumbnailPaneBackground;
 	}
 	
 	/**
@@ -423,7 +423,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailPaneBackground
 	 */
 	public Background getThumbnailPaneBackground() {
-		return thumbnailPaneBackground.get();
+		return this.thumbnailPaneBackground.get();
 	}
 	
 	/**
@@ -433,7 +433,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailPaneBackground
 	 */
 	public void setThumbnailPaneBackground(Background background) {
-		thumbnailPaneBackground.set(background);
+		this.thumbnailPaneBackground.set(background);
 	}
 	
 	/**
@@ -443,7 +443,7 @@ public class JThumbnailStyle {
 	 * @see #setThumbnailNameVisible(boolean)
 	 */
 	public BooleanProperty thumbnailNameVisibilityProperty() {
-		return thumbnailNameVisibility;
+		return this.thumbnailNameVisibility;
 	}
 
 	/**
@@ -453,7 +453,7 @@ public class JThumbnailStyle {
 	 * @see #setThumbnailNameVisible(boolean)
 	 */
 	public boolean isThumbnailNameVisible() {
-		return thumbnailNameVisibility.get();
+		return this.thumbnailNameVisibility.get();
 	}
 	
 	/**
@@ -463,7 +463,7 @@ public class JThumbnailStyle {
 	 * @see #isThumbnailNameVisible()
 	 */
 	public void setThumbnailNameVisible(boolean show) {
-		thumbnailNameVisibility.set(show);
+		this.thumbnailNameVisibility.set(show);
 	}
 	
 	/**
@@ -471,7 +471,7 @@ public class JThumbnailStyle {
 	 * @return the thumbnail name background property when it is selected
 	 */
 	public ObjectProperty<Background> thumbnailSelectedNameBackgroundProperty(){
-		return thumbnailSelectedNameBackground;
+		return this.thumbnailSelectedNameBackground;
 	}
 	
 	/**
@@ -481,7 +481,7 @@ public class JThumbnailStyle {
 	 * @see #thumbnailSelectedNameBackgroundProperty()
 	 */
 	public Background getThumbnailSelectedNameBackground() {
-		return thumbnailSelectedNameBackground.get();
+		return this.thumbnailSelectedNameBackground.get();
 	}
 	
 	/**
@@ -491,6 +491,6 @@ public class JThumbnailStyle {
 	 * @see #thumbnailSelectedNameBackground
 	 */
 	public void setThumbnailSelectedNameBackground(Background background) {
-		thumbnailSelectedNameBackground.set(background);
+		this.thumbnailSelectedNameBackground.set(background);
 	}
 }

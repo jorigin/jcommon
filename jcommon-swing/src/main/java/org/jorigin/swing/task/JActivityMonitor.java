@@ -17,6 +17,8 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
@@ -124,7 +126,7 @@ public class JActivityMonitor extends JDialog{
    * @see #setUseNewLine(boolean)
    */
   public boolean isUseNewLine() {
-    return useNewLine;
+    return this.useNewLine;
   }
 
   /**
@@ -145,58 +147,58 @@ public class JActivityMonitor extends JDialog{
    */
   public JActivityMonitor(JFrame owner, boolean activityTracerVisible, boolean progressLabelVisible, boolean progressBarVisible){
     super(owner);
-    super.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+    super.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
     this.textAreaVisible      = activityTracerVisible;
     this.progressBarVisible   = progressBarVisible;
     this.progressLabelVisible = progressLabelVisible;
     
-    taskProgressMap = new LinkedHashMap<String, JTaskProgress>();
+    this.taskProgressMap = new LinkedHashMap<String, JTaskProgress>();
     
-    sc = new StyleContext();
-    taskStartedStyle  = sc.addStyle("taskStarted", null);
-    taskFinishedStyle = sc.addStyle("taskFinished", null);
-    taskProgressStyle = sc.addStyle("taskProgress", null);
-    taskInfoStyle     = sc.addStyle("taskInfo", null);
-    taskWarningStyle  = sc.addStyle("taskWarning", null);
-    taskErrorStyle    = sc.addStyle("taskError", null);
+    this.sc = new StyleContext();
+    this.taskStartedStyle  = this.sc.addStyle("taskStarted", null);
+    this.taskFinishedStyle = this.sc.addStyle("taskFinished", null);
+    this.taskProgressStyle = this.sc.addStyle("taskProgress", null);
+    this.taskInfoStyle     = this.sc.addStyle("taskInfo", null);
+    this.taskWarningStyle  = this.sc.addStyle("taskWarning", null);
+    this.taskErrorStyle    = this.sc.addStyle("taskError", null);
 
-    StyleConstants.setBold(taskStartedStyle, true);
-    StyleConstants.setFontFamily(taskStartedStyle, "Helvetica");
-    StyleConstants.setFontSize(taskStartedStyle, 11);
-    StyleConstants.setForeground(taskStartedStyle, Color.black);
+    StyleConstants.setBold(this.taskStartedStyle, true);
+    StyleConstants.setFontFamily(this.taskStartedStyle, "Helvetica");
+    StyleConstants.setFontSize(this.taskStartedStyle, 11);
+    StyleConstants.setForeground(this.taskStartedStyle, Color.black);
 
-    StyleConstants.setBold(taskFinishedStyle, true);
-    StyleConstants.setFontFamily(taskFinishedStyle, "Helvetica");
-    StyleConstants.setFontSize(taskFinishedStyle, 11);
-    StyleConstants.setForeground(taskFinishedStyle, Color.black);
+    StyleConstants.setBold(this.taskFinishedStyle, true);
+    StyleConstants.setFontFamily(this.taskFinishedStyle, "Helvetica");
+    StyleConstants.setFontSize(this.taskFinishedStyle, 11);
+    StyleConstants.setForeground(this.taskFinishedStyle, Color.black);
 
-    StyleConstants.setBold(taskProgressStyle, false);
-    StyleConstants.setFontFamily(taskProgressStyle, "Helvetica");
-    StyleConstants.setFontSize(taskProgressStyle, 11);
-    StyleConstants.setForeground(taskProgressStyle, Color.black);
+    StyleConstants.setBold(this.taskProgressStyle, false);
+    StyleConstants.setFontFamily(this.taskProgressStyle, "Helvetica");
+    StyleConstants.setFontSize(this.taskProgressStyle, 11);
+    StyleConstants.setForeground(this.taskProgressStyle, Color.black);
 
 
-    StyleConstants.setBold(taskInfoStyle, false);
-    StyleConstants.setFontFamily(taskInfoStyle, "Helvetica");
-    StyleConstants.setFontSize(taskInfoStyle, 11);
-    StyleConstants.setForeground(taskInfoStyle, Color.black);
+    StyleConstants.setBold(this.taskInfoStyle, false);
+    StyleConstants.setFontFamily(this.taskInfoStyle, "Helvetica");
+    StyleConstants.setFontSize(this.taskInfoStyle, 11);
+    StyleConstants.setForeground(this.taskInfoStyle, Color.black);
     //StyleConstants.setIcon(taskInfoStyle, IconServer.getIcon("plastik/information16.png"));
 
-    StyleConstants.setBold(taskWarningStyle, false);
-    StyleConstants.setFontFamily(taskWarningStyle, "Helvetica");
-    StyleConstants.setFontSize(taskWarningStyle, 11);
-    StyleConstants.setForeground(taskWarningStyle, Color.ORANGE);
+    StyleConstants.setBold(this.taskWarningStyle, false);
+    StyleConstants.setFontFamily(this.taskWarningStyle, "Helvetica");
+    StyleConstants.setFontSize(this.taskWarningStyle, 11);
+    StyleConstants.setForeground(this.taskWarningStyle, Color.ORANGE);
     //StyleConstants.setIcon(taskWarningStyle, IconServer.getIcon("plastik/warning16.png"));
 
-    StyleConstants.setBold(taskErrorStyle, false);
-    StyleConstants.setFontFamily(taskErrorStyle, "Helvetica");
-    StyleConstants.setFontSize(taskErrorStyle, 11);
-    StyleConstants.setForeground(taskErrorStyle, Color.RED);
+    StyleConstants.setBold(this.taskErrorStyle, false);
+    StyleConstants.setFontFamily(this.taskErrorStyle, "Helvetica");
+    StyleConstants.setFontSize(this.taskErrorStyle, 11);
+    StyleConstants.setForeground(this.taskErrorStyle, Color.RED);
     //StyleConstants.setIcon(taskErrorStyle, IconServer.getIcon("plastik/error16.png"));
 
     
-    lock = new ReentrantLock();
+    this.lock = new ReentrantLock();
     
     initGUI();
   }
@@ -216,7 +218,7 @@ public class JActivityMonitor extends JDialog{
    * @see #isActivityTracerVisible()
    */
   public int getActivityTracerHeight() {
-    return activityTracerHeight;
+    return this.activityTracerHeight;
   }
 
   /**
@@ -237,7 +239,7 @@ public class JActivityMonitor extends JDialog{
    * @see #getProgressLabelHeight()
    */
   public int getProgressBarHeight() {
-    return progressBarHeight;
+    return this.progressBarHeight;
   }
 
   /**
@@ -259,7 +261,7 @@ public class JActivityMonitor extends JDialog{
    * @see #getProgressBarHeight()
    */
   public int getProgressLabelHeight() {
-    return progressLabelHeight;
+    return this.progressLabelHeight;
   }
 
   /**
@@ -279,7 +281,7 @@ public class JActivityMonitor extends JDialog{
    * @see #setActivityTracerVisible(boolean)
    */
   public boolean isActivityTracerVisible(){
-    return textAreaVisible;
+    return this.textAreaVisible;
   }
   
   /**
@@ -293,21 +295,21 @@ public class JActivityMonitor extends JDialog{
       this.textAreaVisible = visible;
       
       if (visible){
-        activityTracerPN.add(activityTracerScrollPane, BorderLayout.CENTER);
+        this.activityTracerPN.add(this.activityTracerScrollPane, BorderLayout.CENTER);
         
         Dimension dim    = getSize();
 
-        Dimension newDim = new Dimension((int)dim.getWidth(), (int)(dim.getHeight() + activityTracerPN.getSize().getHeight()));
+        Dimension newDim = new Dimension((int)dim.getWidth(), (int)(dim.getHeight() + this.activityTracerPN.getSize().getHeight()));
         
         setSize(newDim);
         setPreferredSize(newDim);
         
       } else {
-        activityTracerPN.remove(activityTracerScrollPane);
+        this.activityTracerPN.remove(this.activityTracerScrollPane);
         
         Dimension dim    = getSize();
 
-        Dimension newDim = new Dimension((int)dim.getWidth(), (int)(dim.getHeight() - activityTracerPN.getSize().getHeight()));
+        Dimension newDim = new Dimension((int)dim.getWidth(), (int)(dim.getHeight() - this.activityTracerPN.getSize().getHeight()));
         
         setSize(newDim);
         setPreferredSize(newDim);
@@ -327,7 +329,7 @@ public class JActivityMonitor extends JDialog{
    * @see #setPersistenceCheckBoxVisible(boolean)
    */
   public boolean isPersistenceCheckBoxVisible(){
-    return persistenceCheckBoxVisible;
+    return this.persistenceCheckBoxVisible;
   }
   
   /**
@@ -346,7 +348,7 @@ public class JActivityMonitor extends JDialog{
    * @see #setProgressLabelVisible(boolean)
    */
   public boolean isProgessLabelVisible(){
-    return progressLabelVisible;  
+    return this.progressLabelVisible;  
   }
   
   /**
@@ -355,7 +357,7 @@ public class JActivityMonitor extends JDialog{
    * @see #isProgessLabelVisible()
    */
   public void setProgressLabelVisible(boolean visible){
-    progressLabelVisible = visible;
+    this.progressLabelVisible = visible;
     refreshGUI();
   }
   
@@ -365,7 +367,7 @@ public class JActivityMonitor extends JDialog{
    * @see #setProgressBarVisible(boolean)
    */
   public boolean isProgessBarVisible(){
-    return progressBarVisible;  
+    return this.progressBarVisible;  
   }
   
   /**
@@ -374,7 +376,7 @@ public class JActivityMonitor extends JDialog{
    * @see #isProgessBarVisible()
    */
   public void setProgressBarVisible(boolean visible){
-    progressBarVisible = visible;
+    this.progressBarVisible = visible;
     refreshGUI();
   }
   
@@ -384,7 +386,7 @@ public class JActivityMonitor extends JDialog{
    * @see #isProgessLabelVisible()
    */
   public boolean isShowProgressionText() {
-	return showProgressionText;
+	return this.showProgressionText;
   }
 
   /**
@@ -405,9 +407,9 @@ public class JActivityMonitor extends JDialog{
   public void setPersistent(boolean isPersistent){
     this.isPersistent = isPersistent;
     if (isPersistent){
-      persistenceCheckBox.setSelected(false);
+      this.persistenceCheckBox.setSelected(false);
     } else {
-      persistenceCheckBox.setSelected(true);
+      this.persistenceCheckBox.setSelected(true);
     }
   }
   
@@ -431,7 +433,7 @@ public class JActivityMonitor extends JDialog{
   protected void initGUI(){
 
     
-    activityTracer = new JTextPane(){
+    this.activityTracer = new JTextPane(){
 
       private static final long serialVersionUID = 1L;
 
@@ -481,43 +483,43 @@ public class JActivityMonitor extends JDialog{
       }
     };
     
-    activityTracer.setCaret(new ActivityCaret());
+    this.activityTracer.setCaret(new ActivityCaret());
     
-    activityTracer.setMaximumSize(new Dimension(65535, 65535));
-    activityTracerDocument = (DefaultStyledDocument)activityTracer.getDocument();
+    this.activityTracer.setMaximumSize(new Dimension(65535, 65535));
+    this.activityTracerDocument = (DefaultStyledDocument)this.activityTracer.getDocument();
 
-    activityTracerScrollPane = new JScrollPane();
-    activityTracerScrollPane.setSize(320, 400);
-    activityTracerScrollPane.setPreferredSize(new Dimension(320, 400));
-    activityTracerScrollPane.setMinimumSize(new Dimension(180, 250));
-    activityTracerScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-    activityTracerScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-    activityTracerScrollPane.setWheelScrollingEnabled(true);
-    activityTracerScrollPane.getViewport().add(activityTracer);
+    this.activityTracerScrollPane = new JScrollPane();
+    this.activityTracerScrollPane.setSize(320, 400);
+    this.activityTracerScrollPane.setPreferredSize(new Dimension(320, 400));
+    this.activityTracerScrollPane.setMinimumSize(new Dimension(180, 250));
+    this.activityTracerScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    this.activityTracerScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+    this.activityTracerScrollPane.setWheelScrollingEnabled(true);
+    this.activityTracerScrollPane.getViewport().add(this.activityTracer);
 
-    activityTracerPN = new JPanel();
-    activityTracerPN.setLayout(new BorderLayout());
+    this.activityTracerPN = new JPanel();
+    this.activityTracerPN.setLayout(new BorderLayout());
     
     if (isActivityTracerVisible()){
-      activityTracerPN.add(activityTracerScrollPane, BorderLayout.CENTER);
+      this.activityTracerPN.add(this.activityTracerScrollPane, BorderLayout.CENTER);
     }
     
     
-    progressBarsPN = new JPanel();
-    progressBarsPN.setLayout(new GridBagLayout());
+    this.progressBarsPN = new JPanel();
+    this.progressBarsPN.setLayout(new GridBagLayout());
     
-    persistenceCheckBox = new JCheckBox("Close");
-    persistenceCheckBox.addItemListener(new ItemListener(){
+    this.persistenceCheckBox = new JCheckBox("Close");
+    this.persistenceCheckBox.addItemListener(new ItemListener(){
                             @Override
                             public void itemStateChanged(ItemEvent e){
                               if (e.getStateChange() == ItemEvent.SELECTED){
-                                isPersistent = false;
+                                JActivityMonitor.this.isPersistent = false;
                               } else{
-                                isPersistent = true;
+                                JActivityMonitor.this.isPersistent = true;
                               }
                             }});
 
-    layout = new GridBagLayout();
+    this.layout = new GridBagLayout();
     this.setTitle("Monitor");
     
     List<Image> images = new ArrayList<Image>();
@@ -533,7 +535,7 @@ public class JActivityMonitor extends JDialog{
     
     setIconImages(images);
     this.setName("Monitor");
-    this.getContentPane().setLayout(layout);
+    this.getContentPane().setLayout(this.layout);
     
     
     GridBagConstraints c = new GridBagConstraints();
@@ -548,7 +550,7 @@ public class JActivityMonitor extends JDialog{
     c.weightx   = 1.0;
     c.weighty   = 1.0;
     c.anchor    = GridBagConstraints.NORTH;
-    add(activityTracerPN, c);
+    add(this.activityTracerPN, c);
     
     c           = new GridBagConstraints();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -560,7 +562,7 @@ public class JActivityMonitor extends JDialog{
     c.weightx   = 1.0;
     c.weighty   = 1.0;
     c.anchor    = GridBagConstraints.NORTH;
-    add(progressBarsPN, c);
+    add(this.progressBarsPN, c);
     
     if (isPersistenceCheckBoxVisible()){
       c           = new GridBagConstraints();
@@ -573,7 +575,7 @@ public class JActivityMonitor extends JDialog{
       c.weightx   = 1.0;
       c.weighty   = 1.0;
       c.anchor    = GridBagConstraints.NORTH;
-      add(persistenceCheckBox, c);
+      add(this.persistenceCheckBox, c);
     }
     
     if (getOwner() != null){
@@ -651,11 +653,11 @@ public class JActivityMonitor extends JDialog{
       this.setLocation( 0,0);
     }
     
-    activityTracerScrollPane.setVisible(activityVisible);
+    this.activityTracerScrollPane.setVisible(activityVisible);
     
     this.boundedTask = 0;
 
-    isPersistent = true;
+    this.isPersistent = true;
 
     this.pack();
     //this.setVisible(true);
@@ -677,25 +679,25 @@ public class JActivityMonitor extends JDialog{
 
     try {
       
-      lock.lock();
+      this.lock.lock();
       
       if (isUseNewLine()){
-        activityTracerDocument.insertString(activityTracerDocument.getLength(),
+        this.activityTracerDocument.insertString(this.activityTracerDocument.getLength(),
                                                 "\n"
                                               + str
                                               , style);
       } else {
-        activityTracerDocument.insertString(activityTracerDocument.getLength(),
+        this.activityTracerDocument.insertString(this.activityTracerDocument.getLength(),
           str
           , style);
       }
-      activityTracer.setCaretPosition(activityTracerDocument.getLength());
+      this.activityTracer.setCaretPosition(this.activityTracerDocument.getLength());
       
     } catch (Exception ex) {
       
       
     } finally {
-      lock.unlock();
+      this.lock.unlock();
     }
   }
 
@@ -732,14 +734,14 @@ public class JActivityMonitor extends JDialog{
       case TaskEvent.TASK_STARTED:
 
         if (isActivityTracerVisible() && (event.getDescription() != null) && !(event.getDescription().trim().equals(""))){  
-          writeWithIndent(event.getDescription(), boundedTask, taskStartedStyle);
+          writeWithIndent(event.getDescription(), this.boundedTask, this.taskStartedStyle);
         }
 
         if (progressBarVisible){
           taskProgress = new JTaskProgress(isProgessLabelVisible(), isProgessBarVisible());
           taskProgress.getLabel().setText(event.getDescription());
           
-          boundedTask = boundedTask + 1;
+          this.boundedTask = this.boundedTask + 1;
           if (event.getSize() > 0){
             taskProgress.getProgressBar().setMinimum(0);
             taskProgress.getProgressBar().setMaximum(event.getSize());
@@ -754,7 +756,7 @@ public class JActivityMonitor extends JDialog{
 
           taskProgress.getProgressBar().setStringPainted(true);
           
-          taskProgressMap.put(event.getTaskName(), taskProgress);
+          this.taskProgressMap.put(event.getTaskName(), taskProgress);
           addJTaskProgress(taskProgress);
         }
 
@@ -772,13 +774,13 @@ public class JActivityMonitor extends JDialog{
 
         int size        = event.getSize();
 
-        taskProgress = taskProgressMap.get(event.getTaskName());
+        taskProgress = this.taskProgressMap.get(event.getTaskName());
         
         if (isActivityTracerVisible() && (event.getDescription() != null) && !(event.getDescription().trim().equals(""))){    
           if (isUseNewLine()){
-            writeWithIndent(event.getDescription(), boundedTask+3, taskProgressStyle);
+            writeWithIndent(event.getDescription(), this.boundedTask+3, this.taskProgressStyle);
           } else {
-            write(event.getDescription(), taskProgressStyle);
+            write(event.getDescription(), this.taskProgressStyle);
           }
         } 
 
@@ -792,7 +794,7 @@ public class JActivityMonitor extends JDialog{
             taskProgress.getProgressBar().setValue(size);
           }
           
-          if (showProgressionText && (!taskProgress.getProgressBar().isIndeterminate()) && (size >= 0)){
+          if (this.showProgressionText && (!taskProgress.getProgressBar().isIndeterminate()) && (size >= 0)){
             if ((this.showProgressType & SHOW_PROGRESS_COUNT) != 0){
               progress = ""+size+" / "+taskProgress.getProgressBar().getMaximum();
             } 
@@ -832,18 +834,18 @@ public class JActivityMonitor extends JDialog{
         // Tâche terminée
       case TaskEvent.TASK_FINISHED:
 
-        boundedTask = boundedTask - 1;
+        this.boundedTask = this.boundedTask - 1;
 
         if (isActivityTracerVisible() && (event.getDescription() != null) && !(event.getDescription().trim().equals(""))){
-          writeWithIndent(event.getDescription()+"\n", boundedTask, taskFinishedStyle);
+          writeWithIndent(event.getDescription()+"\n", this.boundedTask, this.taskFinishedStyle);
         }
 
-        if ((boundedTask < 1) && (!isPersistent)){
+        if ((this.boundedTask < 1) && (!this.isPersistent)){
           this.setVisible(false);
         }
 
-        removeJTaskProgress(taskProgressMap.get(event.getTaskName()));
-        taskProgressMap.remove(event.getTaskName());
+        removeJTaskProgress(this.taskProgressMap.get(event.getTaskName()));
+        this.taskProgressMap.remove(event.getTaskName());
         
         break;
 
@@ -851,9 +853,9 @@ public class JActivityMonitor extends JDialog{
       case TaskEvent.TASK_WARNING:
         if (isActivityTracerVisible() && (event.getDescription() != null) && !(event.getDescription().trim().equals(""))){  
           if (isUseNewLine()){
-            writeWithIndent(event.getDescription(), boundedTask+3, taskWarningStyle);
+            writeWithIndent(event.getDescription(), this.boundedTask+3, this.taskWarningStyle);
           } else {
-            write(event.getDescription(), taskWarningStyle);
+            write(event.getDescription(), this.taskWarningStyle);
           }
         }
 
@@ -865,9 +867,9 @@ public class JActivityMonitor extends JDialog{
       case TaskEvent.TASK_ERROR:
         if (isActivityTracerVisible() && (event.getDescription() != null) && !(event.getDescription().trim().equals(""))){   
           if (isUseNewLine()){
-            writeWithIndent(event.getDescription(), boundedTask+3, taskErrorStyle);
+            writeWithIndent(event.getDescription(), this.boundedTask+3, this.taskErrorStyle);
           } else {
-            write(event.getDescription(), taskErrorStyle);
+            write(event.getDescription(), this.taskErrorStyle);
           }
         }
 
@@ -879,9 +881,9 @@ public class JActivityMonitor extends JDialog{
       case TaskEvent.TASK_INFO:
         if (isActivityTracerVisible() && (event.getDescription() != null) && !(event.getDescription().trim().equals(""))){ 
           if (isUseNewLine()){
-            writeWithIndent(event.getDescription(), boundedTask+3, taskInfoStyle);
+            writeWithIndent(event.getDescription(), this.boundedTask+3, this.taskInfoStyle);
           } else {
-            write(event.getDescription(), taskInfoStyle);
+            write(event.getDescription(), this.taskInfoStyle);
           }
         }
 
@@ -899,14 +901,14 @@ public class JActivityMonitor extends JDialog{
    * Dispose all active tasks displayed within the monitor. You can use this method is the monitored process has failed.
    */
   public void disposeTasks(){
-    boundedTask = 0;
+    this.boundedTask = 0;
     
-    Iterator<JTaskProgress> iter = taskProgressMap.values().iterator();
+    Iterator<JTaskProgress> iter = this.taskProgressMap.values().iterator();
     while(iter.hasNext()){
       removeJTaskProgress(iter.next());
     }
     
-    if (!isPersistent){
+    if (!this.isPersistent){
       setVisible(false);
     }
   }
@@ -927,7 +929,7 @@ public class JActivityMonitor extends JDialog{
       c.weightx   = 1.0;
       c.weighty   = 1.0;
       c.anchor    = GridBagConstraints.NORTH;
-      progressBarsPN.add(taskProgress, c);
+      this.progressBarsPN.add(taskProgress, c);
 
       Dimension size             = getSize();
       Dimension preferredSize    = getPreferredSize();
@@ -968,7 +970,7 @@ public class JActivityMonitor extends JDialog{
   
   private boolean removeJTaskProgress(JTaskProgress taskProgress){
     if (taskProgress != null){
-      progressBarsPN.remove(taskProgress);
+      this.progressBarsPN.remove(taskProgress);
       
       Dimension size             = getSize();
       Dimension preferredSize    = getPreferredSize();

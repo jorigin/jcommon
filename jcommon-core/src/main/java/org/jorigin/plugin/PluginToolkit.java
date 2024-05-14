@@ -67,9 +67,9 @@ public class PluginToolkit {
    * Constuct a new default plugin toolkit.
    */
   public PluginToolkit(){
-    plugins        = null;
+    this.plugins        = null;
     
-    pluginDirs     = new ArrayList<File>();
+    this.pluginDirs     = new ArrayList<File>();
     
   }
   //CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
@@ -87,8 +87,8 @@ public class PluginToolkit {
   public boolean addPluginDir(String pluginDir){
     if (pluginDir != null){
       File f = new File(PathUtil.URIToPath(pluginDir));
-      if (!pluginDirs.contains(f)){
-        return pluginDirs.add(f);
+      if (!this.pluginDirs.contains(f)){
+        return this.pluginDirs.add(f);
       }
     }
     return false;
@@ -101,8 +101,8 @@ public class PluginToolkit {
    */
   public boolean addPluginDir(File pluginDir){
     if (pluginDir != null){
-      if (!pluginDirs.contains(pluginDir)){
-        return pluginDirs.add(pluginDir);
+      if (!this.pluginDirs.contains(pluginDir)){
+        return this.pluginDirs.add(pluginDir);
       }
     }
     
@@ -128,7 +128,7 @@ public class PluginToolkit {
    * @return true if the directory is succesfully removed, false otherwise.
    */
   public boolean removePluginDir(File pluginDir){
-    return pluginDirs.remove(pluginDir);  
+    return this.pluginDirs.remove(pluginDir);  
   }
   
   /**
@@ -136,7 +136,7 @@ public class PluginToolkit {
    * @param pluginPackage the core package of the plugins
    */
   public void  setPluginPackage(String pluginPackage){
-    corePackage = pluginPackage;
+    this.corePackage = pluginPackage;
   }
 
   //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -153,7 +153,7 @@ public class PluginToolkit {
    * @see #removePluginToolkitListener(PluginToolkitListener)
    */
   public void addPluginToolkitListener(PluginToolkitListener l) {
-    idListenerList.add(PluginToolkitListener.class, l);
+    this.idListenerList.add(PluginToolkitListener.class, l);
   }
 
   /**
@@ -162,7 +162,7 @@ public class PluginToolkit {
    * @see #addPluginToolkitListener(PluginToolkitListener)
    */
   public void removePluginToolkitListener(PluginToolkitListener l) {
-    idListenerList.remove(PluginToolkitListener.class, l);
+    this.idListenerList.remove(PluginToolkitListener.class, l);
   }
   
   /**
@@ -172,7 +172,7 @@ public class PluginToolkit {
    * @see #removePluginToolkitListener(PluginToolkitListener)
    */
   protected void fireEvent(PluginToolkitEvent e) {
-    Object[] listeners = idListenerList.getListenerList();
+    Object[] listeners = this.idListenerList.getListenerList();
     for (int i = listeners.length - 2; i >= 0; i -= 2) {
         if (listeners[i] == PluginToolkitListener.class) {
             ((PluginToolkitListener) listeners[i + 1]).eventDispatched(e);
@@ -197,7 +197,7 @@ public class PluginToolkit {
 
     IPlugin ap                         = null;
 
-    plugins                            = new ArrayList<IPlugin>();
+    this.plugins                            = new ArrayList<IPlugin>();
 
     String pluginClass                 = null;
     
@@ -216,9 +216,9 @@ public class PluginToolkit {
     JarEntry jarEntry                  = null;
     
     // Parcours des répertoires de plugin pour trouver les plugins.
-    fireEvent(new PluginToolkitEvent(this, PluginToolkitEvent.PLUGIN_DISCOVERING_START, "Plugin discovering", pluginDirs.size()));
+    fireEvent(new PluginToolkitEvent(this, PluginToolkitEvent.PLUGIN_DISCOVERING_START, "Plugin discovering", this.pluginDirs.size()));
     
-    fileIter = pluginDirs.iterator();
+    fileIter = this.pluginDirs.iterator();
     while(fileIter.hasNext()){
     
       pluginDir = fileIter.next();
@@ -324,7 +324,7 @@ public class PluginToolkit {
             for(int i = 0; i < corePluginFiles.length; i++){
               pluginClass = corePluginFiles[i].replace(File.separatorChar, '.');
               pluginClass = pluginClass.substring(0, pluginClass.length() - 6);
-              pluginClass = corePackage + "." + pluginClass;
+              pluginClass = this.corePackage + "." + pluginClass;
 
            
               
@@ -356,64 +356,64 @@ public class PluginToolkit {
           
           Common.logger.log(Level.INFO, "[PluginToolkit][loadPlugins()]  - Load "+pluginClass);
           ap = (IPlugin) Class.forName(pluginClass).getDeclaredConstructor().newInstance();
-          plugins.add(ap);
-          taskCurrentTime += 1;
+          this.plugins.add(ap);
+          this.taskCurrentTime += 1;
           
-          fireEvent(new PluginToolkitEvent(this, PluginToolkitEvent.PLUGIN_LOADING_LOADED, ap, taskCurrentTime));
+          fireEvent(new PluginToolkitEvent(this, PluginToolkitEvent.PLUGIN_LOADING_LOADED, ap, this.taskCurrentTime));
           
           Common.logger.log(Level.INFO, "[PluginToolkit][loadPlugins()]  - Load "+pluginClass+" [OK]");
         } catch (ClassNotFoundException ex) {
           Common.logger.log(Level.SEVERE, "[PluginToolkit][loadPlugins()]  - Load "+pluginClass+" [FAIL]");
           Common.logger.log(Level.SEVERE, "PluginToolkit Cannot register plugin "+pluginClass);
           Common.logger.log(Level.SEVERE, "the plugin is not available", ex);
-          taskCurrentTime += 1;
-          fireEvent(new PluginToolkitEvent(this, PluginToolkitEvent.PLUGIN_LOADING_ERROR, pluginDir.getPath(), taskCurrentTime));
+          this.taskCurrentTime += 1;
+          fireEvent(new PluginToolkitEvent(this, PluginToolkitEvent.PLUGIN_LOADING_ERROR, pluginDir.getPath(), this.taskCurrentTime));
           
         } catch (IllegalAccessException ex) {
           Common.logger.log(Level.SEVERE, "[PluginToolkit][loadPlugins()]  - Load "+pluginClass+" [FAIL]");
           Common.logger.log(Level.SEVERE, "Cannot register plugin "+pluginClass);
           Common.logger.log(Level.SEVERE, "the plugin cannot be accessed (illegal access)", ex);
-          taskCurrentTime += 1;
-          fireEvent(new PluginToolkitEvent(this, PluginToolkitEvent.PLUGIN_LOADING_ERROR, pluginDir.getPath(), taskCurrentTime));
+          this.taskCurrentTime += 1;
+          fireEvent(new PluginToolkitEvent(this, PluginToolkitEvent.PLUGIN_LOADING_ERROR, pluginDir.getPath(), this.taskCurrentTime));
           
         } catch (InstantiationException ex) {
           Common.logger.log(Level.SEVERE, "[PluginToolkit][loadPlugins()]  - Load "+pluginClass+" [FAIL]");
           Common.logger.log(Level.SEVERE, "Cannot register plugin "+pluginClass);
           Common.logger.log(Level.SEVERE, "the plugin cannot be instanciated", ex);
           
-          taskCurrentTime += 1;
-          fireEvent(new PluginToolkitEvent(this, PluginToolkitEvent.PLUGIN_LOADING_ERROR, pluginDir.getPath(), taskCurrentTime));
+          this.taskCurrentTime += 1;
+          fireEvent(new PluginToolkitEvent(this, PluginToolkitEvent.PLUGIN_LOADING_ERROR, pluginDir.getPath(), this.taskCurrentTime));
         } catch (IllegalArgumentException ex) {
           Common.logger.log(Level.SEVERE, "[PluginToolkit][loadPlugins()]  - Load "+pluginClass+" [FAIL]");
           Common.logger.log(Level.SEVERE, "Cannot register plugin "+pluginClass);
           Common.logger.log(Level.SEVERE, "the plugin cannot be instanciated", ex);
-          taskCurrentTime += 1;
-          fireEvent(new PluginToolkitEvent(this, PluginToolkitEvent.PLUGIN_LOADING_ERROR, pluginDir.getPath(), taskCurrentTime));
+          this.taskCurrentTime += 1;
+          fireEvent(new PluginToolkitEvent(this, PluginToolkitEvent.PLUGIN_LOADING_ERROR, pluginDir.getPath(), this.taskCurrentTime));
 		} catch (InvocationTargetException ex) {
 		  Common.logger.log(Level.SEVERE, "[PluginToolkit][loadPlugins()]  - Load "+pluginClass+" [FAIL]");
 	      Common.logger.log(Level.SEVERE, "Cannot register plugin "+pluginClass);
 	      Common.logger.log(Level.SEVERE, "the plugin cannot be instanciated", ex);
-	      taskCurrentTime += 1;
-	      fireEvent(new PluginToolkitEvent(this, PluginToolkitEvent.PLUGIN_LOADING_ERROR, pluginDir.getPath(), taskCurrentTime));
+	      this.taskCurrentTime += 1;
+	      fireEvent(new PluginToolkitEvent(this, PluginToolkitEvent.PLUGIN_LOADING_ERROR, pluginDir.getPath(), this.taskCurrentTime));
 		} catch (NoSuchMethodException ex) {
 		  Common.logger.log(Level.SEVERE, "[PluginToolkit][loadPlugins()]  - Load "+pluginClass+" [FAIL]");
 	      Common.logger.log(Level.SEVERE, "Cannot register plugin "+pluginClass);
 	      Common.logger.log(Level.SEVERE, "the plugin cannot be instanciated", ex);
-	      taskCurrentTime += 1;
-	      fireEvent(new PluginToolkitEvent(this, PluginToolkitEvent.PLUGIN_LOADING_ERROR, pluginDir.getPath(), taskCurrentTime));
+	      this.taskCurrentTime += 1;
+	      fireEvent(new PluginToolkitEvent(this, PluginToolkitEvent.PLUGIN_LOADING_ERROR, pluginDir.getPath(), this.taskCurrentTime));
 		} catch (SecurityException ex) {
 		  Common.logger.log(Level.SEVERE, "[PluginToolkit][loadPlugins()]  - Load "+pluginClass+" [FAIL]");
 	      Common.logger.log(Level.SEVERE, "Cannot register plugin "+pluginClass);
 	      Common.logger.log(Level.SEVERE, "the plugin cannot be instanciated", ex);
-	      taskCurrentTime += 1;
-	      fireEvent(new PluginToolkitEvent(this, PluginToolkitEvent.PLUGIN_LOADING_ERROR, pluginDir.getPath(), taskCurrentTime));
+	      this.taskCurrentTime += 1;
+	      fireEvent(new PluginToolkitEvent(this, PluginToolkitEvent.PLUGIN_LOADING_ERROR, pluginDir.getPath(), this.taskCurrentTime));
 		}   
       }
     } else{
-      plugins = null;
+      this.plugins = null;
     }
     
-    return plugins;
+    return this.plugins;
   }
 
 }

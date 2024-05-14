@@ -99,44 +99,44 @@ public class JMemoryStateBar extends JPanel{
 	 * Init the GUI component of the memory monitor
 	 */
 	protected void initGUI(){  
-		memoryStateBar = new JProgressBar();   
-		memoryStateBar.setSize(new Dimension(100, 20));
-		memoryStateBar.setPreferredSize(new Dimension(100, 20));
-		memoryStateBar.setMinimum(0);
-		memoryStateBar.setMaximum((int) (Runtime.getRuntime().totalMemory()/1024));
-		memoryStateBar.setIndeterminate(false);
-		memoryStateBar.setStringPainted(true);
+		this.memoryStateBar = new JProgressBar();   
+		this.memoryStateBar.setSize(new Dimension(100, 20));
+		this.memoryStateBar.setPreferredSize(new Dimension(100, 20));
+		this.memoryStateBar.setMinimum(0);
+		this.memoryStateBar.setMaximum((int) (Runtime.getRuntime().totalMemory()/1024));
+		this.memoryStateBar.setIndeterminate(false);
+		this.memoryStateBar.setStringPainted(true);
 
-		memoryGarbageCollectorButton = new JButton();
-		memoryGarbageCollectorButton.setIcon(IconLoader.getIcon("icon/org/jorigin/swing/refresh-turquoise-24.png"));
-		memoryGarbageCollectorButton.setPreferredSize(new Dimension(20,20));
-		memoryGarbageCollectorButton.setEnabled(true);
-		memoryGarbageCollectorButton.setToolTipText("Force unused memory free");
-		memoryGarbageCollectorButton.setActionCommand(COMMAND_GARBAGE);
-		memoryGarbageCollectorButton.setContentAreaFilled(true);
-		memoryGarbageCollectorButton.setFocusPainted(true);
-		memoryGarbageCollectorButton.addActionListener(new ActionListener(){
+		this.memoryGarbageCollectorButton = new JButton();
+		this.memoryGarbageCollectorButton.setIcon(IconLoader.getIcon("icon/org/jorigin/swing/refresh-turquoise-24.png"));
+		this.memoryGarbageCollectorButton.setPreferredSize(new Dimension(20,20));
+		this.memoryGarbageCollectorButton.setEnabled(true);
+		this.memoryGarbageCollectorButton.setToolTipText("Force unused memory free");
+		this.memoryGarbageCollectorButton.setActionCommand(COMMAND_GARBAGE);
+		this.memoryGarbageCollectorButton.setContentAreaFilled(true);
+		this.memoryGarbageCollectorButton.setFocusPainted(true);
+		this.memoryGarbageCollectorButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				System.gc();
 			}
 		});
 
 
-		memoryMonitorActivateButton = new JToggleButton();
-		memoryMonitorActivateButton.setSelectedIcon(IconLoader.getIcon("icon/org/jorigin/swing/lamp-green-24.png"));
-		memoryMonitorActivateButton.setIcon(IconLoader.getIcon("icon/org/jorigin/swing/lamp-gray-24.png"));
-		memoryMonitorActivateButton.setPreferredSize(new Dimension(20,20));
-		memoryMonitorActivateButton.setEnabled(true);
-		memoryMonitorActivateButton.setToolTipText("Desactivate the memory monitor");
-		memoryMonitorActivateButton.setActionCommand(COMMAND_ACTIVE);
-		memoryMonitorActivateButton.setContentAreaFilled(true);
-		memoryMonitorActivateButton.setFocusPainted(true);
-		memoryMonitorActivateButton.setSelected(true);
+		this.memoryMonitorActivateButton = new JToggleButton();
+		this.memoryMonitorActivateButton.setSelectedIcon(IconLoader.getIcon("icon/org/jorigin/swing/lamp-green-24.png"));
+		this.memoryMonitorActivateButton.setIcon(IconLoader.getIcon("icon/org/jorigin/swing/lamp-gray-24.png"));
+		this.memoryMonitorActivateButton.setPreferredSize(new Dimension(20,20));
+		this.memoryMonitorActivateButton.setEnabled(true);
+		this.memoryMonitorActivateButton.setToolTipText("Desactivate the memory monitor");
+		this.memoryMonitorActivateButton.setActionCommand(COMMAND_ACTIVE);
+		this.memoryMonitorActivateButton.setContentAreaFilled(true);
+		this.memoryMonitorActivateButton.setFocusPainted(true);
+		this.memoryMonitorActivateButton.setSelected(true);
 
-		memoryMonitorActivateButton.addActionListener(new ActionListener(){
+		this.memoryMonitorActivateButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 
-				if (memoryMonitorActivateButton.isSelected()){ 
+				if (JMemoryStateBar.this.memoryMonitorActivateButton.isSelected()){ 
 					startMonitor();
 				} else { 
 					stopMonitor();
@@ -151,9 +151,9 @@ public class JMemoryStateBar extends JPanel{
 		((FlowLayout)this.getLayout()).setHgap(1);
 		((FlowLayout)this.getLayout()).setVgap(1);
 
-		this.add(memoryStateBar);
-		this.add(memoryGarbageCollectorButton);
-		this.add(memoryMonitorActivateButton);
+		this.add(this.memoryStateBar);
+		this.add(this.memoryGarbageCollectorButton);
+		this.add(this.memoryMonitorActivateButton);
 
 
 		startMonitor();
@@ -167,16 +167,16 @@ public class JMemoryStateBar extends JPanel{
 	 * @see #getRefreshDelay()
 	 */
 	public void startMonitor(){
-		memoryStateBar.setIndeterminate(false);
-		memoryStateBar.setEnabled(true);
-		isActive = true;
+		this.memoryStateBar.setIndeterminate(false);
+		this.memoryStateBar.setEnabled(true);
+		this.isActive = true;
 
-		memoryMonitorActivateButton.setToolTipText("Desactivate the memory monitor");
+		this.memoryMonitorActivateButton.setToolTipText("Desactivate the memory monitor");
 
-		final JProgressBar stateBar = memoryStateBar;
+		final JProgressBar stateBar = this.memoryStateBar;
 
-		if ((memoryMonitor == null) || (memoryMonitor.isDone())) {
-			memoryMonitor = new SwingWorker<Object, Object>(){
+		if ((this.memoryMonitor == null) || (this.memoryMonitor.isDone())) {
+			this.memoryMonitor = new SwingWorker<Object, Object>(){
 
 				int occupedMemory  = 0;
 				int totalMemory = 0;
@@ -184,18 +184,18 @@ public class JMemoryStateBar extends JPanel{
 
 				@Override
 				public Object doInBackground() {  
-					isActive = true;
-					while(isActive){
-						totalMemory    = (int) (Runtime.getRuntime().totalMemory()/1048576);
-						occupedMemory  = (int) ((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())/1048576);
-						stateBar.setMaximum(totalMemory*1024);
-						stateBar.setValue(occupedMemory*1024);
-						stateBar.setString(""+occupedMemory+" Mo / "+totalMemory+" Mo");
+					JMemoryStateBar.this.isActive = true;
+					while(JMemoryStateBar.this.isActive){
+						this.totalMemory    = (int) (Runtime.getRuntime().totalMemory()/1048576);
+						this.occupedMemory  = (int) ((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())/1048576);
+						stateBar.setMaximum(this.totalMemory*1024);
+						stateBar.setValue(this.occupedMemory*1024);
+						stateBar.setString(""+this.occupedMemory+" Mo / "+this.totalMemory+" Mo");
 
 						try {
-							Thread.sleep(refreshDelay);
+							Thread.sleep(JMemoryStateBar.this.refreshDelay);
 						} catch (InterruptedException ex) {
-							isActive = true;
+							JMemoryStateBar.this.isActive = true;
 						}
 					}  
 
@@ -203,7 +203,7 @@ public class JMemoryStateBar extends JPanel{
 				}
 			};
 
-			memoryMonitor.execute();
+			this.memoryMonitor.execute();
 		}
 	}
 
@@ -212,12 +212,12 @@ public class JMemoryStateBar extends JPanel{
 	 * @see #startMonitor()
 	 */
 	public void stopMonitor(){
-		isActive = false;
+		this.isActive = false;
 
-		memoryStateBar.setIndeterminate(true);
-		memoryStateBar.setEnabled(false);
-		memoryStateBar.setString("Inactive");
-		memoryMonitorActivateButton.setToolTipText("Activate the memory monitor");
+		this.memoryStateBar.setIndeterminate(true);
+		this.memoryStateBar.setEnabled(false);
+		this.memoryStateBar.setString("Inactive");
+		this.memoryMonitorActivateButton.setToolTipText("Activate the memory monitor");
 
 	}
 
@@ -236,7 +236,7 @@ public class JMemoryStateBar extends JPanel{
 	 * @see #getRefreshDelay()
 	 */
 	public long getRefreshDelay(){
-		return refreshDelay;
+		return this.refreshDelay;
 	}
 
 	/**
@@ -244,7 +244,7 @@ public class JMemoryStateBar extends JPanel{
 	 * @return the icon used on the garbage button.
 	 */
 	public Icon getGarbageIcon(){
-		return memoryGarbageCollectorButton.getIcon();
+		return this.memoryGarbageCollectorButton.getIcon();
 	}
 
 	/**
@@ -252,7 +252,7 @@ public class JMemoryStateBar extends JPanel{
 	 * @param icon the icon used on the garbage button.
 	 */
 	public void setGarbageIcon(Icon icon){
-		memoryGarbageCollectorButton.setIcon(icon);
+		this.memoryGarbageCollectorButton.setIcon(icon);
 	}
 
 	/**
@@ -260,7 +260,7 @@ public class JMemoryStateBar extends JPanel{
 	 * @return the active icon.
 	 */
 	public Icon getActiveIcon(){
-		return memoryMonitorActivateButton.getIcon();
+		return this.memoryMonitorActivateButton.getIcon();
 	}
 
 	/**
@@ -268,7 +268,7 @@ public class JMemoryStateBar extends JPanel{
 	 * @param icon the active icon
 	 */
 	public void setActiveIcon(Icon icon){
-		memoryMonitorActivateButton.setIcon(icon);
+		this.memoryMonitorActivateButton.setIcon(icon);
 	}
 
 	/**
@@ -276,7 +276,7 @@ public class JMemoryStateBar extends JPanel{
 	 * @return the inactive icon
 	 */
 	public Icon getInactiveIcon(){
-		return memoryMonitorActivateButton.getSelectedIcon();
+		return this.memoryMonitorActivateButton.getSelectedIcon();
 	}
 
 	/**
@@ -284,6 +284,6 @@ public class JMemoryStateBar extends JPanel{
 	 * @param icon the inactive icon
 	 */
 	public void setInactiveIcon(Icon icon){
-		memoryMonitorActivateButton.setSelectedIcon(icon);
+		this.memoryMonitorActivateButton.setSelectedIcon(icon);
 	}
 }

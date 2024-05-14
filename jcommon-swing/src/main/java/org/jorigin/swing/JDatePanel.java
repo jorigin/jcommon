@@ -168,7 +168,7 @@ public class JDatePanel extends JPanel {
    */
   public JDatePanel(Date date){
     super();
-    calendar = new GregorianCalendar();
+    this.calendar = new GregorianCalendar();
     initGUI();
     setDate(date);
   }
@@ -179,45 +179,45 @@ public class JDatePanel extends JPanel {
   protected void initGUI(){
     
     // Initialisation des composants du jour
-    dayLB      = new JLabel(langResource.getString("DATE_DAY"));
-    dayTFModel = new SpinnerNumberModel(calendar.get(Calendar.DAY_OF_MONTH), 1, 
-                                    getMaxDay(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR)), 
+    this.dayLB      = new JLabel(this.langResource.getString("DATE_DAY"));
+    this.dayTFModel = new SpinnerNumberModel(this.calendar.get(Calendar.DAY_OF_MONTH), 1, 
+                                    getMaxDay(this.calendar.get(Calendar.MONTH), this.calendar.get(Calendar.YEAR)), 
                                     1);  
-    dayTF      = new JSpinner(dayTFModel);
-    dayTF.addChangeListener(new ChangeListener(){
+    this.dayTF      = new JSpinner(this.dayTFModel);
+    this.dayTF.addChangeListener(new ChangeListener(){
 
       @Override
       public void stateChanged(ChangeEvent e) {
     
-    if (listening){
-      int day = Integer.parseInt(""+dayTF.getValue());
+    if (JDatePanel.this.listening){
+      int day = Integer.parseInt(""+JDatePanel.this.dayTF.getValue());
       setDay(day);
     
       fireChangeEvent();
     }
       }});
     
-    monthLB    = new JLabel(langResource.getString("DATE_MONTH"));
-    monthCB    = new JComboBox<String>(new String[]{langResource.getString("DATE_JANUARY"),
-        langResource.getString("DATE_FEBRUARY"),
-        langResource.getString("DATE_MARCH"),
-        langResource.getString("DATE_APRIL"),
-        langResource.getString("DATE_MAY"),
-        langResource.getString("DATE_JUNE"),
-        langResource.getString("DATE_JULY"),
-        langResource.getString("DATE_AUGUST"),
-        langResource.getString("DATE_SEPTEMBER"),
-        langResource.getString("DATE_OCTOBER"),
-        langResource.getString("DATE_NOVEMBER"),
-        langResource.getString("DATE_DECEMBER")});
-    monthCB.addItemListener(new ItemListener(){
+    this.monthLB    = new JLabel(this.langResource.getString("DATE_MONTH"));
+    this.monthCB    = new JComboBox<String>(new String[]{this.langResource.getString("DATE_JANUARY"),
+        this.langResource.getString("DATE_FEBRUARY"),
+        this.langResource.getString("DATE_MARCH"),
+        this.langResource.getString("DATE_APRIL"),
+        this.langResource.getString("DATE_MAY"),
+        this.langResource.getString("DATE_JUNE"),
+        this.langResource.getString("DATE_JULY"),
+        this.langResource.getString("DATE_AUGUST"),
+        this.langResource.getString("DATE_SEPTEMBER"),
+        this.langResource.getString("DATE_OCTOBER"),
+        this.langResource.getString("DATE_NOVEMBER"),
+        this.langResource.getString("DATE_DECEMBER")});
+    this.monthCB.addItemListener(new ItemListener(){
 
       @Override
       public void itemStateChanged(ItemEvent e) {
     
-    if (listening){
+    if (JDatePanel.this.listening){
     
-      int month = monthCB.getSelectedIndex();
+      int month = JDatePanel.this.monthCB.getSelectedIndex();
     
       setMonth(month);
     
@@ -226,16 +226,16 @@ public class JDatePanel extends JPanel {
       }});
     
     
-    yearLB      = new JLabel(langResource.getString("DATE_YEAR"));
-    yearTFModel = new SpinnerNumberModel(calendar.get(Calendar.YEAR), 1, MAX_YEAR, 1);  
-    yearTF      = new JSpinner(yearTFModel);
-    yearTF.addChangeListener(new ChangeListener(){
+    this.yearLB      = new JLabel(this.langResource.getString("DATE_YEAR"));
+    this.yearTFModel = new SpinnerNumberModel(this.calendar.get(Calendar.YEAR), 1, MAX_YEAR, 1);  
+    this.yearTF      = new JSpinner(this.yearTFModel);
+    this.yearTF.addChangeListener(new ChangeListener(){
 
       @Override
       public void stateChanged(ChangeEvent e) {
     
-    if (listening){
-      int year = Integer.parseInt(""+yearTF.getValue());
+    if (JDatePanel.this.listening){
+      int year = Integer.parseInt(""+JDatePanel.this.yearTF.getValue());
     
       setYear(year);
     
@@ -254,20 +254,20 @@ public class JDatePanel extends JPanel {
     lastDate.set(Calendar.HOUR, 23);
     lastDate.set(Calendar.MINUTE, 59);
 
-    final SpinnerDateModel model = new SpinnerDateModel(calendar.getTime(),
+    final SpinnerDateModel model = new SpinnerDateModel(this.calendar.getTime(),
                              firstDate.getTime(),
                              lastDate.getTime(),
                                  Calendar.MINUTE);
 
-    hourMinuteTF = new JSpinner(model);
-    JSpinner.DateEditor editor = new JSpinner.DateEditor(hourMinuteTF, "hh:mm");
-    hourMinuteTF.setEditor(editor);
-    hourMinuteTF.addChangeListener(new ChangeListener(){
+    this.hourMinuteTF = new JSpinner(model);
+    JSpinner.DateEditor editor = new JSpinner.DateEditor(this.hourMinuteTF, "hh:mm");
+    this.hourMinuteTF.setEditor(editor);
+    this.hourMinuteTF.addChangeListener(new ChangeListener(){
 
       @Override
       public void stateChanged(ChangeEvent e) {
     
-    if (listening){
+    if (JDatePanel.this.listening){
       Calendar  cal = new GregorianCalendar();
       cal.setTime(model.getDate());
       
@@ -289,7 +289,7 @@ public class JDatePanel extends JPanel {
     Insets fieldInsets   = new Insets(0,5,0,0);
     Insets currentInsets = null;
     
-    if (showLabel){
+    if (this.showLabel){
     
       c           = new GridBagConstraints ();
       c.gridx     = 0;
@@ -300,7 +300,7 @@ public class JDatePanel extends JPanel {
       c.insets    = labelInsets;
       c.weightx   = 0.0;
       c.weighty   = 0;
-      this.add(dayLB, c);
+      this.add(this.dayLB, c);
       
       currentInsets = fieldInsets;
     } else {
@@ -316,9 +316,9 @@ public class JDatePanel extends JPanel {
     c.insets    = currentInsets;
     c.weightx   = 1.0;
     c.weighty   = 0;
-    this.add(dayTF, c); 
+    this.add(this.dayTF, c); 
     
-    if (showLabel){
+    if (this.showLabel){
       c           = new GridBagConstraints ();
       c.gridx     = GridBagConstraints.RELATIVE;
       c.gridy     = GridBagConstraints.RELATIVE;
@@ -328,7 +328,7 @@ public class JDatePanel extends JPanel {
       c.insets    = labelInsets;
       c.weightx   = 0.0;
       c.weighty   = 0;
-      this.add(monthLB, c);
+      this.add(this.monthLB, c);
     }
     
     c           = new GridBagConstraints ();
@@ -340,9 +340,9 @@ public class JDatePanel extends JPanel {
     c.insets    = fieldInsets;
     c.weightx   = 1.0;
     c.weighty   = 0;
-    this.add(monthCB, c);   
+    this.add(this.monthCB, c);   
     
-    if (showLabel){
+    if (this.showLabel){
       c           = new GridBagConstraints ();
       c.gridx     = GridBagConstraints.RELATIVE;
       c.gridy     = GridBagConstraints.RELATIVE;
@@ -352,7 +352,7 @@ public class JDatePanel extends JPanel {
       c.insets    = labelInsets;
       c.weightx   = 0.0;
       c.weighty   = 0;
-      this.add(yearLB, c);
+      this.add(this.yearLB, c);
     }
     
     c           = new GridBagConstraints ();
@@ -364,7 +364,7 @@ public class JDatePanel extends JPanel {
     c.insets    = fieldInsets;
     c.weightx   = 1.0;
     c.weighty   = 0;
-    this.add(yearTF, c);
+    this.add(this.yearTF, c);
     
     c           = new GridBagConstraints ();
     c.gridx     = GridBagConstraints.RELATIVE;
@@ -375,7 +375,7 @@ public class JDatePanel extends JPanel {
     c.insets    = fieldInsets;
     c.weightx   = 1.0;
     c.weighty   = 0;
-    this.add(hourMinuteTF, c);
+    this.add(this.hourMinuteTF, c);
     
     c             = null;
     labelInsets   = new Insets(0,8,0,0);
@@ -390,18 +390,18 @@ public class JDatePanel extends JPanel {
    */
   protected void updateGUI(){
     
-    listening = false;
+    this.listening = false;
     
-    dayTF.setValue(calendar.get(Calendar.DAY_OF_MONTH));
+    this.dayTF.setValue(this.calendar.get(Calendar.DAY_OF_MONTH));
     
-    monthCB.setSelectedIndex(calendar.get(Calendar.MONTH));
-    monthCB.setSelectedItem(monthCB.getSelectedItem());
+    this.monthCB.setSelectedIndex(this.calendar.get(Calendar.MONTH));
+    this.monthCB.setSelectedItem(this.monthCB.getSelectedItem());
     
-    yearTF.setValue(calendar.get(Calendar.YEAR));
+    this.yearTF.setValue(this.calendar.get(Calendar.YEAR));
     
-    hourMinuteTF.setValue(calendar.getTime());
+    this.hourMinuteTF.setValue(this.calendar.getTime());
     
-    listening = true;
+    this.listening = true;
   }
   
   /**
@@ -410,7 +410,7 @@ public class JDatePanel extends JPanel {
    * @see #setDate(Date)
    */
   public Date getDate(){
-    return calendar.getTime();
+    return this.calendar.getTime();
   }
   
   /**
@@ -420,10 +420,10 @@ public class JDatePanel extends JPanel {
    */
   public void setDate(Date newDate){
     if (newDate != null){
-      listening = false;
-      calendar.setTime(newDate);
+      this.listening = false;
+      this.calendar.setTime(newDate);
       updateGUI();
-      listening = true;
+      this.listening = true;
     }
   }
   
@@ -433,7 +433,7 @@ public class JDatePanel extends JPanel {
    * @see #setMinute(int)
    */
   public int getMinute(){
-    return calendar.get(Calendar.MINUTE);
+    return this.calendar.get(Calendar.MINUTE);
   }
   
   /**
@@ -445,7 +445,7 @@ public class JDatePanel extends JPanel {
     if ((minute < 0) || (minute > 59)){
       return;
     } else {
-      calendar.set(Calendar.MINUTE, minute);
+      this.calendar.set(Calendar.MINUTE, minute);
       updateGUI();
     }
   }
@@ -456,7 +456,7 @@ public class JDatePanel extends JPanel {
    * @see #setHour(int)
    */
   public int getHour(){
-    return calendar.get(Calendar.HOUR_OF_DAY);
+    return this.calendar.get(Calendar.HOUR_OF_DAY);
   }
   
   /**
@@ -468,7 +468,7 @@ public class JDatePanel extends JPanel {
     if ((hour < 0) || (hour > 23)){
       return;
     } else {
-      calendar.set(Calendar.HOUR_OF_DAY, hour);
+      this.calendar.set(Calendar.HOUR_OF_DAY, hour);
       updateGUI();
     }
   }
@@ -479,7 +479,7 @@ public class JDatePanel extends JPanel {
    * @see #setMonth(int)
    */
   public int getMonth(){
-    return calendar.get(Calendar.MONTH);
+    return this.calendar.get(Calendar.MONTH);
   }
   
   /**
@@ -493,12 +493,12 @@ public class JDatePanel extends JPanel {
     if ((month < 1) || (month > 12)){
       return;
     } else {
-      calendar.set(Calendar.MONTH, month);
+      this.calendar.set(Calendar.MONTH, month);
       
-      int maxDay = getMaxDay(month, calendar.get(Calendar.YEAR));
+      int maxDay = getMaxDay(month, this.calendar.get(Calendar.YEAR));
       
-      if (calendar.get(Calendar.DAY_OF_MONTH) > maxDay){
-        calendar.set(Calendar.DAY_OF_MONTH, maxDay);
+      if (this.calendar.get(Calendar.DAY_OF_MONTH) > maxDay){
+        this.calendar.set(Calendar.DAY_OF_MONTH, maxDay);
       }
       
       updateGUI();
@@ -511,7 +511,7 @@ public class JDatePanel extends JPanel {
    * @see #setDay(int)
    */
   public int getDay(){
-    return calendar.get(Calendar.DAY_OF_MONTH);
+    return this.calendar.get(Calendar.DAY_OF_MONTH);
   }
   
   /**
@@ -522,10 +522,10 @@ public class JDatePanel extends JPanel {
    */
   public void setDay(int day){
 
-    int maxDay = getMaxDay(calendar.get(Calendar.MONTH), calendar.get(Calendar.YEAR));
+    int maxDay = getMaxDay(this.calendar.get(Calendar.MONTH), this.calendar.get(Calendar.YEAR));
 
     if (!((day < 1) || (day > maxDay))){
-      calendar.set(Calendar.DAY_OF_MONTH, day);
+      this.calendar.set(Calendar.DAY_OF_MONTH, day);
       updateGUI();
     }
   }
@@ -536,7 +536,7 @@ public class JDatePanel extends JPanel {
    * @see #setYear(int)
    */
   public int getYear(){
-    return calendar.get(Calendar.YEAR);
+    return this.calendar.get(Calendar.YEAR);
   }
   
   /**
@@ -548,14 +548,14 @@ public class JDatePanel extends JPanel {
     
     if (year > 0){
       
-      calendar.set(Calendar.YEAR, year);
+      this.calendar.set(Calendar.YEAR, year);
       
-      int maxDay = getMaxDay(calendar.get(Calendar.MONTH), year);
+      int maxDay = getMaxDay(this.calendar.get(Calendar.MONTH), year);
       
       // Verification que si l'année est bisextile est le mois actuel est fevrier,
       // le jour ne doit pas être superieur à 29.
-      if (calendar.get(Calendar.DAY_OF_MONTH) > maxDay){
-    calendar.set(Calendar.DAY_OF_MONTH, maxDay);
+      if (this.calendar.get(Calendar.DAY_OF_MONTH) > maxDay){
+    this.calendar.set(Calendar.DAY_OF_MONTH, maxDay);
       }
       updateGUI();
     }
@@ -618,7 +618,7 @@ public class JDatePanel extends JPanel {
    * @see #removeChangeListener(ChangeListener)
    */
   public void addChangeListener(ChangeListener l){
-    idListenerList.add(ChangeListener.class, l);
+    this.idListenerList.add(ChangeListener.class, l);
   }
   
   /**
@@ -627,7 +627,7 @@ public class JDatePanel extends JPanel {
    * @see #addChangeListener(ChangeListener)
    */
   public void removeChangeListener(ChangeListener l){
-    idListenerList.remove(ChangeListener.class, l);
+    this.idListenerList.remove(ChangeListener.class, l);
   }
   
   /**
@@ -639,7 +639,7 @@ public class JDatePanel extends JPanel {
     
     ChangeEvent e = new ChangeEvent(this);
     
-    Object[] listeners = idListenerList.getListenerList();
+    Object[] listeners = this.idListenerList.getListenerList();
     for (int i = listeners.length - 2; i >= 0; i -= 2) {
       if (listeners[i] == ChangeListener.class) {
         ( (ChangeListener) listeners[i + 1]).stateChanged(e);

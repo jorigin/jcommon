@@ -145,13 +145,13 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
       this.titleLabel = new JLabel(title, icon, SwingConstants.LEADING);
 
       // Creation de l'en tête du panneau fenêtre
-      JPanel top = buildHeader(titleLabel, bar);
+      JPanel top = buildHeader(this.titleLabel, bar);
 
       // Ajout de l'en tête du panneau fenêtre au panel
       super.addImpl(top, BorderLayout.NORTH, -1);
 
       // Ajout du panneau racine au centre du panneau fenêtre
-      super.addImpl(rootPane, BorderLayout.CENTER, -1);
+      super.addImpl(this.rootPane, BorderLayout.CENTER, -1);
 
       if (content != null) {
         this.getContentPane().add(content);
@@ -557,7 +557,7 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
    * @return the icon image that is displayed.
    */
   public Image getIconImage(){
-    return iconImage;
+    return this.iconImage;
   }
 //FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 //FF METHODES DE JFRAME                                                       FF
@@ -568,7 +568,7 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
    * @return the frame's icon
    */
   public Icon getFrameIcon() {
-    return titleLabel.getIcon();
+    return this.titleLabel.getIcon();
   }
 
 
@@ -578,7 +578,7 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
    */
   public void setFrameIcon(Icon newIcon) {
     Icon oldIcon = getFrameIcon();
-    titleLabel.setIcon(newIcon);
+    this.titleLabel.setIcon(newIcon);
     firePropertyChange("frameIcon", oldIcon, newIcon);
   }
 
@@ -588,7 +588,7 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
    * @return String   the current title text
    */
   public String getTitle() {
-    return titleLabel.getText();
+    return this.titleLabel.getText();
   }
 
 
@@ -598,7 +598,7 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
    */
   public void setTitle(String newText) {
     String oldText = getTitle();
-    titleLabel.setText(newText);
+    this.titleLabel.setText(newText);
     firePropertyChange("title", oldText, newText);
   }
 
@@ -608,8 +608,8 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
    * @return the current toolbar - if any
    */
   public JToolBar getToolBar() {
-    return headerPanel.getComponentCount() > 1
-            ? (JToolBar) headerPanel.getComponent(1)
+    return this.headerPanel.getComponentCount() > 1
+            ? (JToolBar) this.headerPanel.getComponent(1)
             : null;
   }
 
@@ -624,11 +624,11 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
       return;
     }
     if (oldToolBar != null) {
-      headerPanel.remove(oldToolBar);
+      this.headerPanel.remove(oldToolBar);
     }
     if (newToolBar != null) {
       newToolBar.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-      headerPanel.add(newToolBar, BorderLayout.EAST);
+      this.headerPanel.add(newToolBar, BorderLayout.EAST);
     }
     updateHeader();
     firePropertyChange("toolBar", oldToolBar, newToolBar);
@@ -653,7 +653,7 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
    *                  (currently active) and false means it is not
    */
   public boolean isSelected() {
-    return selected;
+    return this.selected;
   }
 
 
@@ -668,7 +668,7 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
    */
   public void setSelected(boolean newValue) {
     boolean oldValue = isSelected();
-    selected = newValue;
+    this.selected = newValue;
     updateHeader();
     firePropertyChange("selected", oldValue, newValue);
   }
@@ -687,28 +687,28 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
    * @return the panel's built header area
    */
   private JPanel buildHeader(JLabel label, JToolBar bar) {
-    gradientPanel = new GradientPanel(new BorderLayout(), getHeaderBackground());
+    this.gradientPanel = new GradientPanel(new BorderLayout(), getHeaderBackground());
     label.setOpaque(false);
 
-    gradientPanel.add(label, BorderLayout.WEST);
-    gradientPanel.setBorder(BorderFactory.createEmptyBorder(3, 4, 3, 1));
+    this.gradientPanel.add(label, BorderLayout.WEST);
+    this.gradientPanel.setBorder(BorderFactory.createEmptyBorder(3, 4, 3, 1));
 
-    headerPanel = new JPanel(new BorderLayout());
-    headerPanel.add(gradientPanel, BorderLayout.CENTER);
+    this.headerPanel = new JPanel(new BorderLayout());
+    this.headerPanel.add(this.gradientPanel, BorderLayout.CENTER);
     setToolBar(bar);
-    headerPanel.setBorder(new RaisedHeaderBorder());
-    headerPanel.setOpaque(false);
-    return headerPanel;
+    this.headerPanel.setBorder(new RaisedHeaderBorder());
+    this.headerPanel.setOpaque(false);
+    return this.headerPanel;
   }
 
   /**
    * Updates the header.
    */
   private void updateHeader() {
-    gradientPanel.setBackground(getHeaderBackground());
-    gradientPanel.setOpaque(isSelected());
-    titleLabel.setForeground(getTextForeground(isSelected()));
-    headerPanel.repaint();
+    this.gradientPanel.setBackground(getHeaderBackground());
+    this.gradientPanel.setOpaque(isSelected());
+    this.titleLabel.setForeground(getTextForeground(isSelected()));
+    this.headerPanel.repaint();
   }
 
 
@@ -718,7 +718,7 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
    */
   public void updateUI() {
     super.updateUI();
-    if (titleLabel != null) {
+    if (this.titleLabel != null) {
       updateHeader();
     }
   }

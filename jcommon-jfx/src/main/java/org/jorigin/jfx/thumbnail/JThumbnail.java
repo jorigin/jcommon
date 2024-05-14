@@ -70,30 +70,30 @@ public class JThumbnail<T> extends BorderPane implements Named, HandleSelection 
 		
 		this.name = name;
 		
-		imagePane = new StackPane();
+		this.imagePane = new StackPane();
 		
-		nameLB = new Label(this.name);
+		this.nameLB = new Label(this.name);
 		
-		setCenter(imagePane);
+		setCenter(this.imagePane);
 		
 		if (style != null) {
 			
 		  setThumbnailStyle(style);
 		
 		  if (style.isThumbnailNameVisible()) {		  
-		    nameLB.setBackground(style.getThumbnailNameBackground());
-		    namePN = new BorderPane();
-		    namePN.setCenter(nameLB);
-		    setBottom(namePN);
+		    this.nameLB.setBackground(style.getThumbnailNameBackground());
+		    this.namePN = new BorderPane();
+		    this.namePN.setCenter(this.nameLB);
+		    setBottom(this.namePN);
 		  }
 		}
 		
-		imagePane.widthProperty().addListener((e) -> fitImage(imagePane.getWidth(), imagePane.getHeight()));		
-		imagePane.heightProperty().addListener((e) -> fitImage(imagePane.getWidth(), imagePane.getHeight()));
+		this.imagePane.widthProperty().addListener((e) -> fitImage(this.imagePane.getWidth(), this.imagePane.getHeight()));		
+		this.imagePane.heightProperty().addListener((e) -> fitImage(this.imagePane.getWidth(), this.imagePane.getHeight()));
 		
 		setThumbnailImage(image);
 
-		selected.addListener((e) -> applyStyle());
+		this.selected.addListener((e) -> applyStyle());
 	}
 	
 	@Override
@@ -131,7 +131,7 @@ public class JThumbnail<T> extends BorderPane implements Named, HandleSelection 
 	 * @return the content that is associated to this thumbnail
 	 */
 	public T getThumbnailContent() {
-		return content;
+		return this.content;
 	}
 	
 	/**
@@ -142,22 +142,22 @@ public class JThumbnail<T> extends BorderPane implements Named, HandleSelection 
 		
 		if (image == null) return;
 		
-		if ((view != null) && (view.getImage() == image)) return;
+		if ((this.view != null) && (this.view.getImage() == image)) return;
 		
 		ImageView newView = new ImageView(image);
 		newView.setPreserveRatio(false);
 		
-		if (margin > 0) {
-		  newView.setFitWidth(getPrefWidth() - 2.0d*margin);
-		  newView.setFitHeight(getPrefHeight() - 2.0d*margin);
+		if (this.margin > 0) {
+		  newView.setFitWidth(getPrefWidth() - 2.0d*this.margin);
+		  newView.setFitHeight(getPrefHeight() - 2.0d*this.margin);
 		}
 		
         this.view = newView;
 		this.view.setCache(true);
 		this.view.setCacheHint(CacheHint.SPEED);
 		
-		Platform.runLater(() -> {imagePane.getChildren().clear();
-		                         imagePane.getChildren().add(view);});
+		Platform.runLater(() -> {this.imagePane.getChildren().clear();
+		                         this.imagePane.getChildren().add(this.view);});
 	}
 	
 	/**
@@ -205,15 +205,15 @@ public class JThumbnail<T> extends BorderPane implements Named, HandleSelection 
 	 */
 	private void applyStyle() {		
 		
-		if (style != null) {
-			if (selected.get() == true) {
-				imagePane.setBackground(style.getThumbnailSelectedImageBackground());
-				nameLB.setBackground(style.getThumbnailSelectedNameBackground());
-				backgroundProperty().set(style.thumbnailSelectedBackgroundProperty().get());
+		if (this.style != null) {
+			if (this.selected.get() == true) {
+				this.imagePane.setBackground(this.style.getThumbnailSelectedImageBackground());
+				this.nameLB.setBackground(this.style.getThumbnailSelectedNameBackground());
+				backgroundProperty().set(this.style.thumbnailSelectedBackgroundProperty().get());
 			} else {
-				imagePane.setBackground(style.getThumbnailImageBackground());
-				nameLB.setBackground(style.getThumbnailNameBackground());
-				backgroundProperty().set(style.thumbnailBackgroundProperty().get());
+				this.imagePane.setBackground(this.style.getThumbnailImageBackground());
+				this.nameLB.setBackground(this.style.getThumbnailNameBackground());
+				backgroundProperty().set(this.style.thumbnailBackgroundProperty().get());
 			}
 		}
 	}
@@ -225,12 +225,12 @@ public class JThumbnail<T> extends BorderPane implements Named, HandleSelection 
 	 */
 	private void fitImage(double width, double height) {
 		
-		if (view == null) return;
+		if (this.view == null) return;
 		
 		if ((width <= 0) || (height <= 0)) return;
 		
-		view.setFitWidth(width - 2.0*margin);
-		view.setFitHeight(height - 2.0*margin);
+		this.view.setFitWidth(width - 2.0*this.margin);
+		this.view.setFitHeight(height - 2.0*this.margin);
 		
 	}
 }

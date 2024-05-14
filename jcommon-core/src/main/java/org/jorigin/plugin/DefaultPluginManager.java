@@ -71,8 +71,8 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
   //IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
   @Override
   public boolean addPluginExclude(String pluginName) {
-    if (!excludes.contains(pluginName)){
-      return excludes.add(pluginName);
+    if (!this.excludes.contains(pluginName)){
+      return this.excludes.add(pluginName);
     } else {
       return false;
     }
@@ -80,8 +80,8 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
 
   @Override
   public boolean addPluginInclude(String pluginName) {
-    if (!includes.contains(pluginName)){
-      return includes.add(pluginName);
+    if (!this.includes.contains(pluginName)){
+      return this.includes.add(pluginName);
     } else {
       return false;
     }
@@ -108,17 +108,17 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
     boolean isExcluded = false;
     boolean isIncluded = false;
     
-    if ( plugins== null){
+    if ( this.plugins== null){
       return;
     }
     
-    pluginCount     = plugins.size();
-    pluginProcessed = 0;
-    initStarted(pluginCount);
+    this.pluginCount     = this.plugins.size();
+    this.pluginProcessed = 0;
+    initStarted(this.pluginCount);
     
     // Classement des plugins en fonction de leur dependances
     // Les plugins dépendance d'autre plugins sont classes en premier
-    Collections.sort(plugins, new Comparator<IPlugin>(){
+    Collections.sort(this.plugins, new Comparator<IPlugin>(){
 
       public int compare(IPlugin o1, IPlugin o2) {
         String[] p1dep = o1.getDependencies();
@@ -185,18 +185,18 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
     
     // Initialisation des plugins en des moins dépendant aux plus dépendants
     Common.logger.log(Level.INFO, "[DefaultPluginManager][pluginAllInit()] Init plugins");
-    iter = plugins.iterator();
+    iter = this.plugins.iterator();
     while(iter.hasNext()){
       plugin = iter.next();
       
       int j = 0;
-      while((j < excludes.size()) && (!isExcluded)){    
+      while((j < this.excludes.size()) && (!isExcluded)){    
     
-          pattern = java.util.regex.Pattern.compile(excludes.get(j));
+          pattern = java.util.regex.Pattern.compile(this.excludes.get(j));
           matcher = pattern.matcher(plugin.getName());
         
           if(matcher.matches()){
-            Common.logger.log(Level.INFO, "[DefaultPluginManager][pluginAllInit()]  - NOT Init "+plugin.getName()+" (explicitely excluded by "+excludes.get(j)+")");
+            Common.logger.log(Level.INFO, "[DefaultPluginManager][pluginAllInit()]  - NOT Init "+plugin.getName()+" (explicitely excluded by "+this.excludes.get(j)+")");
             isExcluded = true;
           }
     
@@ -205,15 +205,15 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
       
       if (!isExcluded){
           j = 0;
-          while((j < includes.size()) && (!isIncluded)){    
+          while((j < this.includes.size()) && (!isIncluded)){    
     
-      pattern = java.util.regex.Pattern.compile(includes.get(j));
+      pattern = java.util.regex.Pattern.compile(this.includes.get(j));
       matcher = pattern.matcher(plugin.getName());
         
       if(matcher.matches()){
         isIncluded = true;
         try {
-          if (plugin.pluginInit(plugger)){
+          if (plugin.pluginInit(this.plugger)){
             Common.logger.log(Level.INFO, "[DefaultPluginManager][pluginAllInit()]  - Init "+plugin.getName()+" (included) [OK]");
           } else {
             Common.logger.log(Level.INFO, "[DefaultPluginManager][pluginAllInit()]  - Init "+plugin.getName()+" (included) [FAIL]");
@@ -228,7 +228,7 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
       if ((!isExcluded)&&(!isIncluded)){
         Common.logger.log(Level.INFO, "[DefaultPluginManager][pluginAllInit()]  - Init "+plugin.getName()+" Plugin is not included / excluded, loading by default");
     try {
-      if (plugin.pluginInit(plugger)){
+      if (plugin.pluginInit(this.plugger)){
         Common.logger.log(Level.INFO, "[DefaultPluginManager][pluginAllInit()]  - Init "+plugin.getName()+" Plugin is not included / excluded, loading by default [OK]");
       } else {
         Common.logger.log(Level.INFO, "[DefaultPluginManager][pluginAllInit()]  - Init "+plugin.getName()+" Plugin is not included / excluded, loading by default [FAIL]");
@@ -239,9 +239,9 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
       }
     }
     
-    initComplete(pluginProcessed);
-    pluginProcessed = 0;
-    pluginCount     = 0;
+    initComplete(this.pluginProcessed);
+    this.pluginProcessed = 0;
+    this.pluginCount     = 0;
   }
 
   @Override
@@ -256,25 +256,25 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
     IPlugin plugin         = null;
     int i = 0;
 
-    if (plugins == null){
+    if (this.plugins == null){
       return;
     }
     
     Common.logger.log(Level.INFO, "[DefaultPluginManager][pluginAllInit()] Start plugins");
     
     
-    pluginCount     = plugins.size();
-    pluginProcessed = 0;
-    startStarted(pluginCount);
+    this.pluginCount     = this.plugins.size();
+    this.pluginProcessed = 0;
+    startStarted(this.pluginCount);
     
-    iter = plugins.iterator();
+    iter = this.plugins.iterator();
     while(iter.hasNext()){
       plugin = iter.next();
  
       if (plugin.isPluginInitialized()){
         if (plugin.pluginStart()){
           pluginStarted(plugin);
-          pluginProcessed++;
+          this.pluginProcessed++;
           Common.logger.log(Level.INFO, "[DefaultPluginManager][pluginAllStart()]  - Start "+plugin.getName()+" [OK]");
         } else {
           pluginStartError(plugin);
@@ -285,14 +285,14 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
         Common.logger.log(Level.INFO, "[DefaultPluginManager][pluginAllStart()]  - Cannot start "+plugin.getName()+" because it is not initialized [FAIL]");
       }
       
-      startProgress(plugin, (float)( ((float)i) / ((float)pluginCount)));
+      startProgress(plugin, (float)( ((float)i) / ((float)this.pluginCount)));
       
       i++;
     }
     
-    startComplete(pluginProcessed);
-    pluginProcessed = 0;
-    pluginCount     = 0;
+    startComplete(this.pluginProcessed);
+    this.pluginProcessed = 0;
+    this.pluginCount     = 0;
     
   }
 
@@ -301,7 +301,7 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
     Iterator<IPlugin> iter = null;
     IPlugin plugin         = null;
     
-    iter = plugins.iterator();
+    iter = this.plugins.iterator();
     while(iter.hasNext()){
       plugin = iter.next();
       
@@ -316,7 +316,7 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
   @Override
   public void pluginInit(IPlugin plugin) {
     try {
-      plugin.pluginInit(plugger);
+      plugin.pluginInit(this.plugger);
     } catch (Exception ex) {
       Common.logger.log(Level.INFO, plugin.getName()+" initialization error", ex);
     }
@@ -324,8 +324,8 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
 
   @Override
   public void pluginRegister(IPlugin plugin) {
-    if (!plugins.contains(plugin)){
-      plugins.add(plugin);
+    if (!this.plugins.contains(plugin)){
+      this.plugins.add(plugin);
     }
   }
 
@@ -342,7 +342,7 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
 
   @Override
   public void pluginStop(IPlugin plugin) {
-    if ((plugin != null)&&(plugins.contains(plugin))){
+    if ((plugin != null)&&(this.plugins.contains(plugin))){
       plugin.pluginStop();
     }
   }
@@ -350,27 +350,27 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
   @Override
   public void pluginUnregister(IPlugin plugin) {
     pluginStop(plugin);
-    plugins.remove(plugin);
+    this.plugins.remove(plugin);
   }
 
   @Override
   public boolean removePluginExclude(String pluginName) {
-    return excludes.remove(pluginName);
+    return this.excludes.remove(pluginName);
   }
 
   @Override
   public boolean removePluginInclude(String pluginName) {
-    return includes.remove(pluginName);
+    return this.includes.remove(pluginName);
   }
   
   @Override
   public boolean addPluginManagerListener(PluginManagerListener listener){
-    if (listeners == null){
-      listeners = new ArrayList<PluginManagerListener>();
+    if (this.listeners == null){
+      this.listeners = new ArrayList<PluginManagerListener>();
     } 
     
     if (listener != null){
-      return listeners.add(listener);
+      return this.listeners.add(listener);
     } else {
       return false;
     }
@@ -378,10 +378,10 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
 
   @Override  
   public boolean removePluginManagerListener(PluginManagerListener listener){
-    if (listeners == null){
+    if (this.listeners == null){
       return false;
     } else {
-      return listeners.remove(listener);
+      return this.listeners.remove(listener);
     }
   }
   //IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
@@ -397,8 +397,8 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
    * @param pluginCount the number of plugin to initialize
    */
   private void initStarted(int pluginCount){
-    if (listeners != null){
-      Iterator<PluginManagerListener> iter = listeners.iterator();
+    if (this.listeners != null){
+      Iterator<PluginManagerListener> iter = this.listeners.iterator();
       while(iter.hasNext()){
         iter.next().initStarted(pluginCount);
       }
@@ -410,8 +410,8 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
    * @param pluginCount the number of plugin initialized
    */
   private void initComplete(int pluginCount){
-    if (listeners != null){
-      Iterator<PluginManagerListener> iter = listeners.iterator();
+    if (this.listeners != null){
+      Iterator<PluginManagerListener> iter = this.listeners.iterator();
       while(iter.hasNext()){
         iter.next().initComplete(pluginCount);
       }
@@ -423,8 +423,8 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
    * @param pluginCount the number of plugin to start
    */
   private void startStarted(int pluginCount){
-    if (listeners != null){
-      Iterator<PluginManagerListener> iter = listeners.iterator();
+    if (this.listeners != null){
+      Iterator<PluginManagerListener> iter = this.listeners.iterator();
       while(iter.hasNext()){
         iter.next().startStarted(pluginCount);
       }
@@ -437,8 +437,8 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
    * @param percentDone the percent of the task already done
    */
   private void startProgress(IPlugin plugin, float percentDone){
-    if (listeners != null){
-      Iterator<PluginManagerListener> iter = listeners.iterator();
+    if (this.listeners != null){
+      Iterator<PluginManagerListener> iter = this.listeners.iterator();
       while(iter.hasNext()){
         iter.next().startProgress(plugin, percentDone);
       }
@@ -451,8 +451,8 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
    * @param pluginCount the number of plugin started.
    */
   private void startComplete(int pluginCount){
-    if (listeners != null){
-      Iterator<PluginManagerListener> iter = listeners.iterator();
+    if (this.listeners != null){
+      Iterator<PluginManagerListener> iter = this.listeners.iterator();
       while(iter.hasNext()){
         iter.next().startComplete(pluginCount);
       }
@@ -464,8 +464,8 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
    * @param plugin the started plugin
    */
   private void pluginStarted(IPlugin plugin){
-    if (listeners != null){
-      Iterator<PluginManagerListener> iter = listeners.iterator();
+    if (this.listeners != null){
+      Iterator<PluginManagerListener> iter = this.listeners.iterator();
       while(iter.hasNext()){
         iter.next().pluginStarted(plugin);
       }
@@ -477,8 +477,8 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
    * @param plugin the involved plugin
    */
   private void pluginStartError(IPlugin plugin){
-    if (listeners != null){
-      Iterator<PluginManagerListener> iter = listeners.iterator();
+    if (this.listeners != null){
+      Iterator<PluginManagerListener> iter = this.listeners.iterator();
       while(iter.hasNext()){
         iter.next().pluginStartError(plugin);
       }
@@ -498,9 +498,9 @@ public class DefaultPluginManager implements org.jorigin.plugin.IPluginManager{
    */
   public DefaultPluginManager(IPlugger plugger){
     this.plugger = plugger;
-    plugins  = new ArrayList<IPlugin>();
-    excludes = new ArrayList<String>();
-    includes = new ArrayList<String>();
+    this.plugins  = new ArrayList<IPlugin>();
+    this.excludes = new ArrayList<String>();
+    this.includes = new ArrayList<String>();
   }
   //CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
   //CC CONSTRUCTEUR                                        CC

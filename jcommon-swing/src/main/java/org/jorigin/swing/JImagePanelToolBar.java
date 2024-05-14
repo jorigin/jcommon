@@ -60,79 +60,79 @@ public class JImagePanelToolBar extends JToolBar implements PropertyChangeListen
    * Initialization of the Graphical User Interface components.
    */
   protected void initGUI(){
-    modeSelectionPointButton = new JToggleButton("Point");
-    modeSelectionPointButton.addActionListener(new ActionListener(){
+    this.modeSelectionPointButton = new JToggleButton("Point");
+    this.modeSelectionPointButton.addActionListener(new ActionListener(){
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        if (listening){
-          if (imagePanel != null){
-            imagePanel.setSelectionMode(JImagePanel.MODE_SELECTION_POINT);
+        if (JImagePanelToolBar.this.listening){
+          if (JImagePanelToolBar.this.imagePanel != null){
+            JImagePanelToolBar.this.imagePanel.setSelectionMode(JImagePanel.MODE_SELECTION_POINT);
           }
         }
       }
       
     });
     
-    modeSelectionRectButton  = new JToggleButton("Rect");
-    modeSelectionRectButton.addActionListener(new ActionListener(){
+    this.modeSelectionRectButton  = new JToggleButton("Rect");
+    this.modeSelectionRectButton.addActionListener(new ActionListener(){
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        if (listening){
-          if (imagePanel != null){
-            imagePanel.setSelectionMode(JImagePanel.MODE_SELECTION_RECT);
+        if (JImagePanelToolBar.this.listening){
+          if (JImagePanelToolBar.this.imagePanel != null){
+            JImagePanelToolBar.this.imagePanel.setSelectionMode(JImagePanel.MODE_SELECTION_RECT);
           }
         }
       }
       
     });
     
-    modeSelectionShapeButton = new JToggleButton("Shape");
-    modeSelectionShapeButton.addActionListener(new ActionListener(){
+    this.modeSelectionShapeButton = new JToggleButton("Shape");
+    this.modeSelectionShapeButton.addActionListener(new ActionListener(){
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        if (listening){
-          if (imagePanel != null){
-            imagePanel.setSelectionMode(JImagePanel.MODE_SELECTION_SHAPE);
+        if (JImagePanelToolBar.this.listening){
+          if (JImagePanelToolBar.this.imagePanel != null){
+            JImagePanelToolBar.this.imagePanel.setSelectionMode(JImagePanel.MODE_SELECTION_SHAPE);
           }
         }
       }
       
     });
     
-    modeSelectionGroup       = new ButtonGroup();
-    modeSelectionGroup.add(modeSelectionPointButton);
-    modeSelectionGroup.add(modeSelectionRectButton);
-    modeSelectionGroup.add(modeSelectionShapeButton);
+    this.modeSelectionGroup       = new ButtonGroup();
+    this.modeSelectionGroup.add(this.modeSelectionPointButton);
+    this.modeSelectionGroup.add(this.modeSelectionRectButton);
+    this.modeSelectionGroup.add(this.modeSelectionShapeButton);
     
-    scaleLB = new JLabel("Scale: ");
+    this.scaleLB = new JLabel("Scale: ");
     
-    scaleSpinner = null;
-    scaleSpinner = new JSpinner(new SpinnerNumberModel(1.0d, 0.0d, 10.0d, 0.01d));
-    JSpinner.NumberEditor editor = new JSpinner.NumberEditor(scaleSpinner, "0%");
-    scaleSpinner.setEditor(editor);
-    scaleSpinner.addChangeListener(new ChangeListener(){
+    this.scaleSpinner = null;
+    this.scaleSpinner = new JSpinner(new SpinnerNumberModel(1.0d, 0.0d, 10.0d, 0.01d));
+    JSpinner.NumberEditor editor = new JSpinner.NumberEditor(this.scaleSpinner, "0%");
+    this.scaleSpinner.setEditor(editor);
+    this.scaleSpinner.addChangeListener(new ChangeListener(){
 
       @Override
       public void stateChanged(ChangeEvent e) {
-        if (listening){
-          if (imagePanel != null){
-            imagePanel.setScale(((Number)scaleSpinner.getValue()).floatValue());
+        if (JImagePanelToolBar.this.listening){
+          if (JImagePanelToolBar.this.imagePanel != null){
+            JImagePanelToolBar.this.imagePanel.setScale(((Number)JImagePanelToolBar.this.scaleSpinner.getValue()).floatValue());
           }
         }
       }
     });
     
-    fitBT = new JButton("Fit");
-    fitBT.addActionListener(new ActionListener(){
+    this.fitBT = new JButton("Fit");
+    this.fitBT.addActionListener(new ActionListener(){
 
       @Override
       public void actionPerformed(ActionEvent e) {
-        if (listening){
-          if (imagePanel != null){
-            imagePanel.fit();
+        if (JImagePanelToolBar.this.listening){
+          if (JImagePanelToolBar.this.imagePanel != null){
+            JImagePanelToolBar.this.imagePanel.fit();
           }
         }
       }
@@ -142,14 +142,14 @@ public class JImagePanelToolBar extends JToolBar implements PropertyChangeListen
     FlowLayout layout = new FlowLayout(FlowLayout.LEADING);
     setLayout(layout);
     
-    add(modeSelectionPointButton);
-    add(modeSelectionRectButton);
-    add(modeSelectionShapeButton);
+    add(this.modeSelectionPointButton);
+    add(this.modeSelectionRectButton);
+    add(this.modeSelectionShapeButton);
     addSeparator();
-    add(scaleLB);
-    add(scaleSpinner);
+    add(this.scaleLB);
+    add(this.scaleSpinner);
     addSeparator();
-    add(fitBT);
+    add(this.fitBT);
     
   }
   
@@ -157,50 +157,50 @@ public class JImagePanelToolBar extends JToolBar implements PropertyChangeListen
    * Refreshing the Graphical User Interface components.
    */
   protected void refreshGUI(){
-    listening = false;
+    this.listening = false;
     
-    if (imagePanel != null){
+    if (this.imagePanel != null){
       
-      modeSelectionPointButton.setEnabled(true);
-      modeSelectionRectButton.setEnabled(true);
-      modeSelectionShapeButton.setEnabled(true);
+      this.modeSelectionPointButton.setEnabled(true);
+      this.modeSelectionRectButton.setEnabled(true);
+      this.modeSelectionShapeButton.setEnabled(true);
       
-      if ((imagePanel.getSelectionMode() & JImagePanel.MODE_SELECTION_POINT) == JImagePanel.MODE_SELECTION_POINT){
-        modeSelectionPointButton.setSelected(true);
-      } else if ((imagePanel.getSelectionMode() & JImagePanel.MODE_SELECTION_POINT) == JImagePanel.MODE_SELECTION_RECT){
-        modeSelectionRectButton.setSelected(true);
-      } else if ((imagePanel.getSelectionMode() & JImagePanel.MODE_SELECTION_POINT) == JImagePanel.MODE_SELECTION_SHAPE){
-        modeSelectionShapeButton.setSelected(true);
+      if ((this.imagePanel.getSelectionMode() & JImagePanel.MODE_SELECTION_POINT) == JImagePanel.MODE_SELECTION_POINT){
+        this.modeSelectionPointButton.setSelected(true);
+      } else if ((this.imagePanel.getSelectionMode() & JImagePanel.MODE_SELECTION_POINT) == JImagePanel.MODE_SELECTION_RECT){
+        this.modeSelectionRectButton.setSelected(true);
+      } else if ((this.imagePanel.getSelectionMode() & JImagePanel.MODE_SELECTION_POINT) == JImagePanel.MODE_SELECTION_SHAPE){
+        this.modeSelectionShapeButton.setSelected(true);
       }
       
-      scaleLB.setEnabled(true);
-      scaleSpinner.setValue(Double.valueOf(imagePanel.getScale()));
+      this.scaleLB.setEnabled(true);
+      this.scaleSpinner.setValue(Double.valueOf(this.imagePanel.getScale()));
       
-      fitBT.setEnabled(true);
+      this.fitBT.setEnabled(true);
       
     } else {
-      modeSelectionPointButton.setSelected(false);
-      modeSelectionPointButton.setEnabled(false);
-      modeSelectionRectButton.setSelected(false);
-      modeSelectionRectButton.setEnabled(false);
-      modeSelectionShapeButton.setSelected(false);
-      modeSelectionShapeButton.setEnabled(false);
+      this.modeSelectionPointButton.setSelected(false);
+      this.modeSelectionPointButton.setEnabled(false);
+      this.modeSelectionRectButton.setSelected(false);
+      this.modeSelectionRectButton.setEnabled(false);
+      this.modeSelectionShapeButton.setSelected(false);
+      this.modeSelectionShapeButton.setEnabled(false);
       
-      scaleLB.setEnabled(false);
-      scaleSpinner.setValue(1.0f);
+      this.scaleLB.setEnabled(false);
+      this.scaleSpinner.setValue(1.0f);
       
-      fitBT.setEnabled(false);
+      this.fitBT.setEnabled(false);
     }
     
 
     
-    listening = true;
+    this.listening = true;
   }
   
   @Override
   public void propertyChange(PropertyChangeEvent evt) {
     
-    if (listening){
+    if (this.listening){
       refreshGUI();
     }
   }
@@ -211,7 +211,7 @@ public class JImagePanelToolBar extends JToolBar implements PropertyChangeListen
    * @see #setImagePanel(JImagePanel)
    */
   public JImagePanel getImagePanel(){
-    return imagePanel;
+    return this.imagePanel;
   }
   
   /**

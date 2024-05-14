@@ -117,11 +117,11 @@ public class JImagePanel extends JPanel {
     
     this.image = image;
     
-    renderingHints = null;
+    this.renderingHints = null;
     
-    transform = new AffineTransform();
+    this.transform = new AffineTransform();
     
-    selectionShapeStroke = new BasicStroke(1.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 10.0f, new float[]{1, 0, 1, 0}, 0.0f);
+    this.selectionShapeStroke = new BasicStroke(1.0f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_ROUND, 10.0f, new float[]{1, 0, 1, 0}, 0.0f);
 
     addMouseListener(new MouseListener(){
 
@@ -132,31 +132,31 @@ public class JImagePanel extends JPanel {
       @Override
       public void mousePressed(MouseEvent e) {
         
-        mouseButtonActive |= InputEvent.getMaskForButton(e.getButton());
+        JImagePanel.this.mouseButtonActive |= InputEvent.getMaskForButton(e.getButton());
 
-        lastCursorPositionX = e.getX();
-        lastCursorPositionY = e.getY();
+        JImagePanel.this.lastCursorPositionX = e.getX();
+        JImagePanel.this.lastCursorPositionY = e.getY();
       }
 
       @Override
       public void mouseReleased(MouseEvent e) {
         
-        mouseButtonActive &= ~InputEvent.getMaskForButton(e.getButton());
+        JImagePanel.this.mouseButtonActive &= ~InputEvent.getMaskForButton(e.getButton());
         
-        lastCursorPositionX = e.getX();
-        lastCursorPositionY = e.getY();
+        JImagePanel.this.lastCursorPositionX = e.getX();
+        JImagePanel.this.lastCursorPositionY = e.getY();
       }
 
       @Override
       public void mouseEntered(MouseEvent e) {
-        lastCursorPositionX = e.getX();
-        lastCursorPositionY = e.getY();
+        JImagePanel.this.lastCursorPositionX = e.getX();
+        JImagePanel.this.lastCursorPositionY = e.getY();
       }
 
       @Override
       public void mouseExited(MouseEvent e) {
-        lastCursorPositionX = e.getX();
-        lastCursorPositionY = e.getY();
+        JImagePanel.this.lastCursorPositionX = e.getX();
+        JImagePanel.this.lastCursorPositionY = e.getY();
       }
       
     });
@@ -166,46 +166,46 @@ public class JImagePanel extends JPanel {
       @Override
       public void mouseDragged(MouseEvent e) {
         
-        double deltaX = (lastCursorPositionX - e.getX());
-        double deltaY = (lastCursorPositionY - e.getY());
+        double deltaX = (JImagePanel.this.lastCursorPositionX - e.getX());
+        double deltaY = (JImagePanel.this.lastCursorPositionY - e.getY());
         
-        if ((mode & MODE_SELECTION_POINT) == MODE_SELECTION_POINT){
+        if ((JImagePanel.this.mode & MODE_SELECTION_POINT) == MODE_SELECTION_POINT){
    
-          double tx = transform.getTranslateX();
-          double ty = transform.getTranslateY();
+          double tx = JImagePanel.this.transform.getTranslateX();
+          double ty = JImagePanel.this.transform.getTranslateY();
 
-          if ((mouseButtonActive & InputEvent.BUTTON1_DOWN_MASK) == InputEvent.BUTTON1_DOWN_MASK){
-            if ((tx - deltaX <= 0)&&((tx - deltaX) >= (-getImage().getWidth()*scale + getWidth()))){
+          if ((JImagePanel.this.mouseButtonActive & InputEvent.BUTTON1_DOWN_MASK) == InputEvent.BUTTON1_DOWN_MASK){
+            if ((tx - deltaX <= 0)&&((tx - deltaX) >= (-getImage().getWidth()*JImagePanel.this.scale + getWidth()))){
               tx -= deltaX;
             } else if ((tx > 0)&&(deltaX > 0)){
               tx -= deltaX;
-            } else if ((tx) < (-getImage().getWidth()*scale + getWidth()) && (deltaX < 0)){
+            } else if ((tx) < (-getImage().getWidth()*JImagePanel.this.scale + getWidth()) && (deltaX < 0)){
               tx -= deltaX;
             }
           
-            if ((ty - deltaY <= 0)&&((ty - deltaY) >= (-getImage().getHeight()*scale + getHeight()))){
+            if ((ty - deltaY <= 0)&&((ty - deltaY) >= (-getImage().getHeight()*JImagePanel.this.scale + getHeight()))){
               ty -= deltaY;
             } else if ((ty > 0)&&(deltaY > 0)){
               ty -= deltaY;
-            } else if ((ty) < (-getImage().getHeight()*scale + getHeight()) && (deltaY < 0)){
+            } else if ((ty) < (-getImage().getHeight()*JImagePanel.this.scale + getHeight()) && (deltaY < 0)){
               ty -= deltaY;
             }
             
             setTranslation(new Point2D.Double(tx, ty));
           
-            lastCursorPositionX = e.getX();
-            lastCursorPositionY = e.getY();
+            JImagePanel.this.lastCursorPositionX = e.getX();
+            JImagePanel.this.lastCursorPositionY = e.getY();
           
-            if (autoRepaint){
+            if (JImagePanel.this.autoRepaint){
               repaint();
             }
           }
 
-        } else if ((mode & MODE_SELECTION_RECT) == MODE_SELECTION_RECT){
+        } else if ((JImagePanel.this.mode & MODE_SELECTION_RECT) == MODE_SELECTION_RECT){
           
           
           
-        } else if ((mode & MODE_SELECTION_SHAPE) == MODE_SELECTION_SHAPE){
+        } else if ((JImagePanel.this.mode & MODE_SELECTION_SHAPE) == MODE_SELECTION_SHAPE){
           
         } else {
           
@@ -215,8 +215,8 @@ public class JImagePanel extends JPanel {
       @Override
       public void mouseMoved(MouseEvent e) {
 
-        lastCursorPositionX = e.getX();
-        lastCursorPositionY = e.getY();
+        JImagePanel.this.lastCursorPositionX = e.getX();
+        JImagePanel.this.lastCursorPositionY = e.getY();
       }
       
     });
@@ -248,7 +248,7 @@ public class JImagePanel extends JPanel {
   @Override
   public void paintComponent(Graphics g){
     
-    painting = true;
+    this.painting = true;
     
     Graphics2D g2d = (Graphics2D)g;
     
@@ -258,38 +258,38 @@ public class JImagePanel extends JPanel {
     
     AffineTransform savedTransform = g2d.getTransform();
     
-    if (renderingHints != null){
-      g2d.setRenderingHints(renderingHints);
+    if (this.renderingHints != null){
+      g2d.setRenderingHints(this.renderingHints);
     }
     
     g2d.setColor(getBackground());
     g2d.fillRect(0, 0, getWidth(), getHeight());
     
-    g2d.setTransform(transform);
+    g2d.setTransform(this.transform);
     
     // Transformed drawings
     
     // Draw image
-    if (image != null){
+    if (this.image != null){
 
-      g2d.drawRenderedImage(image, null);
+      g2d.drawRenderedImage(this.image, null);
 
     }
     
     // Draw image features
-    if (layers != null){
+    if (this.layers != null){
       
-      for (String layer : layers.keySet()) {
+      for (String layer : this.layers.keySet()) {
         
         if (isLayerDisplayed(layer)) {
           
-          List<JImageFeature> displayingFeatures = layers.get(layer);
+          List<JImageFeature> displayingFeatures = this.layers.get(layer);
           
           if (displayingFeatures != null) {
             for(JImageFeature feature : displayingFeatures){
               
               if (feature.isStateDisplaying()) {
-                feature.draw(g2d, transform);
+                feature.draw(g2d, this.transform);
               }
             }
           }
@@ -301,15 +301,15 @@ public class JImagePanel extends JPanel {
     g2d.setTransform(savedTransform);
     
     // Draw selection shape
-    if (selectionShape != null){
-      drawSelectionShape(g2d, selectionShape);
+    if (this.selectionShape != null){
+      drawSelectionShape(g2d, this.selectionShape);
     }
     
     // Restore original parameters.
     g2d.setColor(savedColor);
     g2d.setRenderingHints(savedHints);
     
-    painting = false;
+    this.painting = false;
   }
     
   /**
@@ -323,8 +323,8 @@ public class JImagePanel extends JPanel {
     RenderingHints savedHints      = g2d.getRenderingHints();
     AffineTransform savedTransform = g2d.getTransform();
     
-    if (selectionShapeStroke != null){
-      g2d.setStroke(selectionShapeStroke);
+    if (this.selectionShapeStroke != null){
+      g2d.setStroke(this.selectionShapeStroke);
     }
     
     g2d.draw(shape);
@@ -340,7 +340,7 @@ public class JImagePanel extends JPanel {
    * @return <code>true</code> if the panel is actually refreshing image and features and <code>false</code> otherwise.
    */
   public boolean isRendering() {
-    return painting;
+    return this.painting;
   }
   
   /**
@@ -350,7 +350,7 @@ public class JImagePanel extends JPanel {
    * @see #setRenderingHints(RenderingHints)
    */
   public RenderingHints getRenderingHints() {
-    return renderingHints;
+    return this.renderingHints;
   }
   
   /**
@@ -369,7 +369,7 @@ public class JImagePanel extends JPanel {
    * @see #setSelectionShapeStroke(Stroke)
    */
   public Stroke getSelectionShapeStroke(){
-    return selectionShapeStroke;
+    return this.selectionShapeStroke;
   }
   
   /**
@@ -392,7 +392,7 @@ public class JImagePanel extends JPanel {
    * @see #setSelectionMode(int)
    */
   public int getSelectionMode(){
-    return mode;
+    return this.mode;
   }
   
   /**
@@ -423,7 +423,7 @@ public class JImagePanel extends JPanel {
    * @see #setAutoRepaint(boolean)
    */
   public boolean isAutoRepaint(){
-    return autoRepaint;
+    return this.autoRepaint;
   }
   
   /**
@@ -445,7 +445,7 @@ public class JImagePanel extends JPanel {
    * @see #fit()
    */
   public boolean isAutoFit() {
-    return autoFit;
+    return this.autoFit;
   }
   
   /**
@@ -464,7 +464,7 @@ public class JImagePanel extends JPanel {
    * @see #setImage(BufferedImage)
    */
   public BufferedImage getImage(){
-    return image;
+    return this.image;
   }
   
   /**
@@ -477,7 +477,7 @@ public class JImagePanel extends JPanel {
     
     this.transform = new AffineTransform();
     
-    if (autoRepaint){
+    if (this.autoRepaint){
       repaint();
     }
   }
@@ -489,7 +489,7 @@ public class JImagePanel extends JPanel {
    * @see #getTranslation()
    */
   public double getScale(){
-    return transform.getScaleX();
+    return this.transform.getScaleX();
   }
   
   /**
@@ -500,22 +500,22 @@ public class JImagePanel extends JPanel {
    */
   public void setScale(double zoom){
     
-    if (scale != zoom){
+    if (this.scale != zoom){
       
       double oldValue = this.scale;
       
       this.scale = zoom;
       //transform.scale((1.0d/transform.getScaleX())*scale, (1.0d/transform.getScaleY())*scale);
-      transform.setTransform(scale,                      // The X coordinate scaling element of the 3x3 matrix
-                             transform.getShearY(),      // the Y coordinate shearing element of the 3x3 matrix
-                             transform.getShearX(),      // the X coordinate shearing element of the 3x3 matrix
-                             scale,                      // the Y coordinate scaling element of the 3x3 matrix
-                             transform.getTranslateX(),  // the X coordinate translation element of the 3x3 matrix
-                             transform.getTranslateY()); // the Y coordinate translation element of the 3x3 matrix
+      this.transform.setTransform(this.scale,                      // The X coordinate scaling element of the 3x3 matrix
+                             this.transform.getShearY(),      // the Y coordinate shearing element of the 3x3 matrix
+                             this.transform.getShearX(),      // the X coordinate shearing element of the 3x3 matrix
+                             this.scale,                      // the Y coordinate scaling element of the 3x3 matrix
+                             this.transform.getTranslateX(),  // the X coordinate translation element of the 3x3 matrix
+                             this.transform.getTranslateY()); // the Y coordinate translation element of the 3x3 matrix
       
       firePropertyChange(SCALE_PROPERTY, oldValue, this.scale);
       
-      if (autoRepaint){
+      if (this.autoRepaint){
         repaint();
       }
     }
@@ -529,7 +529,7 @@ public class JImagePanel extends JPanel {
    */
   public Point2D getTranslation(){
     Point2D p = new Point2D.Double();
-    p.setLocation(transform.getTranslateX(), transform.getTranslateY());
+    p.setLocation(this.transform.getTranslateX(), this.transform.getTranslateY());
     return p;
   }
   
@@ -545,14 +545,14 @@ public class JImagePanel extends JPanel {
       //transform.translate(-transform.getTranslateX(), -transform.getTranslateY());
       //transform.translate(translation.getX(), translation.getY());
 
-      transform.setTransform(transform.getScaleX(), // The X coordinate scaling element of the 3x3 matrix
-                             transform.getShearY(), // the Y coordinate shearing element of the 3x3 matrix
-                             transform.getShearX(), // the X coordinate shearing element of the 3x3 matrix
-                             transform.getScaleY(), // the Y coordinate scaling element of the 3x3 matrix
+      this.transform.setTransform(this.transform.getScaleX(), // The X coordinate scaling element of the 3x3 matrix
+                             this.transform.getShearY(), // the Y coordinate shearing element of the 3x3 matrix
+                             this.transform.getShearX(), // the X coordinate shearing element of the 3x3 matrix
+                             this.transform.getScaleY(), // the Y coordinate scaling element of the 3x3 matrix
                              translation.getX(),    // the X coordinate translation element of the 3x3 matrix
                              translation.getY());   // the Y coordinate translation element of the 3x3 matrix
       
-      if (autoRepaint){
+      if (this.autoRepaint){
         repaint();
       }
     }
@@ -564,16 +564,16 @@ public class JImagePanel extends JPanel {
    */
   public void fit(){
     
-    if (image != null){
+    if (this.image != null){
 
-      boolean b = autoRepaint;
+      boolean b = this.autoRepaint;
 
-      autoRepaint = false;
+      this.autoRepaint = false;
       setTranslation(new Point2D.Double(0.0d, 0.0d));
-      setScale(Math.min(((float)getWidth()) / ((float)image.getWidth()), ((float)getHeight()) / ((float)image.getHeight())));
+      setScale(Math.min(((float)getWidth()) / ((float)this.image.getWidth()), ((float)getHeight()) / ((float)this.image.getHeight())));
 
       repaint();
-      autoRepaint = b;
+      this.autoRepaint = b;
     }
 
   }
@@ -586,9 +586,9 @@ public class JImagePanel extends JPanel {
    * @see #setLayerDisplayed(String, boolean)
    */
   public boolean isLayerDisplayed(String layer) {
-    if (layersVisibility != null) {
-      if (layersVisibility.get(layer) != null) {
-        return layersVisibility.get(layer);
+    if (this.layersVisibility != null) {
+      if (this.layersVisibility.get(layer) != null) {
+        return this.layersVisibility.get(layer);
       } else {
         return false;
       }
@@ -603,14 +603,14 @@ public class JImagePanel extends JPanel {
    * @param displayed <code>true</code> if the layer has to be displayed and <code>false</code> otherwise.
    */
   public void setLayerDisplayed(String layer, boolean displayed) {
-    if (layers != null) {
-      if (layers.get(layer) != null) {
+    if (this.layers != null) {
+      if (this.layers.get(layer) != null) {
         
-        if (layersVisibility == null) {
-          layersVisibility = new HashMap<String, Boolean>();
+        if (this.layersVisibility == null) {
+          this.layersVisibility = new HashMap<String, Boolean>();
         }
         
-        layersVisibility.put(layer, displayed);
+        this.layersVisibility.put(layer, displayed);
       }
     }
   }
@@ -623,8 +623,8 @@ public class JImagePanel extends JPanel {
    */
   public List<JImageFeature> getImageFeatures(String layer){
     
-    if (layers != null) {
-      return layers.get(layer);
+    if (this.layers != null) {
+      return this.layers.get(layer);
     } else {
       return null;
     }
@@ -640,11 +640,11 @@ public class JImagePanel extends JPanel {
    */
   public void setImageFeatures(String layer, List<JImageFeature> features){
     
-    if (layers == null) {
-      layers = new HashMap<String, List<JImageFeature>>();
+    if (this.layers == null) {
+      this.layers = new HashMap<String, List<JImageFeature>>();
     }
     
-    layers.put(layer, features);
+    this.layers.put(layer, features);
   }
   
   /**
@@ -658,15 +658,15 @@ public class JImagePanel extends JPanel {
   public boolean addImageFeature(String layer, JImageFeature feature){
     
     if (feature != null){
-      if (layers == null) {
-        layers = new HashMap<String, List<JImageFeature>>();
+      if (this.layers == null) {
+        this.layers = new HashMap<String, List<JImageFeature>>();
       }
       
-      if (layers.get(layer) == null) {
-        layers.put(layer, new ArrayList<JImageFeature>());
+      if (this.layers.get(layer) == null) {
+        this.layers.put(layer, new ArrayList<JImageFeature>());
       }
       
-      layers.get(layer).add(feature);
+      this.layers.get(layer).add(feature);
       
       return true;
 
@@ -687,10 +687,10 @@ public class JImagePanel extends JPanel {
       return false;
     } else {
       
-      if (layers != null){
+      if (this.layers != null){
 
-        if (layers.get(layer) != null) {
-          return layers.get(layer).remove(feature);
+        if (this.layers.get(layer) != null) {
+          return this.layers.get(layer).remove(feature);
         } else {
           return false;
         }
@@ -708,15 +708,15 @@ public class JImagePanel extends JPanel {
    * @see #getViewCoordinate(float, float)
    */
   public Point2D getImageCoordinate(int x, int y){
-    if (image != null){
+    if (this.image != null){
       if ((x >= 0) && (x < getWidth()) && (y >= 0) && (y < getHeight())){
         Point2D.Float dest = new Point2D.Float();
         Point2D.Float src = new Point2D.Float(x, y);
         
         try {
-          transform.inverseTransform(src, dest);
+          this.transform.inverseTransform(src, dest);
           
-          if ((dest.getX() < 0)||(dest.getX() >= image.getWidth() - 1) || (dest.getY() < 0)||(dest.getY() >= image.getHeight() - 1)){
+          if ((dest.getX() < 0)||(dest.getX() >= this.image.getWidth() - 1) || (dest.getY() < 0)||(dest.getY() >= this.image.getHeight() - 1)){
             dest = null;
           }
           
@@ -741,13 +741,13 @@ public class JImagePanel extends JPanel {
    * @see #getImageCoordinate(int, int)
    */
   public Point2D getViewCoordinate(float x, float y){
-    if (image != null) {
-      if (transform != null) {
+    if (this.image != null) {
+      if (this.transform != null) {
         
         Point2D.Float dest = new Point2D.Float();
         Point2D.Float src = new Point2D.Float(x, y);
         
-        transform.transform(src, dest);
+        this.transform.transform(src, dest);
         
         return dest;
       } else {

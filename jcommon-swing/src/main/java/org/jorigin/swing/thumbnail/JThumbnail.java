@@ -68,7 +68,7 @@ implements EventListener, MouseListener{
 	protected Border currentBorder = null;
 
 	/** The thumbnail current background color */
-	protected Color currentBgColor = standardBgColor;
+	protected Color currentBgColor = this.standardBgColor;
 
 	// Variables d'etat du label
 
@@ -136,11 +136,11 @@ implements EventListener, MouseListener{
 	public JThumbnail(String name, int width, int height, int margin, int ID){
 		super();
 
-		nameLB = new JLabel(name);
+		this.nameLB = new JLabel(name);
 
-		thumbnailPN = new JPanel();
-		thumbnailPN.setBackground(Color.cyan);
-		thumbnailPN.setLayout(new FlowLayout());
+		this.thumbnailPN = new JPanel();
+		this.thumbnailPN.setBackground(Color.cyan);
+		this.thumbnailPN.setLayout(new FlowLayout());
 
 		this.setSize(new Dimension(width, height));
 		this.setPreferredSize(new Dimension(width, height));
@@ -153,23 +153,23 @@ implements EventListener, MouseListener{
 
 		this.setLayout(labelLayout);
 
-		this.add(thumbnailPN, BorderLayout.CENTER);
-		this.add(nameLB, nameOrientation);
+		this.add(this.thumbnailPN, BorderLayout.CENTER);
+		this.add(this.nameLB, this.nameOrientation);
 
-		idFont = new Font("Dialog", Font.BOLD, 11);
+		this.idFont = new Font("Dialog", Font.BOLD, 11);
 
-		focused  = false;
-		selected = false;
-		marked   = false;
+		this.focused  = false;
+		this.selected = false;
+		this.marked   = false;
 
 		this.thumbnailMargin = margin;
 
-		this.setBackground(standardBgColor);
+		this.setBackground(this.standardBgColor);
 
 		this.thumbnailID = ID;
 
 		this.setName(name);
-		this.setContent(content);
+		this.setContent(this.content);
 		this.setToolTipText(name);
 
 		this.addMouseListener(new MouseListener(){
@@ -247,7 +247,7 @@ implements EventListener, MouseListener{
 				processComponentMouseEvent(e);
 			}});
 
-		thumbnailPN.add(this.thumbnailComponent, BorderLayout.CENTER);
+		this.thumbnailPN.add(this.thumbnailComponent, BorderLayout.CENTER);
 
 		refreshGUI();
 	}
@@ -258,7 +258,7 @@ implements EventListener, MouseListener{
 	 * @see #isStandard()
 	 */
 	public void setStandard(boolean b){
-		standard = b;
+		this.standard = b;
 		refresh();
 	}
 
@@ -268,7 +268,7 @@ implements EventListener, MouseListener{
 	 * @see #setStandard(boolean)
 	 */
 	public boolean isStandard(){
-		return standard;
+		return this.standard;
 	}
 
 	/**
@@ -277,7 +277,7 @@ implements EventListener, MouseListener{
 	 * @see #isMarked()
 	 */
 	public void setMarked(boolean b){
-		marked = b;
+		this.marked = b;
 		refresh();
 	}
 
@@ -287,7 +287,7 @@ implements EventListener, MouseListener{
 	 * @see #setMarked(boolean)
 	 */
 	public boolean isMarked(){
-		return marked;
+		return this.marked;
 	}
 
 	/**
@@ -296,7 +296,7 @@ implements EventListener, MouseListener{
 	 * @see #isFocused()
 	 */
 	public void setFocused(boolean b){
-		focused = b;
+		this.focused = b;
 		refresh();
 	}
 
@@ -306,7 +306,7 @@ implements EventListener, MouseListener{
 	 * @see #setFocused(boolean)
 	 */
 	public boolean isFocused(){
-		return focused;
+		return this.focused;
 	}
 
 	@Override
@@ -351,7 +351,7 @@ implements EventListener, MouseListener{
 	 * @see #isSelected()
 	 */
 	public void setSelected(boolean b){
-		selected = b;
+		this.selected = b;
 		refresh();
 	}
 
@@ -361,7 +361,7 @@ implements EventListener, MouseListener{
 	 * @see #setSelected(boolean)
 	 */
 	public boolean isSelected(){
-		return selected;
+		return this.selected;
 	}
 
 	/**
@@ -369,7 +369,7 @@ implements EventListener, MouseListener{
 	 * @param f the font to use for the thumbnail identifier display.
 	 */
 	public void setIdFont(Font f){
-		idFont = f;
+		this.idFont = f;
 	}
 
 	/**
@@ -379,7 +379,7 @@ implements EventListener, MouseListener{
 	 * @see #getNameOrientation()
 	 */
 	public boolean isNameVisible() {
-		return nameVisible;
+		return this.nameVisible;
 	}
 
 	/**
@@ -406,7 +406,7 @@ implements EventListener, MouseListener{
 	 * @see #isNameVisible()
 	 */
 	public String getNameOrientation() {
-		return nameOrientation;
+		return this.nameOrientation;
 	}
 
 	/**
@@ -432,7 +432,7 @@ implements EventListener, MouseListener{
 	 * @see #setIdVisible(boolean)
 	 */
 	public boolean isIdVisible() {
-		return idVisible;
+		return this.idVisible;
 	}
 
 	/**
@@ -449,25 +449,25 @@ implements EventListener, MouseListener{
 	 */
 	public void refresh(){
 
-		if (standard){
-			currentBgColor = standardBgColor;
-			currentBorder = null;
+		if (this.standard){
+			this.currentBgColor = this.standardBgColor;
+			this.currentBorder = null;
 		}
-		if (marked){
-			currentBgColor = markedBgColor;
-			currentBorder  = null;
+		if (this.marked){
+			this.currentBgColor = this.markedBgColor;
+			this.currentBorder  = null;
 		}
-		if (focused){
-			currentBgColor = focusBgColor;
-			currentBorder = focusedBorder;
+		if (this.focused){
+			this.currentBgColor = this.focusBgColor;
+			this.currentBorder = this.focusedBorder;
 		}
-		if (selected){
-			currentBgColor = selectedBgColor;
-			currentBorder = null;
+		if (this.selected){
+			this.currentBgColor = this.selectedBgColor;
+			this.currentBorder = null;
 		}
 
-		this.setBorder(currentBorder);
-		this.setBackground(currentBgColor);
+		this.setBorder(this.currentBorder);
+		this.setBackground(this.currentBgColor);
 
 		if (this.thumbnailComponent != null){
 			this.thumbnailComponent.validate();
@@ -489,18 +489,18 @@ implements EventListener, MouseListener{
 		//  labelComponent.paint(g);
 		//}
 
-		if (idVisible){
-			g.setColor(currentBgColor);
+		if (this.idVisible){
+			g.setColor(this.currentBgColor);
 			g.fillRect(0, 0, 15, 10);
-			g.setColor(idColor);
-			g.setFont(idFont);
-			g.drawString(""+thumbnailID, 3, 8);
+			g.setColor(this.idColor);
+			g.setFont(this.idFont);
+			g.drawString(""+this.thumbnailID, 3, 8);
 		}
 
-		if (nameVisible){
-			nameLB.setText(getName());
+		if (this.nameVisible){
+			this.nameLB.setText(getName());
 		} else {
-			nameLB.setText(null);
+			this.nameLB.setText(null);
 		}
 
 		g.setColor(oldColor);
@@ -513,7 +513,7 @@ implements EventListener, MouseListener{
 	 */
 	@SuppressWarnings("unchecked")
 	protected void fireThumbnailFocused(JThumbnail<T> thumbnail){
-		Object[] listeners = idListenerList.getListenerList();
+		Object[] listeners = this.idListenerList.getListenerList();
 		for (int i = listeners.length - 2; i >= 0; i -= 2) {
 			if (listeners[i] == JThumbnailListener.class) {
 				((JThumbnailListener<T>) listeners[i + 1]).thumbnailFocused(thumbnail);
@@ -527,7 +527,7 @@ implements EventListener, MouseListener{
 	 */
 	@SuppressWarnings("unchecked")
 	protected void fireThumbnailUnfocused(JThumbnail<T> thumbnail){
-		Object[] listeners = idListenerList.getListenerList();
+		Object[] listeners = this.idListenerList.getListenerList();
 		for (int i = listeners.length - 2; i >= 0; i -= 2) {
 			if (listeners[i] == JThumbnailListener.class) {
 				((JThumbnailListener<T>) listeners[i + 1]).thumbnailUnfocused(thumbnail);
@@ -548,7 +548,7 @@ implements EventListener, MouseListener{
 	 */
 	@SuppressWarnings("unchecked")
 	protected void fireThumbnailSelected(JThumbnail<T> thumbnail){
-		Object[] listeners = idListenerList.getListenerList();
+		Object[] listeners = this.idListenerList.getListenerList();
 		for (int i = listeners.length - 2; i >= 0; i -= 2) {
 			if (listeners[i] == JThumbnailListener.class) {
 				((JThumbnailListener<T>) listeners[i + 1]).thumbnailSelected(thumbnail);
@@ -562,7 +562,7 @@ implements EventListener, MouseListener{
 	 */
 	@SuppressWarnings("unchecked")
 	protected void fireThumbnailActivated(JThumbnail<T> thumbnail){
-		Object[] listeners = idListenerList.getListenerList();
+		Object[] listeners = this.idListenerList.getListenerList();
 		for (int i = listeners.length - 2; i >= 0; i -= 2) {
 			if (listeners[i] == JThumbnailListener.class) {
 				((JThumbnailListener<T>) listeners[i + 1]).thumbnailActivated(thumbnail);
@@ -575,7 +575,7 @@ implements EventListener, MouseListener{
 	 */
 	@SuppressWarnings("unchecked")
 	protected void labelActivated(){
-		Object[] listeners = idListenerList.getListenerList();
+		Object[] listeners = this.idListenerList.getListenerList();
 		for (int i = listeners.length - 2; i >= 0; i -= 2) {
 			if (listeners[i] == JThumbnailListener.class) {
 				((JThumbnailListener<T>) listeners[i + 1]).thumbnailActivated(this);
@@ -588,7 +588,7 @@ implements EventListener, MouseListener{
 	 * @param l ActiveLabelListener Listener added to the Active Label
 	 */
 	public void addThumbnailListener(JThumbnailListener<T> l) {
-		idListenerList.add(JThumbnailListener.class, l);
+		this.idListenerList.add(JThumbnailListener.class, l);
 	}
 
 	/**
@@ -596,7 +596,7 @@ implements EventListener, MouseListener{
 	 * @param l ActiveLabelListener Active Listener to remove
 	 */
 	public void removeThumbnailListener(JThumbnailListener<T> l) {
-		idListenerList.remove(JThumbnailListener.class, l);
+		this.idListenerList.remove(JThumbnailListener.class, l);
 	}
 
 	/**
@@ -693,29 +693,29 @@ implements EventListener, MouseListener{
 
 		if (isNameVisible()){
 
-			Dimension nameLBSize = nameLB.getSize();
+			Dimension nameLBSize = this.nameLB.getSize();
 
-			if (BorderLayout.SOUTH.equals(nameOrientation) || (BorderLayout.NORTH.equals(nameOrientation))){
-				thumbnailPN.setSize(new Dimension(size.width - 2 * thumbnailMargin, size.height - 2 * thumbnailMargin - nameLBSize.height));
-				thumbnailPN.setPreferredSize(new Dimension(size.width - 2 * thumbnailMargin, size.height - 2 * thumbnailMargin - nameLBSize.height));
-				thumbnailPN.setMaximumSize(new Dimension(size.width - 2 * thumbnailMargin, size.height - 2 * thumbnailMargin - nameLBSize.height));
-				thumbnailPN.setMinimumSize(new Dimension(size.width - 2 * thumbnailMargin, size.height - 2 * thumbnailMargin - nameLBSize.height));
-			} else if (BorderLayout.WEST.equals(nameOrientation) || (BorderLayout.EAST.equals(nameOrientation))){
-				thumbnailPN.setSize(new Dimension(size.width - 2 * thumbnailMargin  - nameLBSize.width, size.height - 2 * thumbnailMargin));
-				thumbnailPN.setPreferredSize(new Dimension(size.width - 2 * thumbnailMargin - nameLBSize.width, size.height - 2 * thumbnailMargin));
-				thumbnailPN.setMaximumSize(new Dimension(size.width - 2 * thumbnailMargin - nameLBSize.width, size.height - 2 * thumbnailMargin));
-				thumbnailPN.setMinimumSize(new Dimension(size.width - 2 * thumbnailMargin - nameLBSize.width, size.height - 2 * thumbnailMargin));
+			if (BorderLayout.SOUTH.equals(this.nameOrientation) || (BorderLayout.NORTH.equals(this.nameOrientation))){
+				this.thumbnailPN.setSize(new Dimension(size.width - 2 * this.thumbnailMargin, size.height - 2 * this.thumbnailMargin - nameLBSize.height));
+				this.thumbnailPN.setPreferredSize(new Dimension(size.width - 2 * this.thumbnailMargin, size.height - 2 * this.thumbnailMargin - nameLBSize.height));
+				this.thumbnailPN.setMaximumSize(new Dimension(size.width - 2 * this.thumbnailMargin, size.height - 2 * this.thumbnailMargin - nameLBSize.height));
+				this.thumbnailPN.setMinimumSize(new Dimension(size.width - 2 * this.thumbnailMargin, size.height - 2 * this.thumbnailMargin - nameLBSize.height));
+			} else if (BorderLayout.WEST.equals(this.nameOrientation) || (BorderLayout.EAST.equals(this.nameOrientation))){
+				this.thumbnailPN.setSize(new Dimension(size.width - 2 * this.thumbnailMargin  - nameLBSize.width, size.height - 2 * this.thumbnailMargin));
+				this.thumbnailPN.setPreferredSize(new Dimension(size.width - 2 * this.thumbnailMargin - nameLBSize.width, size.height - 2 * this.thumbnailMargin));
+				this.thumbnailPN.setMaximumSize(new Dimension(size.width - 2 * this.thumbnailMargin - nameLBSize.width, size.height - 2 * this.thumbnailMargin));
+				this.thumbnailPN.setMinimumSize(new Dimension(size.width - 2 * this.thumbnailMargin - nameLBSize.width, size.height - 2 * this.thumbnailMargin));
 			} else {
-				thumbnailPN.setSize(new Dimension(size.width - 2 * thumbnailMargin, size.height - 2 * thumbnailMargin));
-				thumbnailPN.setPreferredSize(new Dimension(size.width - 2 * thumbnailMargin, size.height - 2 * thumbnailMargin));
-				thumbnailPN.setMaximumSize(new Dimension(size.width - 2 * thumbnailMargin, size.height - 2 * thumbnailMargin));
-				thumbnailPN.setMinimumSize(new Dimension(size.width - 2 * thumbnailMargin, size.height - 2 * thumbnailMargin));
+				this.thumbnailPN.setSize(new Dimension(size.width - 2 * this.thumbnailMargin, size.height - 2 * this.thumbnailMargin));
+				this.thumbnailPN.setPreferredSize(new Dimension(size.width - 2 * this.thumbnailMargin, size.height - 2 * this.thumbnailMargin));
+				this.thumbnailPN.setMaximumSize(new Dimension(size.width - 2 * this.thumbnailMargin, size.height - 2 * this.thumbnailMargin));
+				this.thumbnailPN.setMinimumSize(new Dimension(size.width - 2 * this.thumbnailMargin, size.height - 2 * this.thumbnailMargin));
 			}
 		} else {
-			thumbnailPN.setSize(new Dimension(size.width - 2 * thumbnailMargin, size.height - 2 * thumbnailMargin));
-			thumbnailPN.setPreferredSize(new Dimension(size.width - 2 * thumbnailMargin, size.height - 2 * thumbnailMargin));
-			thumbnailPN.setMaximumSize(new Dimension(size.width - 2 * thumbnailMargin, size.height - 2 * thumbnailMargin));
-			thumbnailPN.setMinimumSize(new Dimension(size.width - 2 * thumbnailMargin, size.height - 2 * thumbnailMargin));
+			this.thumbnailPN.setSize(new Dimension(size.width - 2 * this.thumbnailMargin, size.height - 2 * this.thumbnailMargin));
+			this.thumbnailPN.setPreferredSize(new Dimension(size.width - 2 * this.thumbnailMargin, size.height - 2 * this.thumbnailMargin));
+			this.thumbnailPN.setMaximumSize(new Dimension(size.width - 2 * this.thumbnailMargin, size.height - 2 * this.thumbnailMargin));
+			this.thumbnailPN.setMinimumSize(new Dimension(size.width - 2 * this.thumbnailMargin, size.height - 2 * this.thumbnailMargin));
 		}
 	}
 

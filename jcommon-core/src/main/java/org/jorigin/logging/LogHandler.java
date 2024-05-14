@@ -58,15 +58,15 @@ public class LogHandler extends StreamHandler {
       @Override
       public String format(LogRecord record) {
         if (record.getThrown() == null){
-          return "("+sdf.format(new Date(record.getMillis()))+") "+record.getLevel()+" ["+record.getSourceClassName()+"] ["+record.getSourceMethodName()+"] "+record.getMessage()+lineSeparator;
+          return "("+this.sdf.format(new Date(record.getMillis()))+") "+record.getLevel()+" ["+record.getSourceClassName()+"] ["+record.getSourceMethodName()+"] "+record.getMessage()+this.lineSeparator;
         } else {
-          String str = "("+sdf.format(new Date(record.getMillis()))+") "+record.getLevel()+" ["+record.getSourceClassName()+"] ["+record.getSourceMethodName()+"] caused by "+record.getThrown().getMessage()+lineSeparator;
+          String str = "("+this.sdf.format(new Date(record.getMillis()))+") "+record.getLevel()+" ["+record.getSourceClassName()+"] ["+record.getSourceMethodName()+"] caused by "+record.getThrown().getMessage()+this.lineSeparator;
           
           StackTraceElement[] elements = record.getThrown().getStackTrace();
           for(int i = 0; i < elements.length; i++){
-            str += "("+sdf.format(new Date(record.getMillis()))+") "+record.getLevel()+" ["+record.getSourceClassName()+"] ["+record.getSourceMethodName()+"] at "+elements[i]+lineSeparator;
+            str += "("+this.sdf.format(new Date(record.getMillis()))+") "+record.getLevel()+" ["+record.getSourceClassName()+"] ["+record.getSourceMethodName()+"] at "+elements[i]+this.lineSeparator;
           }
-          return "("+sdf.format(new Date(record.getMillis()))+") "+record.getLevel()+" ["+record.getSourceClassName()+"] ["+record.getSourceMethodName()+"] "+record.getMessage()+lineSeparator+str;
+          return "("+this.sdf.format(new Date(record.getMillis()))+") "+record.getLevel()+" ["+record.getSourceClassName()+"] ["+record.getSourceMethodName()+"] "+record.getMessage()+this.lineSeparator+str;
         }
       }};  
     

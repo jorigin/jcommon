@@ -106,14 +106,14 @@ public class LangResource {
       
       if (System.getProperty("lang.resource.root") != null){
         try {
-          resourcesPath = PathUtil.URIToPath(System.getProperty("lang.resource.root"));
+          this.resourcesPath = PathUtil.URIToPath(System.getProperty("lang.resource.root"));
         } catch (Exception e) {
           Common.logger.log(Level.SEVERE, "Cannot use lang.resource.root property value: "+System.getProperty("lang.resource.root"), e);
         }
       }
 
     } else {
-      resourcesPath = ""+baseName;
+      this.resourcesPath = ""+baseName;
     }
 
     if (locale == null){
@@ -128,11 +128,11 @@ public class LangResource {
 
     this.locale = new Locale(System.getProperty("user.language"), System.getProperty("user.country"));
 
-    resources = new HashMap<String, String>();
+    this.resources = new HashMap<String, String>();
 
-    availableLocales = new ArrayList<String>(); 
+    this.availableLocales = new ArrayList<String>(); 
 
-    Common.logger.log(Level.CONFIG, "Lang resource path         : "+resourcesPath);
+    Common.logger.log(Level.CONFIG, "Lang resource path         : "+this.resourcesPath);
     Common.logger.log(Level.CONFIG, "Lang resource Given locale : "+locale);
     Common.logger.log(Level.CONFIG, "Lang resource System locale: "+this.locale);
     
@@ -156,15 +156,15 @@ public class LangResource {
 
     String str   = null;
 
-    if (resourcesPath != null){
-      f = new File(resourcesPath);
+    if (this.resourcesPath != null){
+      f = new File(this.resourcesPath);
     } else {
-      Common.logger.log(Level.SEVERE, "[LangResource] [init()] Lang resource directory "+PathUtil.URIToPath(resourcesPath)+" does not exist.");
+      Common.logger.log(Level.SEVERE, "[LangResource] [init()] Lang resource directory "+PathUtil.URIToPath(this.resourcesPath)+" does not exist.");
       return;
     }
 
     if (((f == null)) || (!f.exists())){
-      Common.logger.log(Level.SEVERE, "[LangResource] [init()] Lang resource directory "+PathUtil.URIToPath(resourcesPath)+" does not exist.");
+      Common.logger.log(Level.SEVERE, "[LangResource] [init()] Lang resource directory "+PathUtil.URIToPath(this.resourcesPath)+" does not exist.");
       return;
     } 
 
@@ -188,19 +188,19 @@ public class LangResource {
         if (str.length() > 4){
           str = str.substring(str.length() - 5);
 
-          if (!availableLocales.contains(str)){
-            availableLocales.add(str);
+          if (!this.availableLocales.contains(str)){
+            this.availableLocales.add(str);
           }
         }
       }
     }
 
 
-    if (locale != null){
+    if (this.locale != null){
 
       // Liste tous les répertoires et tous les fichiers XML de l'arboressence
       // des ressources
-      f = new File(resourcesPath);
+      f = new File(this.resourcesPath);
 
       addResource(f);
 
@@ -235,7 +235,7 @@ public class LangResource {
    * @return the current locale.
    */
   public Locale getLocale(){
-    return locale;
+    return this.locale;
   }
 
 
@@ -314,7 +314,7 @@ public class LangResource {
         public boolean accept(File pathname) {
           if (pathname.isDirectory()){
             return true;
-          } else if (pathname.getPath().endsWith(locale+".xml")){
+          } else if (pathname.getPath().endsWith(LangResource.this.locale+".xml")){
             return true;
           }
           return false;
@@ -354,7 +354,7 @@ public class LangResource {
    * @param resource the new lang resource to add.
    */
   public void addResources(LangResource resource){
-    resources.putAll(resource.getResources());
+    this.resources.putAll(resource.getResources());
   }
 
   /**
@@ -395,13 +395,13 @@ public class LangResource {
     int paramCount = -1;
     
     // Si les resourcs ne sont pas disponibles, on retourne la cle.
-    if (resources == null){
+    if (this.resources == null){
       Common.logger.log(Level.WARNING, ("No resource bundle available "+key));
       return key;
     }
     
     // Recuperation de la valeur associee a la cle.
-    value = resources.get(key);
+    value = this.resources.get(key);
     
     // Si aucune valeur ne correspond a la cle, on retourne la cle.
     if (value == null){

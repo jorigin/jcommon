@@ -18,7 +18,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
 import javafx.scene.control.Slider;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -222,7 +221,7 @@ class SquareImageFeature implements JImageFeature {
 
 	@Override
 	public boolean isStateSelectable() {
-		return selectable;
+		return this.selectable;
 	}
 
 	@Override
@@ -232,7 +231,7 @@ class SquareImageFeature implements JImageFeature {
 
 	@Override
 	public boolean isStateSelected() {
-		return selected;
+		return this.selected;
 	}
 
 	@Override
@@ -242,7 +241,7 @@ class SquareImageFeature implements JImageFeature {
 
 	@Override
 	public boolean isStateDisplaying() {
-		return displaying;
+		return this.displaying;
 	}
 
 	@Override
@@ -252,7 +251,7 @@ class SquareImageFeature implements JImageFeature {
 
 	@Override
 	public boolean isStateDisplayable() {
-		return displayable;
+		return this.displayable;
 	}
 
 	@Override
@@ -269,16 +268,16 @@ class SquareImageFeature implements JImageFeature {
 				Paint originalStroke = g2d.getStroke();
 				
 				if (isStateSelected()) {
-					g2d.setFill(color);
-					g2d.fillRect(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
+					g2d.setFill(this.color);
+					g2d.fillRect(this.shape.getX(), this.shape.getY(), this.shape.getWidth(), this.shape.getHeight());
 					
-					g2d.setStroke(selectedStroke);
-					g2d.strokeRect(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
+					g2d.setStroke(this.selectedStroke);
+					g2d.strokeRect(this.shape.getX(), this.shape.getY(), this.shape.getWidth(), this.shape.getHeight());
 					
 				} else {
 					
-					g2d.setFill(color);
-					g2d.fillRect(shape.getX(), shape.getY(), shape.getWidth(), shape.getHeight());
+					g2d.setFill(this.color);
+					g2d.fillRect(this.shape.getX(), this.shape.getY(), this.shape.getWidth(), this.shape.getHeight());
 					
 				}
 				
@@ -290,12 +289,12 @@ class SquareImageFeature implements JImageFeature {
 
 	@Override
 	public boolean contains(double x, double y) {
-		return (x >= line - 10) && (x <= line +10) && (y >= column - 10) && (y <= column + 10);
+		return (x >= this.line - 10) && (x <= this.line +10) && (y >= this.column - 10) && (y <= this.column + 10);
 	}
 
 	@Override
 	public boolean contains(Shape s) {
-		return (s != null) && (shape.intersects(s.getBoundsInParent()));
+		return (s != null) && (this.shape.intersects(s.getBoundsInParent()));
 	}
 
 	@Override
@@ -305,12 +304,12 @@ class SquareImageFeature implements JImageFeature {
 
 	@Override
 	public boolean inside(Shape s) {
-		return (s != null) && (s.getBoundsInParent().contains(shape.getBoundsInLocal()));
+		return (s != null) && (s.getBoundsInParent().contains(this.shape.getBoundsInLocal()));
 	}
 
 	@Override
 	public Object getUserData() {
-		return userData;
+		return this.userData;
 	}
 
 	@Override
@@ -320,7 +319,7 @@ class SquareImageFeature implements JImageFeature {
 
 	@Override
 	public JImageFeatureLayer getImageFeatureLayer() {
-		return layer;
+		return this.layer;
 	}
 
 	@Override
@@ -339,7 +338,7 @@ class SquareImageFeature implements JImageFeature {
 		this.column = column;
 		this.color  = color;
 		
-		shape = new Rectangle(line - 10, column - 10, 20, 20);
+		this.shape = new Rectangle(line - 10, column - 10, 20, 20);
 	}
 
 }

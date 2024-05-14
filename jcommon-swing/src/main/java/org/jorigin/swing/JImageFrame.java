@@ -13,6 +13,7 @@ import java.util.Locale;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 import org.jorigin.Common;
 
@@ -71,7 +72,7 @@ public class JImageFrame extends JFrame {
     
     frame.setLocation(location);
     
-    frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     
     frame.setVisible(true);
   }
@@ -90,15 +91,15 @@ public class JImageFrame extends JFrame {
   public JImageFrame(BufferedImage image){
     super();
     
-    imagePanel = new JImagePanel(image);
+    this.imagePanel = new JImagePanel(image);
     
-    imageToolbar = new JImagePanelToolBar(imagePanel);
+    this.imageToolbar = new JImagePanelToolBar(this.imagePanel);
     
-    imagePixelFormat = NumberFormat.getNumberInstance(Locale.US);
-    imagePixelFormat.setMaximumFractionDigits(3);
+    this.imagePixelFormat = NumberFormat.getNumberInstance(Locale.US);
+    this.imagePixelFormat.setMaximumFractionDigits(3);
     
-    panelPixelFormat = NumberFormat.getNumberInstance(Locale.US);
-    panelPixelFormat.setMaximumFractionDigits(0);
+    this.panelPixelFormat = NumberFormat.getNumberInstance(Locale.US);
+    this.panelPixelFormat.setMaximumFractionDigits(0);
     
     initGUI();
     
@@ -117,15 +118,15 @@ public class JImageFrame extends JFrame {
     setTitle(title);
     setSize(size);
     
-    imagePanel = new JImagePanel(image);
+    this.imagePanel = new JImagePanel(image);
     
-    imageToolbar = new JImagePanelToolBar(imagePanel);
+    this.imageToolbar = new JImagePanelToolBar(this.imagePanel);
     
-    imagePixelFormat = NumberFormat.getNumberInstance(Locale.US);
-    imagePixelFormat.setMaximumFractionDigits(3);
+    this.imagePixelFormat = NumberFormat.getNumberInstance(Locale.US);
+    this.imagePixelFormat.setMaximumFractionDigits(3);
     
-    panelPixelFormat = NumberFormat.getNumberInstance(Locale.US);
-    panelPixelFormat.setMaximumFractionDigits(0);
+    this.panelPixelFormat = NumberFormat.getNumberInstance(Locale.US);
+    this.panelPixelFormat.setMaximumFractionDigits(0);
     
     initGUI();
     
@@ -137,18 +138,18 @@ public class JImageFrame extends JFrame {
    */
   protected void initGUI(){
     
-    imagePanel.addMouseMotionListener(new MouseMotionListener(){
+    this.imagePanel.addMouseMotionListener(new MouseMotionListener(){
 
       @Override
       public void mouseDragged(MouseEvent e) {
-        panelCoordTF.setText("("+panelPixelFormat.format(e.getX())+", "+panelPixelFormat.format(e.getY())+")");
+        JImageFrame.this.panelCoordTF.setText("("+JImageFrame.this.panelPixelFormat.format(e.getX())+", "+JImageFrame.this.panelPixelFormat.format(e.getY())+")");
         
-        Point2D imageCoord = imagePanel.getImageCoordinate(e.getX(), e.getY());
+        Point2D imageCoord = JImageFrame.this.imagePanel.getImageCoordinate(e.getX(), e.getY());
         
         if (imageCoord != null){
-          imageCoordTF.setText("("+imagePixelFormat.format(imageCoord.getX())+", "+imagePixelFormat.format(imageCoord.getY())+")");
+          JImageFrame.this.imageCoordTF.setText("("+JImageFrame.this.imagePixelFormat.format(imageCoord.getX())+", "+JImageFrame.this.imagePixelFormat.format(imageCoord.getY())+")");
         } else {
-          imageCoordTF.setText("(Out of bounds)");
+          JImageFrame.this.imageCoordTF.setText("(Out of bounds)");
         }
         
         
@@ -156,45 +157,45 @@ public class JImageFrame extends JFrame {
 
       @Override
       public void mouseMoved(MouseEvent e) {
-        panelCoordTF.setText("("+panelPixelFormat.format(e.getX())+", "+panelPixelFormat.format(e.getY())+")");
+        JImageFrame.this.panelCoordTF.setText("("+JImageFrame.this.panelPixelFormat.format(e.getX())+", "+JImageFrame.this.panelPixelFormat.format(e.getY())+")");
         
-        Point2D imageCoord = imagePanel.getImageCoordinate(e.getX(), e.getY());
+        Point2D imageCoord = JImageFrame.this.imagePanel.getImageCoordinate(e.getX(), e.getY());
         
         if (imageCoord != null){
-          imageCoordTF.setText("("+imagePixelFormat.format(imageCoord.getX())+", "+imagePixelFormat.format(imageCoord.getY())+")");
+          JImageFrame.this.imageCoordTF.setText("("+JImageFrame.this.imagePixelFormat.format(imageCoord.getX())+", "+JImageFrame.this.imagePixelFormat.format(imageCoord.getY())+")");
         } else {
-          imageCoordTF.setText("(Out of bounds)");
+          JImageFrame.this.imageCoordTF.setText("(Out of bounds)");
         }
       }
       
     });
     
-    northPanel = new JPanel();
-    northPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
+    this.northPanel = new JPanel();
+    this.northPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
     
-    southPanel = new JPanel();
-    southPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
+    this.southPanel = new JPanel();
+    this.southPanel.setLayout(new FlowLayout(FlowLayout.LEADING));
     
-    panelCoordLB = new JLabel("Panel coords: ");
-    panelCoordTF = new JLabel("");
+    this.panelCoordLB = new JLabel("Panel coords: ");
+    this.panelCoordTF = new JLabel("");
     
-    imageCoordLB = new JLabel("Image coords: ");
-    imageCoordTF = new JLabel("");
+    this.imageCoordLB = new JLabel("Image coords: ");
+    this.imageCoordTF = new JLabel("");
     
     
     
     getContentPane().setLayout(new BorderLayout());
     
-    northPanel.add(imageToolbar);
+    this.northPanel.add(this.imageToolbar);
 
-    southPanel.add(panelCoordLB);
-    southPanel.add(panelCoordTF);
-    southPanel.add(imageCoordLB);
-    southPanel.add(imageCoordTF);
+    this.southPanel.add(this.panelCoordLB);
+    this.southPanel.add(this.panelCoordTF);
+    this.southPanel.add(this.imageCoordLB);
+    this.southPanel.add(this.imageCoordTF);
     
-    getContentPane().add(imagePanel, BorderLayout.CENTER);
-    getContentPane().add(northPanel, BorderLayout.NORTH);
-    getContentPane().add(southPanel, BorderLayout.SOUTH);
+    getContentPane().add(this.imagePanel, BorderLayout.CENTER);
+    getContentPane().add(this.northPanel, BorderLayout.NORTH);
+    getContentPane().add(this.southPanel, BorderLayout.SOUTH);
     
     
   }
@@ -203,7 +204,7 @@ public class JImageFrame extends JFrame {
    * Refresh of the Graphical User Interface components.
    */
   protected void refreshGUI(){
-    imageToolbar.refreshGUI();
+    this.imageToolbar.refreshGUI();
   }
   
   /**
@@ -212,7 +213,7 @@ public class JImageFrame extends JFrame {
    * @see #setImage(BufferedImage)
    */
   public BufferedImage getImage(){
-    return imagePanel.getImage();
+    return this.imagePanel.getImage();
   }
   
   /**
@@ -221,7 +222,7 @@ public class JImageFrame extends JFrame {
    * @see #getImage()
    */
   public void setImage(BufferedImage image){
-    imagePanel.setImage(image);
+    this.imagePanel.setImage(image);
   }
   
   /**
@@ -234,7 +235,7 @@ public class JImageFrame extends JFrame {
    * @see #setImageFeatures(String, List)
    */
   public List<JImageFeature> getImageFeatures(String layer){
-    return imagePanel.getImageFeatures(layer);
+    return this.imagePanel.getImageFeatures(layer);
   }
   
   /**
@@ -244,7 +245,7 @@ public class JImageFrame extends JFrame {
    * @see #getImageFeatures(String)
    */
   public void setImageFeatures(String layer, List<JImageFeature> features){
-    imagePanel.setImageFeatures(layer, features);
+    this.imagePanel.setImageFeatures(layer, features);
   }
   
   /**
@@ -254,7 +255,7 @@ public class JImageFrame extends JFrame {
    * @see #setLayerDisplayed(String, boolean)
    */
   public boolean isLayerDisplayed(String layer) {
-	  return imagePanel.isLayerDisplayed(layer);
+	  return this.imagePanel.isLayerDisplayed(layer);
   }
   
   /**
@@ -264,7 +265,7 @@ public class JImageFrame extends JFrame {
    * @see #isLayerDisplayed(String)
    */
   public void setLayerDisplayed(String layer, boolean displayed) {
-	  imagePanel.setLayerDisplayed(layer, displayed);
+	  this.imagePanel.setLayerDisplayed(layer, displayed);
   }
   
   /**
@@ -274,7 +275,7 @@ public class JImageFrame extends JFrame {
    * @see #fit()
    */
   public boolean isAutoFit() {
-    return imagePanel.isAutoFit();
+    return this.imagePanel.isAutoFit();
   }
   
   /**
@@ -284,14 +285,14 @@ public class JImageFrame extends JFrame {
    * @see #fit()
    */
   public void setAutoFit(boolean autoFit) {
-    imagePanel.setAutoFit(autoFit);
+    this.imagePanel.setAutoFit(autoFit);
   }
   
   /**
    * Fit the actual view to display the whole image.
    */
   public void fit(){
-    imagePanel.fit();
+    this.imagePanel.fit();
   }
 }
 
