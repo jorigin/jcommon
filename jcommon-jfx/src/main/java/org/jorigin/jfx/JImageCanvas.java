@@ -714,41 +714,37 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 */			
 			
 			// Save the current translation component of the affine transform
-			Point2D tmpTranslation = new Point2D(this.viewTransform.getTx(), this.viewTransform.getTy());
+			Point2D origTranslation = new Point2D(this.viewTransform.getTx(), this.viewTransform.getTy());
 
 			try {
 				
 				
-				// 1. Set the new rotation angle
-				//    Ensure that the angle is between 180 / -180°
-				double normalizedAngle = angle - (Math.ceil((angle + 180)/360)-1)*360;           // (-180;180]:
-				
-				//    Set the new angle of rotation to its normalized value
-				Point2D pivot = new Point2D(getImage().getWidth()/2.0d, getImage().getHeight()/2.0d);
-				
-				this.viewRotation.setAngle(normalizedAngle);
-				//this.viewRotation.setPivotX(pivot.getX());
-				//this.viewRotation.setPivotY(pivot.getY());
-				
-				// 2. Restore original translation
+				// 1. Restore original translation
 				Affine tmpTransform = new Affine();
 				tmpTransform.setToIdentity();       // temporary affine transform has to be recomputed has 
 				tmpTransform.append(this.viewScale);     // the rotation component has changed
 				tmpTransform.append(this.viewRotation);
 				
-				tmpTranslation = tmpTransform.inverseTransform(tmpTranslation);
+				Point2D invTranslation = tmpTransform.inverseTransform(origTranslation);
 				
-				System.out.println("[Translation (x, y)]       "+this.viewTranslation.getX()+", "+this.viewTranslation.getY());
-				System.out.println("[Translation (Tx, Ty)]     "+this.viewTranslation.getTx()+", "+this.viewTranslation.getTy());
-				System.out.println("[Transform   (Tx, Ty)]     "+this.viewTransform.getTx()+", "+this.viewTransform.getTy());
-				System.out.println("[Inv Transform   (Tx, Ty)] "+tmpTranslation.getX()+", "+tmpTranslation.getY());
+				// 2. Set the new rotation angle
+				//    Ensure that the angle is between 180 / -180°
+				double normalizedAngle = angle - (Math.ceil((angle + 180)/360)-1)*360;           // (-180;180]:
 				
-				System.out.println();
+				//    Set the new angle of rotation to its normalized value
+				Point2D rotTranslation = this.viewRotation.inverseTransform(viewTranslation.getTx(), viewTranslation.getTy());
+				Point2D pivot = new Point2D(rotTranslation.getX()+getImage().getWidth()/2.0d, rotTranslation.getY()+getImage().getHeight()/2.0d);
 				
-				this.viewTranslation.setX(tmpTranslation.getX());
-				this.viewTranslation.setY(tmpTranslation.getY());
+				//    Update rotation transform
+				this.viewRotation.setAngle(normalizedAngle);
+				this.viewRotation.setPivotX(pivot.getX());
+				this.viewRotation.setPivotY(pivot.getY());
 
-				// 3. Update the global affine transform
+				// 3. Restore translation			
+				this.viewTranslation.setX(invTranslation.getX());
+				this.viewTranslation.setY(invTranslation.getY());
+
+				// 4. Update the global affine transform
 				viewTransformUpdate();
 				
 			} catch (NonInvertibleTransformException e) {
