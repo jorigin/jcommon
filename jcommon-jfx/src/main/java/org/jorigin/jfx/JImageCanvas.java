@@ -412,13 +412,13 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 
 		this.selectionShapeStroke = new Color(0.8d, 0.8d, 0.0d, 1.0d);
 
-		this.viewTransform = new Affine();
-
 		this.viewRotation = new Rotate();
 
 		this.viewScale = new Scale();
 
 		this.viewTranslation = new Translate();
+		
+		this.viewTransform = new Affine();
 		
 		this.viewTranslationClipping = new SimpleBooleanProperty(true);
 		
@@ -693,25 +693,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 		
 		// TODO Add rotation pivot setting
 		
-		if ((this.viewRotation != null) && (this.viewRotation.getAngle() != angle) && (Double.isFinite(angle) && (this.image != null))){
-/*			
-			// 1. Set the new rotation angle
-			//    Ensure that the angle is between 180 / -180°
-			double normalizedAngle = angle - (Math.ceil((angle + 180)/360)-1)*360;           // (-180;180]:
-			
-			//    Set the new angle of rotation to its normalized value
-			//Point2D pivot = getViewCoordinate(getImage().getWidth()/2.0d, getImage().getHeight()/2.0d);
-			Point2D pivot = new Point2D(getImage().getWidth()/2.0d, getImage().getHeight()/2.0d);
-			
-			Point2D translation = new Point2D(this.viewTranslation.getTx(), this.viewTranslation.getTy());
-
-			this.viewRotation.setAngle(normalizedAngle);
-			this.viewRotation.setPivotX(translation.getX() + pivot.getX());
-			this.viewRotation.setPivotY(translation.getY() + pivot.getY());
-			
-			// 2. Update the global affine transform
-			viewTransformUpdate();
-*/			
+		if ((this.viewRotation != null) && (this.viewRotation.getAngle() != angle) && (Double.isFinite(angle) && (this.image != null))){		
 			
 			// Save the current translation component of the affine transform
 			Point2D origTranslation = new Point2D(this.viewTransform.getTx(), this.viewTransform.getTy());
@@ -732,7 +714,7 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 				double normalizedAngle = angle - (Math.ceil((angle + 180)/360)-1)*360;           // (-180;180]:
 				
 				//    Set the new angle of rotation to its normalized value
-				Point2D rotTranslation = this.viewRotation.inverseTransform(viewTranslation.getTx(), viewTranslation.getTy());
+				Point2D rotTranslation = this.viewRotation.inverseTransform(viewTranslation.getX(), viewTranslation.getY());
 				Point2D pivot = new Point2D(rotTranslation.getX()+getImage().getWidth()/2.0d, rotTranslation.getY()+getImage().getHeight()/2.0d);
 				
 				//    Update rotation transform
@@ -740,9 +722,10 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 				this.viewRotation.setPivotX(pivot.getX());
 				this.viewRotation.setPivotY(pivot.getY());
 
-				// 3. Restore translation			
-				this.viewTranslation.setX(invTranslation.getX());
-				this.viewTranslation.setY(invTranslation.getY());
+				// 3. Restore translation
+				
+				//this.viewTranslation.setX(invTranslation.getX());
+				//this.viewTranslation.setY(invTranslation.getY());
 
 				// 4. Update the global affine transform
 				viewTransformUpdate();
@@ -1667,29 +1650,30 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 * Update the view transform according to the transformation components.
 	 */
 	private void viewTransformUpdate() {
-		this.viewTransform.setToIdentity();
 
+		// Recompute the global canvas transform
+		this.viewTransform.setToIdentity();
 		
 		this.viewTransform.append(this.viewScale);
 		this.viewTransform.append(this.viewRotation);
 		this.viewTransform.append(this.viewTranslation);
-/*
-		System.out.println("Scale");
-		System.out.println("  - x     : "+viewScale.getX());
-		System.out.println("  - y     : "+viewScale.getY());
-		System.out.println("  - Pivot : ("+viewScale.getPivotX()+", "+viewScale.getPivotY()+", "+viewScale.getPivotZ()+")");
-		System.out.println("Rotation");
-		System.out.println("  - Angle : "+viewRotation.getAngle());
-		System.out.println("  - Axis  : "+viewRotation.getAxis());
-		System.out.println("  - Pivot : ("+viewRotation.getPivotX()+", "+viewRotation.getPivotY()+", "+viewRotation.getPivotZ()+")");
-		System.out.println("Translation");
-		System.out.println("  - Vector : ("+viewTranslation.getX()+", "+viewTranslation.getY()+", "+viewTranslation.getZ()+")");
-		System.out.println("");
-		System.out.println("[ "+viewTransform.getMxx()+" "+viewTransform.getMxy()+" "+viewTransform.getMxz()+ " "+viewTransform.getTx()+" ]");
-		System.out.println("[ "+viewTransform.getMyx()+" "+viewTransform.getMyy()+" "+viewTransform.getMyz()+ " "+viewTransform.getTy()+" ]");
-		System.out.println("[ "+viewTransform.getMzx()+" "+viewTransform.getMzy()+" "+viewTransform.getMzz()+ " "+viewTransform.getTz()+" ]");
-		System.out.println("[ "+0.0d+" "+0.0d+" "+0.0d+ " "+1.0d+" ]");
-*/		
+
+		Common.logger.log(Level.FINE, "Scale");
+		Common.logger.log(Level.FINE, "  - x     : "+viewScale.getX());
+		Common.logger.log(Level.FINE, "  - y     : "+viewScale.getY());
+		Common.logger.log(Level.FINE, "  - Pivot : ("+viewScale.getPivotX()+", "+viewScale.getPivotY()+", "+viewScale.getPivotZ()+")");
+		Common.logger.log(Level.FINE, "Rotation");
+		Common.logger.log(Level.FINE, "  - Angle : "+viewRotation.getAngle());
+		Common.logger.log(Level.FINE, "  - Axis  : "+viewRotation.getAxis());
+		Common.logger.log(Level.FINE, "  - Pivot : ("+viewRotation.getPivotX()+", "+viewRotation.getPivotY()+", "+viewRotation.getPivotZ()+")");
+		Common.logger.log(Level.FINE, "Translation");
+		Common.logger.log(Level.FINE, "  - Vector : ("+viewTranslation.getX()+", "+viewTranslation.getY()+", "+viewTranslation.getZ()+")");
+		Common.logger.log(Level.FINE, "");
+		Common.logger.log(Level.FINE, "[ "+viewTransform.getMxx()+" "+viewTransform.getMxy()+" "+viewTransform.getMxz()+ " "+viewTransform.getTx()+" ]");
+		Common.logger.log(Level.FINE, "[ "+viewTransform.getMyx()+" "+viewTransform.getMyy()+" "+viewTransform.getMyz()+ " "+viewTransform.getTy()+" ]");
+		Common.logger.log(Level.FINE, "[ "+viewTransform.getMzx()+" "+viewTransform.getMzy()+" "+viewTransform.getMzz()+ " "+viewTransform.getTz()+" ]");
+		Common.logger.log(Level.FINE, "[ "+0.0d+" "+0.0d+" "+0.0d+ " "+1.0d+" ]");
+	
 		
 		setNeedRefresh(true);
 
