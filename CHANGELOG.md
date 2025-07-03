@@ -1,5 +1,11 @@
 # Changelog
 
+## [2.0.0] (https://github.com/jorigin/jcommon/releases/tag/release-2.0.0)
+### Changed
+ - Updading release management
+ - Updating JFX module to JFX 21
+ - Updating JDK version to 17
+
 ## [1.0.14](https://github.com/jorigin/jcommon/releases/tag/release-1.0.14)
 ### Added
  - Added `org.jorigin.device.DeficeInfo` interface for handling manufactured devices metadata
