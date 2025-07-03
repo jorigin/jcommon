@@ -1,5 +1,5 @@
 # jorigin-common
-Jaba based common tools and API
+Java based common tools and API
 
 Jorigin Common
 

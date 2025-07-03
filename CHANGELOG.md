@@ -1,6 +1,6 @@
 # Changelog
 
-## [2.0.0] (https://github.com/jorigin/jcommon/releases/tag/release-2.0.0)
+## [2.0.0] (https://github.com/jorigin/jcommon/releases/tag/jcommon-2.0.0)
 ### Changed
  - Updading release management
  - Updating JFX module to JFX 21
