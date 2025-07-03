@@ -4,7 +4,7 @@
 
 	<groupId>org.jorigin</groupId>
 	<artifactId>jcommon</artifactId>
-	<version>2.0.2-SNAPSHOT</version>
+	<version>2.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>JCommon</name>
@@ -43,18 +43,18 @@
 		<maven.compiler.release>17</maven.compiler.release>
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
-    
-		<maven.plugin.compiler.version>3.8.1</maven.plugin.compiler.version>
-		<maven.plugin.deploy.version>3.0.0-M1</maven.plugin.deploy.version>
-		<maven.plugin.javadoc.version>3.2.0</maven.plugin.javadoc.version>
-		<maven.plugin.release.version>3.0.0-M4</maven.plugin.release.version>
-		<maven.plugin.nexus.version>1.6.8</maven.plugin.nexus.version>
-		<maven.plugin.source.version>3.2.0</maven.plugin.source.version>
-		<maven.plugin.scm-provider-gitexe.version>1.11.2</maven.plugin.scm-provider-gitexe.version>
-		<maven.plugin.surefire.version>3.0.0</maven.plugin.surefire.version>
+
+		<maven.plugin.compiler.version>3.14.0</maven.plugin.compiler.version>
+		<maven.plugin.deploy.version>3.1.4</maven.plugin.deploy.version>
+		<maven.plugin.javadoc.version>3.11.2</maven.plugin.javadoc.version>
+		<maven.plugin.release.version>3.1.1</maven.plugin.release.version>
+		<maven.plugin.publishing.version>0.8.0</maven.plugin.publishing.version>
+		<maven.plugin.source.version>3.3.1</maven.plugin.source.version>
+		<maven.plugin.scm-provider-gitexe.version>2.1.0</maven.plugin.scm-provider-gitexe.version>
+		<maven.plugin.surefire.version>3.5.3</maven.plugin.surefire.version>
 		
 		<junit.platform.version>1.9.2</junit.platform.version>
-		<junit.jupiter.version>5.9.2</junit.jupiter.version>
+		<junit.jupiter.version>5.13.1</junit.jupiter.version>
 	</properties>
 
 	<modules>
@@ -67,12 +67,12 @@
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<url>https://ossrh-staging-api.central.sonatype.com/service/local/</url>
 		</snapshotRepository>
 
 		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+			<id>ossrh-staging-api</id>
+			<url>https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/</url>
 		</repository>
 	</distributionManagement>
 
@@ -216,7 +216,7 @@
 			<plugin>
 				<groupId>org.sonatype.central</groupId>
 				<artifactId>central-publishing-maven-plugin</artifactId>
-				<version>0.8.0</version>
+				<version>${maven.plugin.publishing.version}</version>
 				<extensions>true</extensions>
 				<configuration>
 					<publishingServerId>central</publishingServerId>
