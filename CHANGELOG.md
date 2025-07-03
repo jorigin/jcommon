@@ -5,6 +5,7 @@
  - Added `org.jorigin.device.DeficeInfo` interface for handling manufactured devices metadata
  - Added `org.jorigin.device.SimpleDeficeInfo` class for handling manufactured devices metadata
  - Added new icon set for GUI components
+ - Added `org.jorigin.state.HandleFocus` interface for handling focus related states
 
 ### Changed
  - Refactored package `org.jorigin.gui` into `org.jorigin.swing`
@@ -15,6 +16,7 @@
  - IconLoader can now load icons from Jar files or specified directory
  - JMemoryStateBar can be stopped / restarted
  - Corrected inconsistents Javadoc @author
+ - Modified `org.jorigin.state.HandleState` interface for handling focus related states
 
 ## [1.0.13](https://github.com/jorigin/jcommon/releases/tag/release-1.0.13)
 ### Changed

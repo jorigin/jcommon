@@ -43,7 +43,9 @@ import javafx.scene.transform.Translate;
 
 /**
  * A JavaFX canvas that can display images.
- * @author Julien Seinturier - IVM Technologies - http://www.seinturier.fr
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
+ * @version {@value Common#version} - b{@value Common#BUILD}
+ * @since 1.0.11
  */
 public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 

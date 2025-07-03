@@ -205,39 +205,23 @@ class SquareImageFeature implements JImageFeature {
 
 	private Color selectedStroke = Color.CYAN;
 	
-	private boolean selectable = true;
-
-	private boolean selected = false;
-
 	private boolean displayable = true;
 
 	private boolean displaying = true;
+	
+	private boolean focusable = true;
+
+	private boolean focused = false;
+	
+	private boolean selectable = true;
+
+	private boolean selected = false;
 
 	private Object userData = null;
 
 	private Rectangle shape = null;
 	
 	private JImageFeatureLayer layer = null;
-
-	@Override
-	public boolean isStateSelectable() {
-		return this.selectable;
-	}
-
-	@Override
-	public void setStateSelectable(boolean selectable) {
-		this.selectable = selectable;
-	}
-
-	@Override
-	public boolean isStateSelected() {
-		return this.selected;
-	}
-
-	@Override
-	public void setStateSelected(boolean selected) {
-		this.selected = selected;
-	}
 
 	@Override
 	public boolean isStateDisplaying() {
@@ -257,6 +241,46 @@ class SquareImageFeature implements JImageFeature {
 	@Override
 	public void setStateDisplayable(boolean displayable) {
 		this.displayable = displayable;
+	}
+	
+	@Override
+	public boolean isStateFocusable() {
+		return this.focusable;
+	}
+
+	@Override
+	public void setStateFocusable(boolean focusable) {
+		this.focusable = focusable;
+	}
+	
+	@Override
+	public boolean isStateFocused() {
+		return this.focused;
+	}
+
+	@Override
+	public void setStateFocused(boolean focused) {
+		this.focused = focused;
+	}
+	
+	@Override
+	public boolean isStateSelectable() {
+		return this.selectable;
+	}
+
+	@Override
+	public void setStateSelectable(boolean selectable) {
+		this.selectable = selectable;
+	}
+
+	@Override
+	public boolean isStateSelected() {
+		return this.selected;
+	}
+
+	@Override
+	public void setStateSelected(boolean selected) {
+		this.selected = selected;
 	}
 
 	@Override

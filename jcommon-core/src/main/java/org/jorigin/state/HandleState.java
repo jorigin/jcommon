@@ -13,17 +13,22 @@ public interface HandleState {
 	/**
 	 * An integer that represents the activation of an item.
 	 */
-	public static int STATE_ACTIVE    = 1;
-	
-	/**
-	 * An integer that represents the selection of an item.
-	 */
-	public static int STATE_SELECTED  = 2;
+	public static final int STATE_ACTIVE    = 1;
 	
 	/**
 	 * An integer that represents the display of an item.
 	 */
-	public static int STATE_DISPLAYED = 4;
+	public static final int STATE_DISPLAYED = 4;
+	
+	/**
+	 * An integer that represents the focus of an item.
+	 */
+	public static final int STATE_FOCUSED   = 4;
+	
+	/**
+	 * An integer that represents the selection of an item.
+	 */
+	public static final int STATE_SELECTED  = 5;
 	
 	/**
 	 * Get the state of the item as an integer value. 

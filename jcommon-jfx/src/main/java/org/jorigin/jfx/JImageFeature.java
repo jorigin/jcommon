@@ -1,6 +1,8 @@
 package org.jorigin.jfx;
 
+import org.jorigin.Common;
 import org.jorigin.state.HandleDisplay;
+import org.jorigin.state.HandleFocus;
 import org.jorigin.state.HandleSelection;
 
 import javafx.scene.canvas.GraphicsContext;
@@ -9,19 +11,20 @@ import javafx.scene.transform.Affine;
 
 /**
  * An image feature that can be displayed within a {@link JImageCanvas JImageCanvas}.
- * @author Julien Seinturier - IVM Technologies - http://www.seinturier.fr
- * @version 1.0.0
+ * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
+ * @version {@value Common#version} - b{@value Common#BUILD}
+ * @since 1.0.11
  */
-public interface JImageFeature extends HandleSelection, HandleDisplay{
+public interface JImageFeature extends HandleDisplay, HandleFocus, HandleSelection{
 
 	/**
 	 * Draw this feature on the given {@link GraphicsContext graphic context}. The given graphic context is related to the original image space. 
 	 * The transformation applied to the current display is given as <code>transform</code> and can be used to 
 	 * avoid rotation or scale for feature that have constant size or orientation (for example text features). 
-	 * @param g2d a graphic context expressed within image space.
+	 * @param context a graphic context expressed within image space.
 	 * @param transform the transform applied to the view within the {@link JImageCanvas JImageCanvas}.
 	 */
-	public void draw(GraphicsContext g2d, Affine transform);
+	public void draw(GraphicsContext context, Affine transform);
 
 	/**
 	 * Check if the point described by the given coordinates (<code>x</code>, <code>y</code>) is inside the feature. 
