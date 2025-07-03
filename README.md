@@ -7,22 +7,16 @@ Jorigin Common
 Edit the maven settings file (by default located at ~/.m2/settings.xml) and add following entries:
 ```xml
 <settings>
-  <servers>
-    <server>
-      <id>ossrh</id>
-      <username>${nexus.user}</username>
-      <password>${nexus.password}</password>
-    </server>
-  </servers>
-  
-  <profiles>
-    <profile>
-      <id>ossrh</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-    </profile>
-  </profiles>
+	
+	<!-- Maven Central publishing using a token from -->
+	<!-- https://central.sonatype.com/ -->
+	<servers>
+		<server>
+			<id>central</id>
+			<username>YOUR TOKEN ID</username>
+			<password>YOUR TOKEN PASS</password>
+		</server>
+	</servers>
 </settings>
 ```
 Make then the following actions.
