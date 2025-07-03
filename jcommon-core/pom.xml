@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.jorigin</groupId>
 		<artifactId>jcommon</artifactId>
-		<version>2.0.0</version>
+		<version>2.0.1-SNAPSHOT</version>
 	</parent>
 
 	<!-- <groupId>org.jorigin</groupId> -->
@@ -61,7 +61,7 @@
 
 	<scm>
 		<connection>scm:git:git://github.com/jorigin/jcommon.git</connection>
-		<developerConnection>scm:git:git@github.com:jorigin/jcommon.git</developerConnection>
+		<developerConnection>scm:git:git@github.com:jorigin/jorigin.git</developerConnection>
 		<url>https://github.com/jorigin/jcommon</url>
 		<tag>jcommon-2.0.0</tag>
 	</scm>
