@@ -18,9 +18,17 @@ import javafx.stage.Stage;
  */
 public class JImageCanvasSample01 extends Application{
 
+	/**
+	 * The default constructor
+	 */
+	public JImageCanvasSample01() {
+		// Default constructor
+	}
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-System.out.println(System.getProperty("user.dir"));
+		
+		System.out.println(System.getProperty("user.dir"));
 		// Take a screenshot
 		Rectangle2D screenBounds = Screen.getPrimary().getBounds();
 		

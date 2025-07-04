@@ -35,6 +35,13 @@ import javafx.stage.Stage;
  */
 public class JImagePaneSample extends Application{
 
+	/**
+	 * The default constructor.
+	 */
+	public JImagePaneSample() {
+		// Default constructor
+	}
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
@@ -195,32 +202,48 @@ public class JImagePaneSample extends Application{
 	}
 }
 
+/**
+ * A simple {@link JImageFeature} implementation that draws a square.
+ */
 class SquareImageFeature implements JImageFeature {
 
+	/** The thickness of a line.*/
 	private double line = 0;
-
+	
+	/** The column of the feature.*/
 	private double column = 0;
 
+	/** The color of the feature.*/
 	private Color color = Color.AZURE; 
 
+	/** The stroke color when the feature is selected.*/
 	private Color selectedStroke = Color.CYAN;
 	
+	/** Is the feature can be displayed. */
 	private boolean displayable = true;
 
+	/** Is the feature is displayed. */
 	private boolean displaying = true;
 	
+	/** Is the feature can be focused. */
 	private boolean focusable = true;
 
+	/** Is the feature is focused. */
 	private boolean focused = false;
 	
+	/** Is the feature can be selected. */
 	private boolean selectable = true;
 
+	/** Is the feature is selected. */
 	private boolean selected = false;
 
+	/** The object (user data) associated with the feature. */
 	private Object userData = null;
 
+	/** The shape of the feature. */
 	private Rectangle shape = null;
 	
+	/** The layer that contains this feature. */
 	private JImageFeatureLayer layer = null;
 
 	@Override

@@ -13,8 +13,8 @@
 
     You should have received a copy of the GNU General Public License
     along with JOrigin Common.  If not, see <http://www.gnu.org/licenses/>.
-    
-*/
+
+ */
 package org.jorigin.lang.xml;
 
 import java.io.IOException;
@@ -40,129 +40,129 @@ import org.xml.sax.XMLReader;
  */
 public class LangResourceXMLReader{
 
-  //Liste des écouteurs informés des evenements du panneau
+	//Liste des écouteurs informés des evenements du panneau
 	/**
 	 * The attached listeners.
 	 */
-  protected EventListenerList idListenerList = new EventListenerList();
+	protected EventListenerList idListenerList = new EventListenerList();
 
-  /**
-   * The underlying lang resource.
-   */
-  protected LangResource resource = null;
+	/**
+	 * The underlying lang resource.
+	 */
+	protected LangResource resource = null;
 
-  /**
-   * The URI of the underlying lang resource.
-   */
-  String uri = null;
+	/**
+	 * The URI of the underlying lang resource.
+	 */
+	String uri = null;
 
-  /**
-   * The working activity state.
-   */
-  boolean working = false;
+	/**
+	 * The working activity state.
+	 */
+	boolean working = false;
 
-  /**
-   * Create a new XML language resource reader.
-   */
-  public LangResourceXMLReader(){
-    super();
-    this.uri = null;
-  }
+	/**
+	 * Create a new XML language resource reader.
+	 */
+	public LangResourceXMLReader(){
+		super();
+		this.uri = null;
+	}
 
-  /**
-   * Create a new XML language resource reader.
-   * @param uri the uri of the XML document to read.
-   */
-  public LangResourceXMLReader(String uri){
-    super();
-    this.uri = uri;
-  }
+	/**
+	 * Create a new XML language resource reader.
+	 * @param uri the uri of the XML document to read.
+	 */
+	public LangResourceXMLReader(String uri){
+		super();
+		this.uri = uri;
+	}
 
-  //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-  //AA ACCESSEURS                                                             AA
-  //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-  /**
-   * Set the URI of the the XML document to read.
-   * @param uri the URI of the the XML document to read.
-   * @see #getUri()
-   */
-  public void setUri(String uri){
-    this.uri = uri;
-  }
+	//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+	//AA ACCESSEURS                                                             AA
+	//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+	/**
+	 * Set the URI of the the XML document to read.
+	 * @param uri the URI of the the XML document to read.
+	 * @see #getUri()
+	 */
+	public void setUri(String uri){
+		this.uri = uri;
+	}
 
-  /**
-   * Get the URI of the the XML document to read.
-   * @return the URI of the the XML document to read.
-   * @see #setUri(String)
-   */
-  public String getUri(){
-    return this.uri;
-  }
+	/**
+	 * Get the URI of the the XML document to read.
+	 * @return the URI of the the XML document to read.
+	 * @see #setUri(String)
+	 */
+	public String getUri(){
+		return this.uri;
+	}
 
-  /**
-   * Get the {@link org.jorigin.lang.LangResource language resource} read by this object.
-   * @return the {@link org.jorigin.lang.LangResource language resource} read by this object.
-   */
-  public LangResource getResource(){
-    return this.resource;
-  }
+	/**
+	 * Get the {@link org.jorigin.lang.LangResource language resource} read by this object.
+	 * @return the {@link org.jorigin.lang.LangResource language resource} read by this object.
+	 */
+	public LangResource getResource(){
+		return this.resource;
+	}
 
-  /**
-   * Get if the reader is currently working.
-   * @return <code>true</code> if the reader is currently working and <code>false</code> otherwise.
-   */
-  public boolean isWorking(){
-    return this.working;
-  }
-  //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-  //AA FIN ACCESSEURS                                                         AA
-  //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-  
-  /**
-   * Get the language resources read from the XML document where URI is given in parameter.
-   * @param uri the URI of the XML document than contains the language resources.
-   * @return the language resources.
-   * @throws IOException if an error occurs.
-   */
-  public HashMap<String, String> getParsedLangResource(String uri) throws
-  IOException {
+	/**
+	 * Get if the reader is currently working.
+	 * @return <code>true</code> if the reader is currently working and <code>false</code> otherwise.
+	 */
+	public boolean isWorking(){
+		return this.working;
+	}
+	//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+	//AA FIN ACCESSEURS                                                         AA
+	//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 
-    LangResourceContentHandler contentHandler = new LangResourceContentHandler();
-    ErrorHandler errorHandler = new LangResourceErrorHandler();
-    XMLReader parser = null;
-    LangResourceXMLFilter xmlFilterImpl = null;
+	/**
+	 * Get the language resources read from the XML document where URI is given in parameter.
+	 * @param uri the URI of the XML document than contains the language resources.
+	 * @return the language resources.
+	 * @throws IOException if an error occurs.
+	 */
+	public HashMap<String, String> getParsedLangResource(String uri) throws
+	IOException {
 
-    this.working = true;
+		LangResourceContentHandler contentHandler = new LangResourceContentHandler();
+		ErrorHandler errorHandler = new LangResourceErrorHandler();
+		XMLReader parser = null;
+		LangResourceXMLFilter xmlFilterImpl = null;
 
-    try {
-      SAXParserFactory factory = SAXParserFactory.newInstance();
-      factory.setNamespaceAware(true);
-      factory.setValidating(true);
-      
-      parser = factory.newSAXParser().getXMLReader();
-      xmlFilterImpl = new LangResourceXMLFilter(parser);
+		this.working = true;
 
-      // Enregistrement du gestionnaire de contenu auprès du parseur
-      xmlFilterImpl.setContentHandler(contentHandler);
+		try {
+			SAXParserFactory factory = SAXParserFactory.newInstance();
+			factory.setNamespaceAware(true);
+			factory.setValidating(true);
 
-      // Enregistrement du gestionnaire d'erreur auprès du parseur
-      xmlFilterImpl.setErrorHandler(errorHandler);
+			parser = factory.newSAXParser().getXMLReader();
+			xmlFilterImpl = new LangResourceXMLFilter(parser);
 
-      // Parcour le document
-      xmlFilterImpl.parse(uri);
-      
-    } catch (IOException ex) {
-      throw new IOException("No such file " + uri, ex);
-    } catch (SAXException ex){
-      throw new IOException(ex.getMessage() + "\nParsing " + uri, ex);
-    } catch (ParserConfigurationException ex) {
-      throw new IOException(ex.getMessage() + "\nUnable to configure parser for " + uri, ex);
-    }
+			// Enregistrement du gestionnaire de contenu auprès du parseur
+			xmlFilterImpl.setContentHandler(contentHandler);
 
-    this.working = false;
-    
-    return contentHandler.getResources();
-  }
+			// Enregistrement du gestionnaire d'erreur auprès du parseur
+			xmlFilterImpl.setErrorHandler(errorHandler);
+
+			// Parcour le document
+			xmlFilterImpl.parse(uri);
+
+		} catch (IOException ex) {
+			throw new IOException("No such file " + uri, ex);
+		} catch (SAXException ex){
+			throw new IOException(ex.getMessage() + "\nParsing " + uri, ex);
+		} catch (ParserConfigurationException ex) {
+			throw new IOException(ex.getMessage() + "\nUnable to configure parser for " + uri, ex);
+		}
+
+		this.working = false;
+
+		return contentHandler.getResources();
+	}
 
 }
 

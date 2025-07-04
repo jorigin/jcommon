@@ -43,6 +43,13 @@ import org.jorigin.Common;
  */
 public class SplashWindow extends JWindow { 
 
+	/**
+	 * Serial version UID.
+	 * <p>
+	 * This value is used to ensure that a serialized object can be deserialized
+	 * by the same class, even if the class has been modified since it was serialized.
+	 * </p>
+	 */
 	private static final long serialVersionUID = Common.BUILD;
 
 	/**

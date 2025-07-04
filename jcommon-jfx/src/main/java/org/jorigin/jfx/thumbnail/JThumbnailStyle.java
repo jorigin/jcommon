@@ -13,7 +13,7 @@ import javafx.scene.layout.Background;
  * @author Julien SEINTURIER - <a href="http://www.univ-tln.fr">Universit&eacute; de Toulon</a> / <a href="http://www.lis-lab.fr">CNRS LIS umr 7020</a> - <a href="https://github.com/jorigin/jcommon">github.com/jorigin/jcommon</a> (<a href="mailto:contact@jorigin.org">contact@jorigin.org</a>)
  */
 // TODO Implements JTjumbnailStyle name font property
-//TODO Implements JTjumbnailStyle selected name font property
+// TODO Implements JTjumbnailStyle selected name font property
 public class JThumbnailStyle {
 
 	// The property that set the {@link JThumbnail} width. By default this property is set to {@link Double#NaN}.
@@ -26,8 +26,8 @@ public class JThumbnailStyle {
 	// By default this property is set to {@link Double#NaN}.
 	private DoubleProperty thumbnailHGap = null;
 	
-	 // The property that set the vertical spacing between {@link JThumbnail} within the {@link JThumbnailPane}.
-	 // By default this property is set to {@link Double#NaN}
+	// The property that set the vertical spacing between {@link JThumbnail} within the {@link JThumbnailPane}. 
+	// By default this property is set to {@link Double#NaN}. 
 	private DoubleProperty thumbnailVGap = null;
 	
 	// The property that set if {@link JThumbnail} name has to be displayed.
@@ -43,29 +43,17 @@ public class JThumbnailStyle {
 	private ObjectProperty<Background> thumbnailNameBackground = null;
 	
 	// The property that set the {@link JThumbnail} global background. 
-	// @see #thumbnailFocusedBackground
-	// @see #thumbnailSelectedBackground
 	private ObjectProperty<Background> thumbnailBackground = null;
 	
 	// The property that set the {@link JThumbnailPane} background. 
 	private ObjectProperty<Background> thumbnailPaneBackground = null;
-		
-//////////////////////////////////////////////////////////////////
-// FOCUSED STATE PROPERTIES
-	 
+			 
 	// The property that set a focused {@link JThumbnail} global background. 
-	// @see #thumbnailBackground
-	// @see #thumbnailSelectedBackground
 	private ObjectProperty<Background> thumbnailFocusedBackground = null;
-//////////////////////////////////////////////////////////////////
 
-//////////////////////////////////////////////////////////////////
-// SELECTED STATE PROPERTIES
 	
 	// The property that set a selected {@link JThumbnail} global background.
 	// By default, this property holds the {@link Background#EMPTY} value.
-	// @see #thumbnailBackground
-	// @see #thumbnailFocusedBackground
 	private ObjectProperty<Background> thumbnailSelectedBackground = null;
 	
 	// The property that set the {@link JThumbnail} image background when it is selected.
@@ -73,9 +61,8 @@ public class JThumbnailStyle {
 	private ObjectProperty<Background> thumbnailSelectedImageBackground = null;
 	
 	// The property that set the {@link JThumbnail} name background when it is selected.
-	//  By default, this property holds the {@link Background#EMPTY} value.
+	// By default, this property holds the {@link Background#EMPTY} value.
 	private ObjectProperty<Background> thumbnailSelectedNameBackground = null;
-//////////////////////////////////////////////////////////////////
 	
 	/**
 	 * Create a new set of parameters that enable to control {@link JThumbnailPane} and {@link JThumbnail} display and layout.
@@ -188,7 +175,6 @@ public class JThumbnailStyle {
 	 * Set the thumbnail image background.
 	 * @param background the thumbnail image background
 	 * @see #getThumbnailImageBackground()
-	 * @see #thumbnailImageBackground
 	 */
 	public void setThumbnailImageBackground(Background background) {
 		this.thumbnailImageBackground.set(background);
@@ -218,7 +204,6 @@ public class JThumbnailStyle {
 	 * Set the thumbnail name background.
 	 * @param background the thumbnail name background
 	 * @see #getThumbnailNameBackground()
-	 * @see #thumbnailNameBackground
 	 */
 	public void setThumbnailNameBackground(Background background) {
 		this.thumbnailNameBackground.set(background);
@@ -238,7 +223,6 @@ public class JThumbnailStyle {
 	 * Get the thumbnail global background.
 	 * @return the thumbnail global background
 	 * @see #setThumbnailBackground(Background)
-	 * @see #thumbnailBackground
 	 */
 	public Background getThumbnailBackground() {
 		return this.thumbnailBackground.get();
@@ -248,7 +232,6 @@ public class JThumbnailStyle {
 	 * Set the thumbnail global background.
 	 * @param background the thumbnail global background
 	 * @see #getThumbnailBackground()
-	 * @see #thumbnailBackground
 	 */
 	public void setThumbnailBackground(Background background) {
 		this.thumbnailBackground.set(background);
@@ -268,7 +251,6 @@ public class JThumbnailStyle {
 	 * Get a focused thumbnail global background.
 	 * @return the focused thumbnail global background
 	 * @see #setThumbnailFocusedBackground(Background)
-	 * @see #thumbnailFocusedBackground
 	 */
 	public Background getThumbnailFocusedBackground() {
 		return this.thumbnailFocusedBackground.get();
@@ -278,7 +260,6 @@ public class JThumbnailStyle {
 	 * Set a focused thumbnail global background.
 	 * @param background the focused thumbnail global background
 	 * @see #getThumbnailFocusedBackground()
-	 * @see #thumbnailFocusedBackground
 	 */
 	public void setThumbnailFocusedBackground(Background background) {
 		this.thumbnailFocusedBackground.set(background);
@@ -308,7 +289,6 @@ public class JThumbnailStyle {
 	 * Set the selected thumbnail image background.
 	 * @param background the selected thumbnail image background
 	 * @see #getThumbnailSelectedImageBackground()
-	 * @see #thumbnailSelectedImageBackground
 	 */
 	public void setThumbnailSelectedImageBackground(Background background) {
 		this.thumbnailSelectedImageBackground.set(background);
@@ -328,7 +308,6 @@ public class JThumbnailStyle {
 	 * Get a selected thumbnail global background.
 	 * @return the selected thumbnail global background
 	 * @see #setThumbnailSelectedBackground(Background)
-	 * @see #thumbnailSelectedBackground
 	 */
 	public Background getThumbnailSelectedBackground() {
 		return this.thumbnailSelectedBackground.get();
@@ -338,7 +317,6 @@ public class JThumbnailStyle {
 	 * Set a selected thumbnail global background.
 	 * @param background the selected thumbnail global background
 	 * @see #getThumbnailSelectedBackground()
-	 * @see #thumbnailSelectedBackground
 	 */
 	public void setThumbnailSelectedBackground(Background background) {
 		this.thumbnailSelectedBackground.set(background);
@@ -369,7 +347,6 @@ public class JThumbnailStyle {
 	 * Set the desired horizontal spacing between {@link JThumbnail thumbnails}.
 	 * @param value the desired horizontal spacing between {@link JThumbnail thumbnails}.
 	 * @see #getThumbnailHGap()
-	 * @see #thumbnailHGap
 	 */
 	public void setThumbnailHGap(double value) {
 		this.thumbnailHGap.set(value);
@@ -380,7 +357,6 @@ public class JThumbnailStyle {
 	 * This property describe the desired vertical spacing between {@link JThumbnail thumbnails}.
 	 * @return the thumbnail vertical gap property
 	 * @see #getThumbnailVGap()
-	 * @see #thumbnailVGap
 	 */
 	public DoubleProperty thumbnailVGapProperty() {
 		return this.thumbnailVGap;
@@ -390,7 +366,6 @@ public class JThumbnailStyle {
 	 * Get the vertical spacing between {@link JThumbnail thumbnails}.
 	 * @return the vertical spacing between {@link JThumbnail thumbnails}.
 	 * @see #setThumbnailVGap(double)
-	 * @see #thumbnailVGap
 	 */
 	public double getThumbnailVGap() {
 		return this.thumbnailVGap.getValue().doubleValue();
@@ -400,7 +375,6 @@ public class JThumbnailStyle {
 	 * Set the desired vertical spacing between {@link JThumbnail thumbnails}.
 	 * @param value the desired vertical spacing between {@link JThumbnail thumbnails}.
 	 * @see #getThumbnailVGap()
-	 * @see #thumbnailVGap
 	 */
 	public void setThumbnailVGap(double value) {
 		this.thumbnailVGap.set(value);
@@ -420,7 +394,6 @@ public class JThumbnailStyle {
 	 * Get the thumbnail pane background.
 	 * @return the thumbnail pane background
 	 * @see #setThumbnailPaneBackground(Background)
-	 * @see #thumbnailPaneBackground
 	 */
 	public Background getThumbnailPaneBackground() {
 		return this.thumbnailPaneBackground.get();
@@ -430,7 +403,6 @@ public class JThumbnailStyle {
 	 * Set the thumbnail pane background.
 	 * @param background the thumbnail pane background
 	 * @see #getThumbnailPaneBackground()
-	 * @see #thumbnailPaneBackground
 	 */
 	public void setThumbnailPaneBackground(Background background) {
 		this.thumbnailPaneBackground.set(background);
@@ -488,7 +460,6 @@ public class JThumbnailStyle {
 	 * Set the thumbnail name background when it is selected.
 	 * @param background the thumbnail name background when it is selected
 	 * @see #getThumbnailSelectedNameBackground()
-	 * @see #thumbnailSelectedNameBackground
 	 */
 	public void setThumbnailSelectedNameBackground(Background background) {
 		this.thumbnailSelectedNameBackground.set(background);

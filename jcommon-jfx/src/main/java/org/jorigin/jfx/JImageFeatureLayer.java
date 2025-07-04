@@ -16,18 +16,43 @@ import org.jorigin.state.HandleSelection;
  */
 public class JImageFeatureLayer implements HandleSelection, HandleDisplay, Named {
 
+	/**
+	 * Is the layer is selectable? If <code>true</code> the layer can be selected and <code>false</code> otherwise.
+	 */
 	private boolean selectable  = true;
 
+	/**
+	 * Is the layer is selected? If <code>true</code> the layer is currently selected and <code>false</code> otherwise.
+	 */
 	private boolean selected   = false;
 
+	/**
+	 * Is the layer is displayable? If <code>true</code> the layer can be displayed and <code>false</code> otherwise.
+	 */
 	private boolean displayable = true;
 
+	/**
+	 * Is the layer is displaying? If <code>true</code> the layer is currently displayed and <code>false</code> otherwise.
+	 */
 	private boolean displaying  = false;
 
+	/**
+	 * The name of the layer.
+	 */
 	private String name;
 
+	/**
+	 * The {@link JImageFeature image features} that compose this layer.
+	 * <p>
+	 * This list is never <code>null</code> but can be empty.
+	 */
 	private List<JImageFeature> features = null;
 
+	/**
+	 * The {@link JImageFeatureLayerListener listeners} that are attached to this layer.
+	 * <p>
+	 * This list is never <code>null</code> but can be empty.
+	 */
 	private List<JImageFeatureLayerListener> layerListeners;
 
 	@Override

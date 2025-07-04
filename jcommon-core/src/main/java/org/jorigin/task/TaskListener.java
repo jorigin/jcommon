@@ -13,8 +13,8 @@
 
     You should have received a copy of the GNU General Public License
     along with JOrigin Common.  If not, see <http://www.gnu.org/licenses/>.
-    
-*/
+
+ */
 package org.jorigin.task;
 
 import java.util.EventListener;
@@ -29,10 +29,10 @@ import org.jorigin.Common;
  */
 public interface TaskListener extends EventListener{
 
-  /**
-   * Dispatch a {@link org.jorigin.task.TaskEvent TaskEvent} in the listener
-   * @param event the task event dispatched
-   */
-  public void eventDispatched(TaskEvent event);
+	/**
+	 * Dispatch a {@link org.jorigin.task.TaskEvent TaskEvent} in the listener
+	 * @param event the task event dispatched
+	 */
+	public void eventDispatched(TaskEvent event);
 
 }

@@ -49,6 +49,9 @@ public class JThumbnail<T> extends BorderPane implements Named, HandleSelection 
 	/** The property that describe if the thumbnail is selectable */
 	private BooleanProperty selectable = new SimpleBooleanProperty(true);
 	
+	/**
+	 * The margin that is used to display the thumbnail image.
+	 */
 	//TODO JThumbnail - replace margin by border or insets
 	private double margin = 5;
 	

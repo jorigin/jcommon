@@ -13,8 +13,8 @@
 
     You should have received a copy of the GNU General Public License
     along with JOrigin Common.  If not, see <http://www.gnu.org/licenses/>.
-    
-*/
+
+ */
 package org.jorigin.lang.xml;
 
 import java.util.HashMap;
@@ -35,122 +35,136 @@ import org.xml.sax.SAXException;
 public class LangResourceContentHandler implements ContentHandler {
 
 
-  /**
-   * The name of the resource list XML element
-   */
-  public static String ELEMENT_RESOURCES = "resources";
-  
-  /**
-   * The name of the resource XML element
-   */
-  public static String ELEMENT_RESOURCE  = "resource";
-  
-  /**
-   * The name of the resource key attribute
-   */
-  public static String ATTRIBUTE_KEY     = "key";
-  
-  /**
-   * The name of the resource value attribute.
-   */
-  public static String ATTRIBUTE_VALUE   = "value";
-  
-  
-  /**
-   * A Hash map containing all resources.
-   */
-  private HashMap<String, String> resources      = null;
-  
-  
-  private String key = null;
-  private String value = null;
-  
-  
-  /** Hold onto the locator for location information */
-  protected Locator locator;
-  
-  /**
-   * Get the resources attached to this content handler.
-   * @return the resources attached to this content handler.
-   */
-  public HashMap<String, String> getResources(){
-    return this.resources;
-  }
-  
-  @Override
-  public void characters(char[] ch, int start, int length) throws SAXException {
-    
-  }
+	/**
+	 * The name of the resource list XML element
+	 */
+	public static String ELEMENT_RESOURCES = "resources";
 
-  @Override
-  public void endDocument() throws SAXException {
-    
-  }
+	/**
+	 * The name of the resource XML element
+	 */
+	public static String ELEMENT_RESOURCE  = "resource";
 
-  @Override
-  public void endElement(String uri, String localName, String qName) throws SAXException {
-    
-    
-    if (localName.equals(ELEMENT_RESOURCES)) {
-    }
-    
-    if (localName.equals(ELEMENT_RESOURCE)) {
-      
-      this.resources.put(this.key, this.value);
-      
-      this.key = null;
-      this.value = null;
-    }
-  }
+	/**
+	 * The name of the resource key attribute
+	 */
+	public static String ATTRIBUTE_KEY     = "key";
 
-  @Override
-  public void endPrefixMapping(String prefix) throws SAXException {
-    
-  }
+	/**
+	 * The name of the resource value attribute.
+	 */
+	public static String ATTRIBUTE_VALUE   = "value";
 
-  @Override
-  public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
-    
-  }
 
-  @Override
-  public void processingInstruction(String target, String data) throws SAXException {
-    
-  }
+	/**
+	 * A Hash map containing all resources.
+	 */
+	private HashMap<String, String> resources      = null;
 
-  @Override
-  public void setDocumentLocator(Locator locator) {
-    this.locator = locator;
-  }
+	/**
+	 * The key of the current resource.
+	 */
+	private String key = null;
+	
+	/**
+	 * The value of the current resource.
+	 */
+	private String value = null;
 
-  @Override
-  public void skippedEntity(String name) throws SAXException {
-    
-  }
+	/** Hold onto the locator for location information */
+	protected Locator locator;
 
-  @Override
-  public void startDocument() throws SAXException {
-    
-  }
+	/**
+	 * Default constructor.
+	 * This constructor is used to create a new instance of the content handler.
+	 * It initializes the resources map.
+	 */
+	public LangResourceContentHandler() {
+		// Default constructor
+	}
+	
+	/**
+	 * Get the resources attached to this content handler.
+	 * @return the resources attached to this content handler.
+	 */
+	public HashMap<String, String> getResources(){
+		return this.resources;
+	}
 
-  @Override
-  public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
-    
-   
-    
-    if (localName.equals(ELEMENT_RESOURCES)) {
-      this.resources = new HashMap<String, String>();
-    }
-    
-    if (localName.equals(ELEMENT_RESOURCE)) {
-      this.key   = atts.getValue(ATTRIBUTE_KEY);
-      this.value = atts.getValue(ATTRIBUTE_VALUE);
-    }
-  }
+	@Override
+	public void characters(char[] ch, int start, int length) throws SAXException {
 
-  @Override
-  public void startPrefixMapping(String prefix, String uri) throws SAXException {
-    
-  }
-  
+	}
+
+	@Override
+	public void endDocument() throws SAXException {
+
+	}
+
+	@Override
+	public void endElement(String uri, String localName, String qName) throws SAXException {
+
+
+		if (localName.equals(ELEMENT_RESOURCES)) {
+		}
+
+		if (localName.equals(ELEMENT_RESOURCE)) {
+
+			this.resources.put(this.key, this.value);
+
+			this.key = null;
+			this.value = null;
+		}
+	}
+
+	@Override
+	public void endPrefixMapping(String prefix) throws SAXException {
+
+	}
+
+	@Override
+	public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
+
+	}
+
+	@Override
+	public void processingInstruction(String target, String data) throws SAXException {
+
+	}
+
+	@Override
+	public void setDocumentLocator(Locator locator) {
+		this.locator = locator;
+	}
+
+	@Override
+	public void skippedEntity(String name) throws SAXException {
+
+	}
+
+	@Override
+	public void startDocument() throws SAXException {
+
+	}
+
+	@Override
+	public void startElement(String uri, String localName, String qName, Attributes atts) throws SAXException {
+
+
+
+		if (localName.equals(ELEMENT_RESOURCES)) {
+			this.resources = new HashMap<String, String>();
+		}
+
+		if (localName.equals(ELEMENT_RESOURCE)) {
+			this.key   = atts.getValue(ATTRIBUTE_KEY);
+			this.value = atts.getValue(ATTRIBUTE_VALUE);
+		}
+	}
+
+	@Override
+	public void startPrefixMapping(String prefix, String uri) throws SAXException {
+
+	}
+
 }

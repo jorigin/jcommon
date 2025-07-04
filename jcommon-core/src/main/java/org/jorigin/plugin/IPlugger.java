@@ -13,8 +13,8 @@
 
     You should have received a copy of the GNU General Public License
     along with JOrigin Common.  If not, see <http://www.gnu.org/licenses/>.
-    
-*/
+
+ */
 package org.jorigin.plugin;
 
 import org.jorigin.Common;
@@ -31,28 +31,28 @@ import org.jorigin.Common;
  *
  */
 public interface IPlugger {
-    
-  /**
-   * Return the extension point referenced by the given key. If the key does not patch a plugin, <code>null</code> is returned.
-   * @param key the key of the extension point.
-   * @return the extension point.
-   */  
-  public Object getExensionPoint(String key);
-  
-  
-  /**
-   * Return all the keys identifying extension points.
-   * @return an array of String representing the key referencing extension points.
-   */
-  public String[] getExtensionPointKeys();
-  
-  /**
-   * Add a new extension point to the plugger. The extension point is assigned to the
-   * key given. If the key is already affected to another extension point, the new extension 
-   * point is not added.
-   * @param key the key of the extension point to add
-   * @param extensionPoint the extension point to add
-   * @return true if the extension point is added, false otherwise
-   */
-  public boolean addExtensionPoint(String key, Object extensionPoint);
+
+	/**
+	 * Return the extension point referenced by the given key. If the key does not patch a plugin, <code>null</code> is returned.
+	 * @param key the key of the extension point.
+	 * @return the extension point.
+	 */  
+	public Object getExensionPoint(String key);
+
+
+	/**
+	 * Return all the keys identifying extension points.
+	 * @return an array of String representing the key referencing extension points.
+	 */
+	public String[] getExtensionPointKeys();
+
+	/**
+	 * Add a new extension point to the plugger. The extension point is assigned to the
+	 * key given. If the key is already affected to another extension point, the new extension 
+	 * point is not added.
+	 * @param key the key of the extension point to add
+	 * @param extensionPoint the extension point to add
+	 * @return true if the extension point is added, false otherwise
+	 */
+	public boolean addExtensionPoint(String key, Object extensionPoint);
 }

@@ -13,8 +13,8 @@
 
     You should have received a copy of the GNU General Public License
     along with JOrigin Common.  If not, see <http://www.gnu.org/licenses/>.
-    
-*/
+
+ */
 package org.jorigin;
 
 import java.util.logging.Level;
@@ -45,71 +45,78 @@ import org.jorigin.logging.LogHandler;
  */
 public class Common {
 
-  /**
-   * The {@link java.util.logging.Logger logger} used for reporting.
-   */
-  public static Logger logger = null;
-  
-  static {
-    init();
-  }
-  
-  /**
-   * The build version.
-   */
-  public static final long BUILD     = 202507040900L;
-  
-  /**
-   * The version number
-   */
-  public static final String version = "2.0.1";
-  
-  /**
-   * Initialize the JOrigin common package.
-   */
-  public static final void init(){
+	/**
+	 * The private constructor to prevent instantiation of this class.
+	 */
+	private Common() {
+		// Prevent instantiation
+	}
+	
+	/**
+	 * The {@link java.util.logging.Logger logger} used for reporting.
+	 */
+	public static Logger logger = null;
 
-    logger = Logger.getLogger("org.jorigin.Common");
-    
-    LogHandler handler = new LogHandler();
+	static {
+		init();
+	}
 
-    String property = System.getProperty("java.util.logging.level");
-    Level level = Level.INFO;
-    if (property != null){
-      if (property.equalsIgnoreCase("OFF")){
-        level = Level.OFF;
-      } else if (property.equalsIgnoreCase("SEVERE")){
-        level = Level.SEVERE;
-      } else if (property.equalsIgnoreCase("WARNING")){
-        level = Level.WARNING;
-      } else if (property.equalsIgnoreCase("INFO")){
-        level = Level.INFO;
-      } else if (property.equalsIgnoreCase("CONFIG")){
-        level = Level.CONFIG;
-      } else if (property.equalsIgnoreCase("FINE")){
-        level = Level.FINE;
-      } else if (property.equalsIgnoreCase("FINER")){
-        level = Level.FINER;
-      } else if (property.equalsIgnoreCase("FINEST")){
-        level = Level.FINEST;
-      } else if (property.equalsIgnoreCase("ALL")){
-        level = Level.ALL;
-      }
-    }
+	/**
+	 * The build version.
+	 */
+	public static final long BUILD     = 202507040900L;
 
-    handler.setLevel(level);
-    logger.setLevel(level);
-    
-    logger.addHandler(handler);
-    logger.setUseParentHandlers(false);
-    
-  }
-  
-  /**
-   * Set the {@link java.util.logging.Logger logger} to use for reporting.
-   * @param logger the {@link java.util.logging.Logger logger} to use for reporting.
-   */
-  public static void setLogger(Logger logger){
-    Common.logger = logger;
-  }
+	/**
+	 * The version number
+	 */
+	public static final String version = "2.0.1";
+
+	/**
+	 * Initialize the JOrigin common package.
+	 */
+	public static final void init(){
+
+		logger = Logger.getLogger("org.jorigin.Common");
+
+		LogHandler handler = new LogHandler();
+
+		String property = System.getProperty("java.util.logging.level");
+		Level level = Level.INFO;
+		if (property != null){
+			if (property.equalsIgnoreCase("OFF")){
+				level = Level.OFF;
+			} else if (property.equalsIgnoreCase("SEVERE")){
+				level = Level.SEVERE;
+			} else if (property.equalsIgnoreCase("WARNING")){
+				level = Level.WARNING;
+			} else if (property.equalsIgnoreCase("INFO")){
+				level = Level.INFO;
+			} else if (property.equalsIgnoreCase("CONFIG")){
+				level = Level.CONFIG;
+			} else if (property.equalsIgnoreCase("FINE")){
+				level = Level.FINE;
+			} else if (property.equalsIgnoreCase("FINER")){
+				level = Level.FINER;
+			} else if (property.equalsIgnoreCase("FINEST")){
+				level = Level.FINEST;
+			} else if (property.equalsIgnoreCase("ALL")){
+				level = Level.ALL;
+			}
+		}
+
+		handler.setLevel(level);
+		logger.setLevel(level);
+
+		logger.addHandler(handler);
+		logger.setUseParentHandlers(false);
+
+	}
+
+	/**
+	 * Set the {@link java.util.logging.Logger logger} to use for reporting.
+	 * @param logger the {@link java.util.logging.Logger logger} to use for reporting.
+	 */
+	public static void setLogger(Logger logger){
+		Common.logger = logger;
+	}
 }

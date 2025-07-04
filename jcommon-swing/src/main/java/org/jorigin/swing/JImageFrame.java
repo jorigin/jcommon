@@ -36,25 +36,81 @@ import java.awt.Point;
 public class JImageFrame extends JFrame {
 
   /**
-   * 
+   * Serial version UID.
+   * @see java.io.Serializable
    */
   private static final long serialVersionUID = 201903071000L;
 
+  /**
+   * The underlying {@link JImagePanel image panel} that displays the image.
+   * @see #getImage()
+   * @see #setImage(BufferedImage)
+   */
   private JImagePanel imagePanel = null;
   
+  /**
+   * The {@link JImagePanelToolBar image panel toolbar} that provides various operations on the view.
+   * @see #getImageFeatures(String)
+   * @see #setImageFeatures(String, List)
+   */
   private JImagePanelToolBar imageToolbar = null;
   
+  /**
+   * The label and text field that display the coordinates of the mouse pointer in the panel space.
+   */
   private JLabel panelCoordLB = null;
+  
+  /**
+   * The label and text field that display the coordinates of the mouse pointer in the image space.
+   */
   private JLabel panelCoordTF = null;
   
+  /**
+   * The label and text field that display the coordinates of the mouse pointer in the image space.
+   * <p>
+   * The coordinates are expressed in pixels.
+   * </p>
+   */
   private JLabel imageCoordLB = null;
+  
+  /**
+   * The label and text field that display the coordinates of the mouse pointer in the image space.
+   * <p>
+   * The coordinates are expressed in pixels.
+   * </p>
+   */
   private JLabel imageCoordTF = null;
   
+  /**
+   * The panel that holds the north components of the frame.
+   * <p>
+   * This panel contains the {@link JImagePanelToolBar image panel toolbar}.
+   * </p>
+   */
   private JPanel northPanel = null;
+  
+  /**	
+   * The panel that holds the south components of the frame.
+   * <p>
+   * This panel contains the labels and text fields that display the coordinates of the mouse pointer in the panel and image spaces.
+   * </p>
+   */
   private JPanel southPanel = null;
   
+  /**
+   * The number format used to display the coordinates of the mouse pointer in the image space.
+   * <p>
+   * The coordinates are expressed in pixels.
+   * </p>
+   */
   private NumberFormat imagePixelFormat = null;
   
+  /**
+   * The number format used to display the coordinates of the mouse pointer in the panel space.
+   * <p>
+   * The coordinates are expressed in pixels.
+   * </p>
+   */
   private NumberFormat panelPixelFormat = null;
   
   /**

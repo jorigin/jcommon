@@ -1,10 +1,10 @@
 
 /**
  * The module description of the JCommon package
- * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jeometry">https://github.com/jorigin/jeometry</a>
+ * @author Julien Seinturier - COMEX S.A. - <a href="mailto:contact@jorigin.org">contact@jorigin.org</a> - <a href="https://github.com/jorigin/jcommon">https://github.com/jorigin/jcommon</a>
  * @since 1.0.12
  */
-module org.jcommon.samples {
+module org.jcommon.sample {
 	
 	exports org.jorigin.sample.jfx;
 	exports org.jorigin.sample.jfx.thumbnail;

@@ -42,9 +42,12 @@ public class JThumbnailPane<T> extends BorderPane{
 	/** The pane scroll */
 	private ScrollPane scrollPane = null;
 
-	// The thumbnail pane style
+	// The style that is applied to the thumbnails.
 	private ObjectProperty<JThumbnailStyle> thumbnailStyle = null;
 
+	// The filter that is applied to the thumbnails.
+	// This filter is used to select the {@link JThumbnail thumbnails} that have to be displayed.
+	// If <code>null</code> is given, no filter is applied.
 	private ObjectProperty<Predicate<? super T>> thumbnailFilter = null;
 
 	/**

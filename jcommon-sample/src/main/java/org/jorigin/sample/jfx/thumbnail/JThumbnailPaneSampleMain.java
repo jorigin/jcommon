@@ -10,6 +10,13 @@ import javafx.application.Application;
 public class JThumbnailPaneSampleMain {
 
 	/**
+	 * The private constructor to prevent instantiation.
+	 */
+	private JThumbnailPaneSampleMain() {
+		// Prevent instantiation
+	}
+	
+	/**
 	 * The main method.
 	 * @param args the main method arguments
 	 */

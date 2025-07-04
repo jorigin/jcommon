@@ -75,19 +75,41 @@ import org.jorigin.Common;
  */
 public class JPanelFrame extends JPanel implements RootPaneContainer{
 
+	/**
+	 * The serial version UID for serialization.
+	 */
     private static final long serialVersionUID         = Common.BUILD;
   
+    /**
+     * The label that displays the title of the panel frame.
+     */
     private JLabel        titleLabel        = null;
+    
+    /**
+	 * The panel that contains the header of the panel frame.
+	 * It contains the title label, the tool bar and a gradient background.
+	 */
     private GradientPanel gradientPanel     = null;
+    
+    /**
+	 * The panel that contains the header of the panel frame.
+	 * It contains the gradient background and the tool bar.
+	 */
     private JPanel        headerPanel       = null ;
+    
+    /**
+	 * Indicates if the panel frame is currently selected (or in other words active).
+	 * If it is selected, the header background will be rendered differently.
+	 */
     private boolean       selected          = false;
 
+    /** The root pane of the panel frame, which contains the content pane and the glass pane. */
     private JRootPane     rootPane          = null;
 
-    /** If it's true, calls to add and setLayout are forwarded to the contentPane */
+    /** If it's true, calls to add and setLayout are forwarded to the contentPane. */
     private boolean rootPaneCheckingEnabled = true;
 
-    /** Title icon of the panel frame */
+    /** Title icon of the panel frame. */
     private Image iconImage                 = null;
 
     // Instance Creation ****************************************************
@@ -399,20 +421,6 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
     this.rootPane = new JRootPane();
     this.rootPane.getContentPane().setLayout(new BorderLayout());
   }
-
-
-
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-//AA ACCESSEURS                                                               AA
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-
-
-
-
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-//AA FIN ACCESSEURS                                                           AA
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-
 
 //FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
 //FF METHODES DE JFRAME                                                       FF
@@ -777,20 +785,37 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
 
   // Helper Classes *******************************************************
 
-  // A custom border for the raised header pseudo 3D effect.
+  /** A custom border that has a raised effect on the top and left sides.
+   * It is used to draw the header of the panel frame.
+   */
   private static class RaisedHeaderBorder extends AbstractBorder {
 
     /**
-     * 
-     */
+	 * The serial version UID for serialization.
+	 */
     private static final long serialVersionUID = Common.BUILD;
     
+    /** The insets of the border. */
     private static final Insets INSETS = new Insets(1, 1, 1, 0);
 
+    /**
+	 * Returns the insets of the border.
+	 * @param c the component for which the insets are requested
+	 * @return the insets of the border
+	 */
     public Insets getBorderInsets(Component c) {
       return INSETS;
     }
 
+    /**
+	 * Paints the border of the component.
+	 * @param c the component for which this border is being painted
+	 * @param g the graphics context
+	 * @param x the x coordinate of the top-left corner of the border
+	 * @param y the y coordinate of the top-left corner of the border
+	 * @param w the width of the border
+	 * @param h the height of the border
+	 */
     public void paintBorder(Component c, Graphics g,
                             int x, int y, int w, int h) {
 
@@ -805,17 +830,34 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
   }
 
 
-  // A custom border that has a shadow on the right and lower sides.
+  /**
+   * A custom border that has a shadow effect on the bottom and right sides.
+   * It is used to draw the shadow of the panel frame.
+   */
   private static class ShadowBorder extends AbstractBorder {
 
+	/**
+	 * The serial version UID for serialization.
+	 */
     private static final long serialVersionUID = Common.BUILD;
     
+    /**
+     * The insets of the border.
+     */
     private static final Insets INSETS = new Insets(1, 1, 3, 3);
 
+    /**
+	 * Returns the insets of the border.
+	 * @param c the component for which the insets are requested
+	 * @return the insets of the border
+	 */
     public Insets getBorderInsets(Component c) {
       return INSETS;
     }
 
+    /**
+     * Paints the border of the component.
+     */
     public void paintBorder(Component c, Graphics g,
                             int x, int y, int w, int h) {
 
@@ -838,12 +880,14 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
       g.fillRect(0, 0, 1, h - 3);
       g.fillRect(w - 3, 1, 1, h - 3);
       g.fillRect(1, h - 3, w - 3, 1);
+      
       // Shadow line 1
       g.setColor(lightShadow);
       g.fillRect(w - 3, 0, 1, 1);
       g.fillRect(0, h - 3, 1, 1);
       g.fillRect(w - 2, 1, 1, h - 3);
       g.fillRect(1, h - 2, w - 3, 1);
+      
       // Shadow line2
       g.setColor(lighterShadow);
       g.fillRect(w - 2, 0, 1, 1);
@@ -855,17 +899,30 @@ public class JPanelFrame extends JPanel implements RootPaneContainer{
     }
   }
 
-
-  // A panel with a horizontal gradient background.
+  /**
+   * A custom panel that paints a gradient background.
+   * It is used to draw the header of the panel frame.
+   */
   private static class GradientPanel extends JPanel {
 
+	/**
+	 * The serial version UID for serialization.
+	 */
     private static final long serialVersionUID = Common.BUILD;
     
+    /**
+	 * Creates a new GradientPanel with the specified layout manager and background color.
+	 * @param lm the layout manager to be used
+	 * @param background the background color of the panel
+	 */
     private GradientPanel(LayoutManager lm, Color background) {
       super(lm);
       setBackground(background);
     }
 
+    /**
+     * Paints the component with a gradient background.
+     */
     public void paintComponent(Graphics g) {
       super.paintComponent(g);
       if (!isOpaque()) {

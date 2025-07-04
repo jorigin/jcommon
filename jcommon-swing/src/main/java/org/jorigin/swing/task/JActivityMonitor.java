@@ -45,7 +45,9 @@ import javax.swing.JPanel;
  */
 public class JActivityMonitor extends JDialog{
 
-
+  /**
+   * The serial version UID.
+   */
   private static final long serialVersionUID = 1;
   
   /**
@@ -63,57 +65,143 @@ public class JActivityMonitor extends JDialog{
    */
   public static final int SHOW_PROGRESS_ALL     = SHOW_PROGRESS_PERCENT | SHOW_PROGRESS_COUNT;
   
+  /** The lock that enable to control concurrent task display. */
   private Lock lock = null;
 
+  /** The layout used to display the components. */
   private GridBagLayout layout;
 
-
+  /**
+   * The document used to display the activity tracer.
+   */
   private javax.swing.text.DefaultStyledDocument activityTracerDocument;
 
+  /**
+   * The panel that contains the activity tracer.
+   */
   private JPanel progressBarsPN   = null;
   
+  /**
+   * The style context used to create styles for the activity tracer.
+   */
   private StyleContext sc         = null;
 
+  /**
+   * The style used to display the task started message.
+   */
   private Style taskStartedStyle  = null;
+  
+  /** The style used to display the task finished message. */
   private Style taskFinishedStyle = null;
+  
+  /**
+   * The style used to display the task progress message.
+   */
   private Style taskProgressStyle = null;
+  
+  /**
+   * The style used to display the task information message.
+   */
   private Style taskInfoStyle     = null;
+  
+  /**
+   * The style used to display the task warning message.
+   */
   private Style taskWarningStyle  = null;
+  
+  /**
+   * The style used to display the task error message.
+   */
   private Style taskErrorStyle    = null;
 
+  /**
+   * The text pane that displays the activity tracer.
+   */
   private JTextPane activityTracer;
+  
+  /**
+   * The scroll pane that contains the activity tracer text pane.
+   */
   private JScrollPane activityTracerScrollPane;
+  
+  /**
+   * The panel that contains the activity tracer.
+   */
   private JPanel activityTracerPN = null;
   
+  /**
+   * The check box that enables to set the persistence of the activity monitor.
+   * If the check box is selected, the activity monitor is persistent and will not be closed automatically.
+   */
   private JCheckBox persistenceCheckBox;
 
+  /**
+   * The flag that indicates if the progression text has to be displayed.
+   */
   private boolean showProgressionText  = false;
 
+  /** 
+   * The flag that indicates if the text area that log progress details is visible.
+   */
   private boolean textAreaVisible            = false;
   
+  /** 
+   * The flag that indicates if the progress labels (textual labels above progress bars) are visible.
+   */
   private boolean persistenceCheckBoxVisible = false;
   
+  /** 
+   * The flag that indicates if the progress labels (textual labels above progress bars) are visible.
+   */
   private boolean progressLabelVisible       = false;
   
+  /** 
+   * The flag that indicates if the progress bars are visible.
+   */
   private boolean progressBarVisible         = false;
   
+  /** 
+   * The map that contains the task progress components indexed by task name.
+   */
   private HashMap<String, JTaskProgress> taskProgressMap = null;
   
   /** The way to show progress type. */
   private int showProgressType        = SHOW_PROGRESS_ALL;
   
-  // La fenetre doit elle être persistante (ne pas se fermer seule)
+  /** 
+   * The flag that indicates if the activity monitor is persistent. If the <code>isPersistent</code> value is equals to false,
+   * the activity monitor is hiden when all monitored tasks are finished.
+   */
   private boolean isPersistent = true;
 
-  // Compteur de taches imbriquees
+  /** 
+   * The number of bounded tasks currently monitored by the activity monitor.
+   * This value is incremented when a task is started and decremented when a task is finished.
+   */
   private int boundedTask;
 
+  /**
+   * The height of the activity tracer in pixels.
+   * This value is used to set the height of the activity tracer panel.
+   */
   private boolean useNewLine = true;
   
+  /**
+   * The desired height of the activity tracer in pixels.
+   * This value is used to set the height of the activity tracer panel.
+   */
   private int activityTracerHeight = 440;
 
+  /**
+   * The desired height of the progress bars in pixels.
+   * This value is used to set the height of the progress bars panel.
+   */
   private int progressBarHeight    = 24;
   
+  /**
+   * The desired height of the progress labels in pixels.
+   * This value is used to set the height of the progress labels panel.
+   */
   private int progressLabelHeight  = 16;
   
 //CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
@@ -663,7 +751,12 @@ public class JActivityMonitor extends JDialog{
     //this.setVisible(true);
   }
 
-  
+  /**
+   * Indent a string with a specified number of spaces.
+   * @param str the string to indent.
+   * @param indent the number of spaces to indent.
+   * @return the indented string.
+   */
   private String indent(String str, int indent){
     String tmp = new String();
     for(int i = 0; i<indent; i++){
@@ -674,7 +767,11 @@ public class JActivityMonitor extends JDialog{
     return tmp;
   }
 
-
+  /**
+   * Write a string in the activity tracer with the specified style.
+   * @param str the string to write.
+   * @param style the style to use for writing the string.
+   */
   private void write(String str, Style style){
 
     try {
@@ -701,7 +798,12 @@ public class JActivityMonitor extends JDialog{
     }
   }
 
-
+  /**
+   * Write a string in the activity tracer with the specified style and indent.
+   * @param str the string to write.
+   * @param indent the number of spaces to indent.
+   * @param style the style to use for writing the string.
+   */
   private void writeWithIndent(String str, int indent, Style style){
     write(indent(str, indent*2), style);
   }
@@ -913,6 +1015,11 @@ public class JActivityMonitor extends JDialog{
     }
   }
   
+  /**
+   * Add a task progress component to the activity monitor.
+   * @param taskProgress the task progress component to add.
+   * @return <code>true</code> if the task progress component has been added successfully and <code>false</code> otherwise.
+   */
   private boolean addJTaskProgress(JTaskProgress taskProgress){
     
     if (taskProgress != null){
@@ -968,6 +1075,11 @@ public class JActivityMonitor extends JDialog{
     return false;
   }
   
+  /**
+   * Remove a task progress component from the activity monitor.
+   * @param taskProgress the task progress component to remove.
+   * @return <code>true</code> if the task progress component has been removed successfully and <code>false</code> otherwise.
+   */
   private boolean removeJTaskProgress(JTaskProgress taskProgress){
     if (taskProgress != null){
       this.progressBarsPN.remove(taskProgress);

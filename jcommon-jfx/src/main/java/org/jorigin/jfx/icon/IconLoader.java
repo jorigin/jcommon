@@ -50,10 +50,27 @@ public final class IconLoader {
 	 */
 	public static int PATH_TYPE_EMBEDDED_ZIP = 4;
 
+	/** The directory to use as root for the icon search. */
 	private static String iconDirectory = "/";
 
+	/** The type of the path used for the icon directory. Possible values are: 
+	 * <ul>
+	 *   <li>{@link #PATH_TYPE_UNKNOWN} - Unknown type
+	 *   <li>{@link #PATH_TYPE_FILESYSTEM} - Filesystem type (absolute path)
+	 *   <li>{@link #PATH_TYPE_URL} - URL type (HTTP, HTTPS, FTP, SFTP)
+	 *   <li>{@link #PATH_TYPE_EMBEDDED_JAR} - Embedded jar type
+	 *   <li>{@link #PATH_TYPE_EMBEDDED_ZIP} - Embedded zip type
+	 * </ul>*/
 	private static int pathType = 0;
 
+	/**
+	 * Private constructor to prevent instantiation.
+	 * Use the static methods to access the icon loader.
+	 */
+	private IconLoader() {
+		// Private constructor to prevent instantiation
+	}
+	
 	/**
 	 * Get an {@link Image icon} from the given <code>path</code>. If the icon <code>path</code> is relative, 
 	 * a complete path is created by concatenating the {@link #getIconDirectory() icon root path} and the given one. 

@@ -29,7 +29,13 @@ import org.jorigin.Common;
 public class JThumbnail<T> extends JPanel 
 implements EventListener, MouseListener{
 
-
+	/**
+	 * Serial version UID.
+	 * <p>
+	 * This value is used to ensure that the serialized class is compatible with the
+	 * deserialized class.
+	 * </p>
+	 */
 	private static final long serialVersionUID = Common.BUILD;
 
 	/**

@@ -33,6 +33,10 @@ import org.jorigin.Common;
  */
 public class JDesktopPane extends javax.swing.JDesktopPane {
 
+  /**
+   * Serial version UID for serialization.
+   * @see Common#BUILD
+   */
   private static final long serialVersionUID = Common.BUILD;
   
   /**

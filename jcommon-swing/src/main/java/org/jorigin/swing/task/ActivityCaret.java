@@ -162,6 +162,10 @@ public class ActivityCaret extends Rectangle implements Caret, FocusListener, Mo
 	/**
 	 * Returns true if the text in the range <code>p0</code> to
 	 * <code>p1</code> is left to right.
+	 * @param doc the source document
+	 * @param p0 the first element position
+	 * @param p1 the second element position
+	 * @return <code>true</code> if the text is left to right, <code>false</code>
 	 */
 	private boolean isLeftToRight(AbstractDocument doc, int p0, int p1) {
 		if(!doc.getProperty("i18n").equals(Boolean.TRUE)) {
@@ -392,6 +396,7 @@ public class ActivityCaret extends Rectangle implements Caret, FocusListener, Mo
 
 	/**
 	 * Selects word based on the MouseEvent
+	 * @param e the event that triggered the selection
 	 */
 	private void selectWord(MouseEvent e) {
 		if (this.selectedWordEvent != null
@@ -521,6 +526,7 @@ public class ActivityCaret extends Rectangle implements Caret, FocusListener, Mo
 
 	/**
 	 * Adjusts the caret location based on the MouseEvent.
+	 * @param e the mouse event that triggered the caret adjustment
 	 */
 	private void adjustCaret(MouseEvent e) {
 		if ((e.getModifiersEx() & ActionEvent.SHIFT_MASK) != 0 &&

@@ -5,6 +5,7 @@ import static org.jorigin.Common.logger;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.lang.invoke.MethodHandles;
+import java.net.URI;
 import java.net.URL;
 import java.util.logging.Level;
 
@@ -52,14 +53,35 @@ public class IconLoader {
 	 */
 	public static int PATH_TYPE_EMBEDDED_ZIP = 4;
 
+	/**
+	 * The directory to use as root for the icon search.
+	 */
 	private static String iconDirectory = "/";
 
+	/**
+	 * The type of the path used to load the icon.
+	 * <ul>
+	 * <li>{@link #PATH_TYPE_UNKNOWN}</li>
+	 * <li>{@link #PATH_TYPE_FILESYSTEM}</li>
+	 * <li>{@link #PATH_TYPE_URL}</li>
+	 * <li>{@link #PATH_TYPE_EMBEDDED_JAR}</li>
+	 * <li>{@link #PATH_TYPE_EMBEDDED_ZIP}</li>
+	 * </ul>
+	 */
 	private static int pathType = 0;
 
 	static {
 		init();
 	};
 
+	/**
+	 * Private constructor to prevent instantiation.
+	 * Use the static methods to access the icon loader.
+	 */
+	private IconLoader() {
+		// Prevent instantiation
+	}
+	
 	/**
 	 * Initialize the Icon Loader
 	 */
@@ -133,7 +155,7 @@ public class IconLoader {
 					String inputFile = iconDirectory+path;
 
 					try {
-						URL inputURL = new URL(inputFile);
+						URL inputURL = new URI(inputFile).toURL();
 
 						image = new ImageIcon(inputURL);
 

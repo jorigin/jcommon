@@ -203,36 +203,99 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	 */
 	private List<JImageFeatureLayer> layers;
 
+	/**
+	 * The shape that is used to select features on the image.
+	 * This shape can be a {@link Rectangle} for rectangle selection, a {@link Polygon} for polygon selection or <code>null</code> for point selection.
+	 */
 	private Shape selectionShape = null;
 
+	/**
+	 * The origin of the selection shape. This point is expressed within the canvas referential.
+	 * It is used to compute the selection shape when the selection mode is {@link #MODE_SELECTION_RECTANGLE} or {@link #MODE_SELECTION_POLYGON}.
+	 */
 	private Point2D selectionOrigin = null;
 
+	/**
+	 * The stroke paint used to draw the selection shape.
+	 */
 	private Paint selectionShapeStroke = null;
 
+	/**
+	 * The fill paint used to fill the selection shape.
+	 * This paint is used only if the selection mode is {@link #MODE_SELECTION_RECTANGLE} or {@link #MODE_SELECTION_POLYGON}.
+	 */
 	private Paint selectionShapeFill = null;
 
+	/**
+	 * The property that control if the canvas has to repaint automatically when modifications occurs.
+	 */
 	private ObjectProperty<Point2D> cursorPosition;
 
+	/**
+	 * The property that control the rotation of the view.
+	 * This rotation is expressed in degree (°).
+	 */
 	private BooleanProperty autoRepaint;
 
+	/**
+	 * The property that control if the canvas has to fit automatically when modifications occurs.
+	 * This is useful for ensuring that the image is always visible within the canvas.
+	 */
 	private BooleanProperty autoFit;
 
+	/**
+	 * The property that control if the canvas has to refresh automatically when modifications occurs.
+	 * This is useful for ensuring that the image is always visible within the canvas.
+	 */
 	private BooleanProperty needRefresh;
 
+	/**	
+	 * The property that control if the canvas has to listen to controls (like mouse, keyboard, ...).
+	 * This is useful for ensuring that the image is always visible within the canvas.
+	 */
 	private BooleanProperty listeningControls;
 
+	/**
+	 * The zoom factor that is applied to the canvas.
+	 * This factor is used to compute the zoom level when the canvas is zoomed.
+	 */
 	private DoubleProperty zoomFactor;
 
+	/**
+	 * The paint that is used to fill the background of the canvas.
+	 * If <code>null</code>, the canvas background is transparent.
+	 */
 	private ObjectProperty<Paint> backgroundPaint;
 
+	/**
+	 * The property that control if the primary control (left mouse button) is active.
+	 * This property is used to know if the primary control is pressed or not.
+	 */
 	private BooleanProperty controlPrimaryActive;
 
+	/**
+	 * The property that control if the secondary control (right mouse button) is active.
+	 * This property is used to know if the secondary control is pressed or not.
+	 */
 	private BooleanProperty controlSecondaryActive;
 
+	/**
+	 * The property that control if the canvas is resizable.
+	 * If <code>true</code>, the canvas can be resized when contained by a dynamic size container.
+	 * If <code>false</code>, the canvas cannot be resized.
+	 */
 	private BooleanProperty resizableProperty = new SimpleBooleanProperty(true);
 
+	/**
+	 * The queue that is used to refresh the canvas.
+	 * This queue is used to ensure that the refresh is done in a synchronous way.
+	 */
 	private SynchronousQueue<Runnable> refreshQueue;
 
+	/**
+	 * The lock that is used to ensure that the refresh is done in a synchronized way.
+	 * This lock is used to ensure that the refresh is done only once at a time.
+	 */
 	private Semaphore refreshLock = new Semaphore(1);
 
 	// The following overrides enable the canvas to be resizable when contained
@@ -875,6 +938,41 @@ public class JImageCanvas extends Canvas implements JImageFeatureLayerListener{
 	}
 
 
+	/**
+	 * Get the current zoom factor. This factor is the value that is applied to scale the image when zooming using graphical components.
+	 * @return the current zoom factor
+	 * @see #setZoomFactor(double)
+	 */
+	public double getZoomFactor() {
+		return this.zoomFactor.get();
+	}
+	
+	/**
+	 * Set the zoom factor. This factor is the value that is applied to scale the image when zooming using graphical components.
+	 * @param value the zoom factor to set
+	 * @see #getZoomFactor()
+	 */
+	public void setZoomFactor(double value) {
+		if (value < 0.0d) {
+			throw new IllegalArgumentException("Zoom factor cannot be negative: "+value);
+		}
+		
+		if (this.zoomFactor.get() != value) {
+			this.zoomFactor.set(value);
+		}
+		
+	}
+	
+	/**
+	 * Get the zoom factor property. This property is the value that is applied to scale the image when zooming using graphical components.
+	 * @return the zoom factor property
+	 * @see #getZoomFactor()
+	 * @see #setZoomFactor(double)
+	 */
+	public DoubleProperty getZoomFactorPRoperty() {
+		return zoomFactor;
+	}
+	
 	/**
 	 * Get if the canvas is auto fitting when dimension changes occur.
 	 * @return <code>true</code> if the canvas is auto fitting when dimension changes occur and <code>false</code> otherwise

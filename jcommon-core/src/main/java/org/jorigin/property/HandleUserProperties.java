@@ -19,7 +19,7 @@ public interface HandleUserProperties {
 	 * @see #setUserProperty(String, Object)
 	 */
 	public Object getUserProperty(String propertyName);
-	
+
 	/**
 	 * Set the user property mapped with the given <code>name</code> to the given <code>value</code>. 
 	 * If a property is already mapped with this name, the old value is returned.
@@ -29,13 +29,13 @@ public interface HandleUserProperties {
 	 * @see #getUserProperty(String)
 	 */
 	public Object setUserProperty(String name, Object value);
-	
+
 	/**
 	 * Get the list of the names of all properties attached to this object.
 	 * @return the list of the names of all properties attached to this object.
 	 */
 	public List<String> getUserPropertyNames();
-	
+
 	/**
 	 * Clear the user properties associated to this object.
 	 */

@@ -25,11 +25,33 @@ import javafx.stage.Stage;
  */
 public class JThumbnailPaneSampleApplication extends Application{
 
+	/**
+	 * The thumbnail image width.
+	 * @see #imageHeight
+	 */
 	private int imageWidth = 100;
+	
+	/**
+	 * The thumbnail image height.
+	 * @see #imageWidth
+	 */
 	private int imageHeight = 100;
 	
+	/**
+	 * The number of thumbnails to show.
+	 * <p>
+	 * This is used to create a sample with a lot of thumbnails.
+	 * </p>
+	 */
 	private int thumbnailsCount = 15;
 
+	/**
+	 * Default constructor.
+	 */
+	public JThumbnailPaneSampleApplication() {
+		super();
+	}
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		
@@ -93,7 +115,7 @@ public class JThumbnailPaneSampleApplication extends Application{
 	/**
 	 * Process a thumbnail selection
 	 * @param pane the thumbnail pane
-	 * @param thumbnails
+	 * @param thumbnails the thumbnails selected
 	 */
     private void processSelection(JThumbnailPane<String> pane, List<JThumbnail<String>> thumbnails) {
     	if ((thumbnails == null) || (thumbnails.size() < 1)){
@@ -107,6 +129,12 @@ public class JThumbnailPaneSampleApplication extends Application{
     	}
     }
 	
+    /**
+	 * Create a random image.
+	 * @param width the image width
+	 * @param height the image height
+	 * @return the created image
+	 */
     private Image createImage(int width, int height) {
     	
     	WritableImage image = new WritableImage(width, height);

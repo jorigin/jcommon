@@ -27,23 +27,61 @@ import org.jorigin.Common;
 public class JImagePanelToolBar extends JToolBar implements PropertyChangeListener {
 
   /**
-   * 
+   * Serial version UID.
+   * @see java.io.Serializable
    */
   private static final long serialVersionUID = 201708311445L;
   
+  /**
+   * The button to select the point selection mode.
+   */
   private JToggleButton modeSelectionPointButton = null;
+  
+  /**
+   * The button to select the rectangle selection mode.
+   */
   private JToggleButton modeSelectionRectButton  = null;
+  
+  /**
+   * The button to select the shape selection mode.
+   */
   private JToggleButton modeSelectionShapeButton = null;
   
+  /**
+   * The button group that contains the selection mode buttons.
+   * @see #modeSelectionPointButton
+   * @see #modeSelectionRectButton
+   * @see #modeSelectionShapeButton
+   */
   private ButtonGroup modeSelectionGroup         = null;
 
+  /**
+   * The label for the scale spinner.
+   */
   private JLabel scaleLB = null;
+  
+  /**
+   * The spinner to set the scale of the image.
+   * The value is a {@link Double} between 0.0 and 10.0 with a step of 0.01.
+   */
   private JSpinner scaleSpinner = null;
   
+  /**
+   * The button to fit the image in the panel.
+   */
   private JButton fitBT = null;
   
+  /**
+   * The {@link JImagePanel image panel} controlled by this tool bar.
+   * @see #getImagePanel()
+   * @see #setImagePanel(JImagePanel)
+   */
   private JImagePanel imagePanel = null;
   
+  /**
+   * Flag to indicate if the tool bar is listening to the image panel property changes.
+   * If false, the tool bar will not update its GUI components when the image panel properties change.
+   */
   private boolean listening = true;
   
   /**

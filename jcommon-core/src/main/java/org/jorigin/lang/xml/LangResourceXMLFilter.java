@@ -13,8 +13,8 @@
 
     You should have received a copy of the GNU General Public License
     along with JOrigin Common.  If not, see <http://www.gnu.org/licenses/>.
-    
-*/
+
+ */
 package org.jorigin.lang.xml;
 
 import java.io.IOException;
@@ -37,95 +37,95 @@ import org.xml.sax.helpers.XMLFilterImpl;
  * @since 1.0.0
  */
 public class LangResourceXMLFilter extends XMLFilterImpl{
-  
-  /**
-   * Create a new XML resource filter.
-   */
-  public LangResourceXMLFilter() {
-     super();
-  }
 
-  /**
-   * The attached listeners.
-   */
-  protected EventListenerList idListenerList = new EventListenerList();
+	/**
+	 * Create a new XML resource filter.
+	 */
+	public LangResourceXMLFilter() {
+		super();
+	}
 
-  /**
-   * Create a new XML resource filter with an input parser.
-   * @param parser the parser to use.
-   */
-  public LangResourceXMLFilter(XMLReader parser) {
-    super(parser);
-  }
+	/**
+	 * The attached listeners.
+	 */
+	protected EventListenerList idListenerList = new EventListenerList();
 
-
-//SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-//SS SURCHARGE                                                              SS
-//SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-@Override
-public void parse (InputSource input) throws SAXException, IOException{
-  super.parse(input);
-}
-
-@Override
-public void parse(String systemId) throws SAXException, IOException{
-  try {
-      parse(new InputSource(systemId));
-  } catch (IOException ex) {
-    throw new IOException("[LangResourceXMLFilter] [parse(String)] Unable to parse "+systemId, ex);
-  } catch (SAXException ex) {
-    throw new IOException("[LangResourceXMLFilter] [parse(String)] Unable to parse "+systemId, ex);
-  }
-}
+	/**
+	 * Create a new XML resource filter with an input parser.
+	 * @param parser the parser to use.
+	 */
+	public LangResourceXMLFilter(XMLReader parser) {
+		super(parser);
+	}
 
 
-@Override
-public void startDocument () throws SAXException{
-  super.startDocument();
-}
+	//SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+	//SS SURCHARGE                                                              SS
+	//SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+	@Override
+	public void parse (InputSource input) throws SAXException, IOException{
+		super.parse(input);
+	}
+
+	@Override
+	public void parse(String systemId) throws SAXException, IOException{
+		try {
+			parse(new InputSource(systemId));
+		} catch (IOException ex) {
+			throw new IOException("[LangResourceXMLFilter] [parse(String)] Unable to parse "+systemId, ex);
+		} catch (SAXException ex) {
+			throw new IOException("[LangResourceXMLFilter] [parse(String)] Unable to parse "+systemId, ex);
+		}
+	}
 
 
-@Override
-public void endDocument () throws SAXException{
-  super.endDocument();
-}
+	@Override
+	public void startDocument () throws SAXException{
+		super.startDocument();
+	}
 
 
-@Override
-public void startElement (String uri, String localName, String qName,
-                          Attributes atts)
-throws SAXException{
-  super.startElement(uri, localName, qName, atts);
-}
+	@Override
+	public void endDocument () throws SAXException{
+		super.endDocument();
+	}
 
 
-@Override
-public void endElement (String uri, String localName, String qName)
-throws SAXException{
-  super.endElement(uri, localName, qName);
-}
+	@Override
+	public void startElement (String uri, String localName, String qName,
+			Attributes atts)
+					throws SAXException{
+		super.startElement(uri, localName, qName, atts);
+	}
 
 
-@Override
-public void warning (SAXParseException e) throws SAXException{
-  super.warning(e);
-}
+	@Override
+	public void endElement (String uri, String localName, String qName)
+			throws SAXException{
+		super.endElement(uri, localName, qName);
+	}
 
 
-@Override
-public void error (SAXParseException e) throws SAXException {
-  super.error(e);
-}
+	@Override
+	public void warning (SAXParseException e) throws SAXException{
+		super.warning(e);
+	}
 
 
-@Override
-public void fatalError (SAXParseException e) throws SAXException {
-  super.fatalError(e);
-}
+	@Override
+	public void error (SAXParseException e) throws SAXException {
+		super.error(e);
+	}
 
-  //SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
-//SS FIN SURCHARGE                                                          SS
-//SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+
+	@Override
+	public void fatalError (SAXParseException e) throws SAXException {
+		super.fatalError(e);
+	}
+
+	//SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
+	//SS FIN SURCHARGE                                                          SS
+	//SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
 
 
 }

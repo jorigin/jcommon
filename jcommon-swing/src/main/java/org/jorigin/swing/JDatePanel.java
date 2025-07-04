@@ -49,11 +49,19 @@ import org.jorigin.lang.LangResourceBundle;
  */
 public class JDatePanel extends JPanel {
   
+  /**
+   * Serial version UID for serialization.
+   * @see java.io.Serializable
+   */
   private static final long serialVersionUID = Common.BUILD;
 
-  private LangResourceBundle langResource    = (LangResourceBundle) LangResourceBundle.getBundle(new Locale(System.getProperty("user.language"), 
-                                                                                                            System.getProperty("user.country")));
-
+  /**
+   * The resource bundle used to get the localized strings.
+   * This resource bundle is used to get the localized strings for the date panel.
+   * The resource bundle is loaded from the system locale.
+   */
+  private LangResourceBundle langResource    = (LangResourceBundle) LangResourceBundle.getBundle(Locale.getDefault());
+  
   /**
    * The max year useable in the date panel
    */
@@ -131,6 +139,10 @@ public class JDatePanel extends JPanel {
    */
   public static final int DECEMBER  = Calendar.DECEMBER;
   
+  /**
+   * The calendar used to store the date.
+   * This calendar is used to store the date and to compute the day, month, year, hour and minute of the date.
+   */
   private GregorianCalendar calendar = null;
   
   /**
@@ -138,20 +150,74 @@ public class JDatePanel extends JPanel {
    */
   protected EventListenerList idListenerList = new EventListenerList();
   
-  // Composants graphiques utilisée par l'IHM
+  /**
+   * The label and text field used to edit the date.
+   * The date is composed of a day, a month, a year and an hour/minute.
+   * The day is edited with a JSpinner, the month with a JComboBox and the year with a JSpinner.
+   * The hour and minute are edited with a JSpinner with a DateEditor.
+   */
   private JLabel dayLB              = null;
+  
+  /**
+   * The text field used to edit the day of the date.
+   * The day is edited with a JSpinner.
+   */
   private JSpinner dayTF            = null;
+  
+  /**
+   * The model used to edit the day of the date.
+   * The model is a SpinnerNumberModel that allows to edit the day of the date.
+   */
   private SpinnerModel dayTFModel   = null;
+  
+  /**
+   * The label and text field used to edit the month of the date.
+   * The month is edited with a JComboBox.
+   */
   private JLabel monthLB            = null;
+  
+  /**
+   * The combo box used to edit the month of the date.
+   * The month is edited with a JComboBox.
+   */
   private JComboBox<String> monthCB = null;
+  
+  /**
+   * The label and text field used to edit the year of the date.
+   * The year is edited with a JSpinner.
+   */
   private JLabel yearLB             = null;
+  
+  /**
+   * The text field used to edit the year of the date.
+   * The year is edited with a JSpinner.
+   */
   private JSpinner yearTF           = null;
+  
+  /**
+   * The model used to edit the year of the date.
+   * The model is a SpinnerNumberModel that allows to edit the year of the date.
+   */
   private SpinnerModel yearTFModel  = null;
   
+  /**
+   * The text field used to edit the hour and minute of the date.
+   * The hour and minute are edited with a JSpinner with a DateEditor.
+   */
   private JSpinner hourMinuteTF     = null;
   
+  
+  /**
+   * Show the label in the panel or not.
+   * If <code>true</code>, the label is shown, if <code>false</code>, the label is not shown.
+   */
   private boolean showLabel         = false;
   
+  /**
+   * Listening to the changes of the components or not.
+   * If <code>true</code>, the components are listening to the changes, if <code>false</code>, the components are not listening to the changes.
+   * This is used to avoid infinite loops when setting the date.
+   */
   private boolean listening         = true;
   
   /**

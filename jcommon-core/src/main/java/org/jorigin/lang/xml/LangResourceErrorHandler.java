@@ -13,8 +13,8 @@
 
     You should have received a copy of the GNU General Public License
     along with JOrigin Common.  If not, see <http://www.gnu.org/licenses/>.
-    
-*/
+
+ */
 package org.jorigin.lang.xml;
 
 import java.util.logging.Level;
@@ -33,19 +33,26 @@ import org.xml.sax.SAXParseException;
  */
 public class LangResourceErrorHandler implements org.xml.sax.ErrorHandler {
 
-  @Override
-  public void error(SAXParseException exception) throws SAXException {
-    Common.logger.log(Level.SEVERE, "Lang resource XML parse error", exception);
-  }
+	/**
+	 * Default constructor
+	 */
+	public LangResourceErrorHandler() {
 
-  @Override
-  public void fatalError(SAXParseException exception) throws SAXException {
-    Common.logger.log(Level.SEVERE, "Lang resource XML parse error", exception);
-  }
+	}
 
-  @Override
-  public void warning(SAXParseException exception) throws SAXException {
-    Common.logger.log(Level.SEVERE, "Lang resource XML parse error", exception);
-  }
+	@Override
+	public void error(SAXParseException exception) throws SAXException {
+		Common.logger.log(Level.SEVERE, "Lang resource XML parse error", exception);
+	}
+
+	@Override
+	public void fatalError(SAXParseException exception) throws SAXException {
+		Common.logger.log(Level.SEVERE, "Lang resource XML parse error", exception);
+	}
+
+	@Override
+	public void warning(SAXParseException exception) throws SAXException {
+		Common.logger.log(Level.SEVERE, "Lang resource XML parse error", exception);
+	}
 
 }

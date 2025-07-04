@@ -13,8 +13,8 @@
 
     You should have received a copy of the GNU General Public License
     along with JOrigin Common.  If not, see <http://www.gnu.org/licenses/>.
-    
-*/
+
+ */
 package org.jorigin.plugin;
 
 import java.util.HashMap;
@@ -31,53 +31,53 @@ import org.jorigin.Common;
  */
 public class DefaultPlugger implements org.jorigin.plugin.IPlugger{
 
-  
-  /**
-   * This map contains all the available extension points for the aplication.
-   */
-  private HashMap<String, Object> extensionPoints = null;
-  
-  //IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-  //II IMPLEMENTATION                                      II
-  //IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-  @Override
-  public boolean addExtensionPoint(String key, Object extensionPoint) {
-    // Verification que la cle n'est pas deje presente  
-    if (this.extensionPoints.keySet().contains(key)){
-      return false;
-    } else {
-      if (this.extensionPoints.put(key, extensionPoint) != null){
-          return true;
-      }
-    }
-    
-    return false;
-  }
 
-  @Override
-  public Object getExensionPoint(String key) {
-    return this.extensionPoints.get(key);  
-  }
+	/**
+	 * This map contains all the available extension points for the aplication.
+	 */
+	private HashMap<String, Object> extensionPoints = null;
 
-  @Override
-  public String[] getExtensionPointKeys() {
-    return this.extensionPoints.keySet().toArray(new String[this.extensionPoints.size()]);
-  }
-  //IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-  //II FIN IMPLEMENTATION                                  II
-  //IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
-  
-  //CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-  //CC CONSTRUCTEUR                                        CC
-  //CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-  /**
-   * Create a new default plugger.
-   */
-  public DefaultPlugger(){
-    this.extensionPoints = new HashMap<String, Object>();
-  }
-  //CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
-  //CC FIN CONSTRUCTEUR                                    CC
-  //CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+	//IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+	//II IMPLEMENTATION                                      II
+	//IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+	@Override
+	public boolean addExtensionPoint(String key, Object extensionPoint) {
+		// Verification que la cle n'est pas deje presente  
+		if (this.extensionPoints.keySet().contains(key)){
+			return false;
+		} else {
+			if (this.extensionPoints.put(key, extensionPoint) != null){
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	public Object getExensionPoint(String key) {
+		return this.extensionPoints.get(key);  
+	}
+
+	@Override
+	public String[] getExtensionPointKeys() {
+		return this.extensionPoints.keySet().toArray(new String[this.extensionPoints.size()]);
+	}
+	//IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+	//II FIN IMPLEMENTATION                                  II
+	//IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+
+	//CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+	//CC CONSTRUCTEUR                                        CC
+	//CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+	/**
+	 * Create a new default plugger.
+	 */
+	public DefaultPlugger(){
+		this.extensionPoints = new HashMap<String, Object>();
+	}
+	//CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
+	//CC FIN CONSTRUCTEUR                                    CC
+	//CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
 
 }
