@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.0.1] (https://github.com/jorigin/jcommon/releases/tag/jcommon-2.0.1)
+### Changed
+ - [BUG] jcommon-jfx and jcommon-swing was not referencing the proper jcommon-core version
+
 ## [2.0.0] (https://github.com/jorigin/jcommon/releases/tag/jcommon-2.0.0)
 ### Changed
  - Updading release management

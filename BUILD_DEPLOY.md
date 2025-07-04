@@ -1,5 +1,6 @@
 # Buid and deploy
 In order to build an deploy a distribution of JCommon, all the following steps have to be performed.
+
 ## 1. Preparing Maven configuration
 Edit the maven settings file (by default located at ~/.m2/settings.xml) and add following entries:
 ```xml
@@ -22,7 +23,9 @@ Simply run the command
 ```console
 mvn clean
 ```
+
 ## 3. Release preparation
+
 ### 3.1. Code update
 - Ensure that the `org.jorigin.Common.BUILD` variable is up to date
 - Ensure that the `org.jorigin.Common.version` variable is up to date

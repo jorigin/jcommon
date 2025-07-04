@@ -1,54 +1,54 @@
 # jorigin-common
-Java based common tools and API
+Java based common tools and API. The maine functionnalities provided by this library are:
+- Some File / Streams utilities
+- A dynamic plugin framework for making an application modular
+- Some interface to handle objects states
+JCommon also include tools and utilities for JavaFX and SWING frameworks. 
 
-Jorigin Common
+## Integration
+JCommon can be used as a Maven dependency or as a standalone library.
 
-## Buid and deploy
-Edit the maven settings file (by default located at ~/.m2/settings.xml) and add following entries:
+### Maven
+JCommon is available at [Maven Central](https://search.maven.org/search?q=org.jorigin.jcommon). 
+
+To import the library, add the following parts to the maven project:
 ```xml
-<settings>
-	
-	<!-- Maven Central publishing using a token from -->
-	<!-- https://central.sonatype.com/ -->
-	<servers>
-		<server>
-			<id>central</id>
-			<username>YOUR TOKEN ID</username>
-			<password>YOUR TOKEN PASS</password>
-		</server>
-	</servers>
-</settings>
-```
-Make then the following actions.
 
-__1. Clean the project__:
-```console
-mvn clean
-```
-__2. Prepare the release__:
-```console
-mvn -Dgpg.passphrase="yourpassphrase" -Dnexus.user="your_sonatype_username" -Dnexus.password="your_sonatype_password" release:prepare
-```
-__3. Perform the release__:
-```console
-mvn -Dgpg.passphrase="yourpassphrase" -Dnexus.user="your_sonatype_username" -Dnexus.password="your_sonatype_password" release:perform
-```
-__4. Update the Git project__:
-```console
-git push --tags
-git push origin master
+<!-- You can update the properties section with Jeometry version -->
+<properties>
+  <jcommon.version>2.0.1</jcommon.version> 
+</properties>
+
+<!-- The JCommon core module that contains basics utilities -->
+<dependency>
+  <groupId>org.jorigin</groupId>
+  <artifactId>jcommon-core</artifactId>
+  <version>${jcommon.version}</version>
+</dependency>
+
+<!-- (Optional) The JCommon module dedicated to JavaFX -->
+<dependency>
+  <groupId>org.jorigin</groupId>
+  <artifactId>jcommon-jfx</artifactId>
+  <version>${jcommon.version}</version>
+</dependency>
+
+<!-- (Optional) The JCommon module dedicated to SWING -->
+<dependency>
+  <groupId>org.jorigin</groupId>
+  <artifactId>jcommon-swing</artifactId>
+  <version>${jcommon.version}</version>
+</dependency>
 ```
 
-__5. In case of <span style="color:red">problem</span> during steps 1 to 4__:
+### Standalone
+JCommon can be used as standalone library by integrating the jars provided by a [release](https://github.com/jorigin/jcommon/releases) to the classpath. 
 
-+ 5.1: Undo the release:
-```console
-git reset --hard HEAD~1
-```
-_(You may have to do it a second time, depending upon when the error occurred.)_
+## Usage
+For a quick overwiew ot the library, please refer to the [Getting Started](https://github.com/jorigin/jcommon/wiki/Getting-Started).
 
-+ 5.2: Delete the tag.
-```console
-git tag -d tagName
-git push origin :refs/tags/tagName
-```
+For more information, tutorials and advanced uses, please check the [Wiki](https://github.com/jorigin/jcommon/wiki).
+
+## Changes:
+
+see [changelog](CHANGELOG.md) for details.
