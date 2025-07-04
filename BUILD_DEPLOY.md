@@ -1,5 +1,5 @@
 # Buid and deploy
-In order to build an deploy a distribution of JCommon, all the following steps have to be performed.
+In order to build an deploy a distribution of JCommon with a version X.Y.Z, all the following steps have to be performed.
 
 ## 1. Preparing Maven configuration
 Edit the maven settings file (by default located at ~/.m2/settings.xml) and add following entries:
@@ -18,24 +18,29 @@ Edit the maven settings file (by default located at ~/.m2/settings.xml) and add 
 </settings>
 ```
 
-## 2. Cleaning the project
-Simply run the command
+## 2. Project update and compilation
+
+### 2.1. Code update
+Before a release, some changes has to be done:
+- Ensure that the `org.jorigin.Common.BUILD` variable is up to date
+- Ensure that the `org.jorigin.Common.version` variable is set to "X.Y.Z"
+- Ensure that the README.md file section "Usage" is up to date with new version number
+- Ensure that the CHANGELOG.md file has an entry dedicated to the new version (with anticipated link)
+
+### 2.2. Project compilation and testing
+Ensuring that the project is compiling and that all related tests are passing 
 ```console
 mvn clean
+mvn compile
+mvn test
 ```
 
 ## 3. Release preparation
 
-### 3.1. Code update
-- Ensure that the `org.jorigin.Common.BUILD` variable is up to date
-- Ensure that the `org.jorigin.Common.version` variable is up to date
-- Ensure that the README.md file section "Usage" is up to date with new version number
-- Ensure that the CHANGELOG.md file has an entry dedicated to the new version (with anticipated link)
-
-### 3.2. Git commit and push
+### 3.1. Git commit and push
 From the main directory, run:
 ```console
-git commit -m "Preparing release X.Y.Z"
+git commit -m "Release X.Y.Z"
 ```
 Then run
 ```console
